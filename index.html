@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Level 4 Visual Novel Engine</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <main class="app-shell">
+    <header class="app-header">
+      <div>
+        <p class="eyebrow">Level 4 Visual Novel Engine</p>
+        <h1>Signal at Dawn</h1>
+      </div>
+      <button class="secondary-button" type="button" data-run="restartStory" data-next="intro-scene">Restart Story</button>
+    </header>
+
+    <section class="game-layout" aria-label="Visual novel demo">
+      <div class="stage-frame">
+        <div class="stage-screen">
+          <section class="scene" id="intro-scene" aria-hidden="true">
+            <img class="scene-background" src="assets/images/bg-campus.svg" alt="Flat illustration of a quiet campus courtyard at night">
+            <img class="character character-left is-hidden" data-char="ava" src="assets/images/char-ava.svg" alt="Flat illustration of Ava">
+            <img class="character character-right is-hidden" data-char="noah" src="assets/images/char-noah.svg" alt="Flat illustration of Noah">
+
+            <div class="steps" aria-hidden="true">
+              <div data-step="show" data-target='[data-char="ava"]'></div>
+              <div data-step="show" data-target='[data-char="noah"]'></div>
+              <div data-step="say" data-character="ava" data-speaker="Ava">The old campus radio should be silent by now. Tonight it is calling my name.</div>
+              <div data-step="wait-click"></div>
+              <div data-step="say" data-character="noah" data-speaker="Noah">We can trace the signal to the lab, or head straight to the roof before the storm gets worse.</div>
+              <div data-step="choice">
+                <button type="button" data-run="chooseSignal" data-next="lab-scene">Trace the signal</button>
+                <button type="button" data-run="chooseRoof" data-next="rooftop-scene">Go straight to the roof</button>
+              </div>
+            </div>
+          </section>
+
+          <section class="scene" id="lab-scene" aria-hidden="true">
+            <img class="scene-background" src="assets/images/bg-lab.svg" alt="Flat illustration of a campus lab with a signal console">
+            <img class="character character-left is-hidden" data-char="ava" src="assets/images/char-ava.svg" alt="Flat illustration of Ava">
+            <img class="character character-right is-hidden" data-char="noah" src="assets/images/char-noah.svg" alt="Flat illustration of Noah">
+
+            <div class="steps" aria-hidden="true">
+              <div data-step="run" data-action="playLabTone"></div>
+              <div data-step="show" data-target='[data-char="ava"]'></div>
+              <div data-step="show" data-target='[data-char="noah"]'></div>
+              <div data-step="say" data-character="ava" data-speaker="Ava">The signal is coming from a cracked console. There is a keycard taped underneath it.</div>
+              <div data-step="wait-click"></div>
+              <div data-step="say" data-character="noah" data-speaker="Noah">If we take it, we can power the roof antenna. If we leave it, we keep our hands clean.</div>
+              <div data-step="choice">
+                <button type="button" data-run="takeKeycard" data-next="rooftop-scene">Take the keycard</button>
+                <button type="button" data-run="leaveKeycard" data-next="rooftop-scene">Leave it behind</button>
+              </div>
+            </div>
+          </section>
+
+          <section class="scene" id="rooftop-scene" aria-hidden="true">
+            <img class="scene-background" src="assets/images/bg-rooftop.svg" alt="Flat illustration of a rooftop antenna above the city">
+            <img class="character character-left is-hidden" data-char="ava" src="assets/images/char-ava.svg" alt="Flat illustration of Ava">
+            <img class="character character-right is-hidden" data-char="noah" src="assets/images/char-noah.svg" alt="Flat illustration of Noah">
+
+            <div class="steps" aria-hidden="true">
+              <div data-step="show" data-target='[data-char="ava"]'></div>
+              <div data-step="show" data-target='[data-char="noah"]'></div>
+              <div data-step="say" data-character="ava" data-speaker="Ava">The antenna is alive, but only for a minute. One of us can steady it while the other keeps watch.</div>
+              <div data-step="wait-click"></div>
+              <div data-step="choice">
+                <button type="button" data-run="helpNoah" data-next="final-check-scene">Help Noah tune the antenna</button>
+                <button type="button" data-run="helpAva" data-next="final-check-scene">Shield Ava from the storm</button>
+              </div>
+            </div>
+          </section>
+
+          <section class="scene" id="final-check-scene" aria-hidden="true">
+            <img class="scene-background" src="assets/images/bg-rooftop.svg" alt="Flat illustration of a rooftop antenna above the city">
+            <img class="character character-left is-hidden" data-char="ava" src="assets/images/char-ava.svg" alt="Flat illustration of Ava">
+            <img class="character character-right is-hidden" data-char="noah" src="assets/images/char-noah.svg" alt="Flat illustration of Noah">
+
+            <div class="steps" aria-hidden="true">
+              <div data-step="run" data-action="checkEnding"></div>
+            </div>
+          </section>
+
+          <section class="scene" id="clear-ending-scene" aria-hidden="true">
+            <img class="scene-background" src="assets/images/bg-clear-ending.svg" alt="Flat illustration of sunrise over the campus skyline">
+            <img class="character character-left is-hidden" data-char="ava" src="assets/images/char-ava.svg" alt="Flat illustration of Ava">
+            <img class="character character-right is-hidden" data-char="noah" src="assets/images/char-noah.svg" alt="Flat illustration of Noah">
+
+            <div class="steps" aria-hidden="true">
+              <div data-step="run" data-action="playEndingTone"></div>
+              <div data-step="show" data-target='[data-char="ava"]'></div>
+              <div data-step="show" data-target='[data-char="noah"]'></div>
+              <div data-step="say" data-character="ava" data-speaker="Ava">The antenna catches the signal and turns it into a weather warning. The campus wakes up in time.</div>
+              <div data-step="wait-click"></div>
+              <div data-step="say" data-character="noah" data-speaker="Noah">You chased the signal, kept the keycard, and chose the risky fix. That gave us the clear ending.</div>
+              <div data-step="choice">
+                <button type="button" data-run="restartStory" data-next="intro-scene">Play again</button>
+              </div>
+            </div>
+          </section>
+
+          <section class="scene" id="storm-ending-scene" aria-hidden="true">
+            <img class="scene-background" src="assets/images/bg-storm-ending.svg" alt="Flat illustration of a storm rolling over the campus skyline">
+            <img class="character character-left is-hidden" data-char="ava" src="assets/images/char-ava.svg" alt="Flat illustration of Ava">
+            <img class="character character-right is-hidden" data-char="noah" src="assets/images/char-noah.svg" alt="Flat illustration of Noah">
+
+            <div class="steps" aria-hidden="true">
+              <div data-step="run" data-action="playEndingTone"></div>
+              <div data-step="show" data-target='[data-char="ava"]'></div>
+              <div data-step="show" data-target='[data-char="noah"]'></div>
+              <div data-step="say" data-character="noah" data-speaker="Noah">The message breaks apart in the wind. We kept each other safe, but the storm reaches the campus first.</div>
+              <div data-step="wait-click"></div>
+              <div data-step="say" data-character="ava" data-speaker="Ava">Different choices would have changed the ending. The state panel shows exactly what this run remembered.</div>
+              <div data-step="choice">
+                <button type="button" data-run="restartStory" data-next="intro-scene">Play again</button>
+              </div>
+            </div>
+          </section>
+        </div>
+      </div>
+
+      <aside class="sidebar-panel">
+        <section class="dialog-panel" aria-live="polite">
+          <p class="speaker-label" id="speaker-name">Narrator</p>
+          <p class="dialog-text" id="dialog-text">Press Start Story to begin the sample visual novel.</p>
+          <div class="dialog-actions">
+            <button class="primary-button is-hidden" id="continue-button" type="button">Continue</button>
+          </div>
+          <div class="choice-list" id="choice-list" aria-label="Available choices"></div>
+        </section>
+
+        <section class="info-panel">
+          <h2>How it works</h2>
+          <p>Each scene is a <code>&lt;section&gt;</code>. Hidden step elements inside that scene tell the engine what to do.</p>
+          <button class="primary-button" type="button" data-run="startStory">Start Story</button>
+        </section>
+
+        <section class="debug-panel">
+          <h2>Live state</h2>
+          <p class="debug-line"><strong>Current scene:</strong> <span id="debug-scene">none</span></p>
+          <pre id="state-output">{}</pre>
+        </section>
+      </aside>
+    </section>
+  </main>
+
+  <audio id="sound-lab" preload="auto" src="assets/audio/lab-tone.wav"></audio>
+  <audio id="sound-ending" preload="auto" src="assets/audio/ending-tone.wav"></audio>
+
+  <script src="scripts/engine.js"></script>
+  <script src="scripts/story.js"></script>
+</body>
+</html>

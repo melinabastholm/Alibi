@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 900" role="img" aria-labelledby="title desc">
+  <title id="title">Signal Lab</title>
+  <desc id="desc">Flat lab illustration with simple text labels.</desc>
+  <rect width="1600" height="900" fill="#24333f"/>
+  <rect y="620" width="1600" height="280" fill="#172129"/>
+  <rect x="130" y="170" width="400" height="360" rx="22" fill="#3c5568"/>
+  <rect x="580" y="120" width="440" height="520" rx="28" fill="#506f86"/>
+  <rect x="1080" y="220" width="360" height="330" rx="22" fill="#68879b"/>
+  <rect x="660" y="220" width="280" height="160" rx="16" fill="#d7ec77"/>
+  <rect x="720" y="430" width="170" height="70" rx="12" fill="#f4bb62"/>
+  <text x="800" y="96" font-size="62" text-anchor="middle" fill="#f3efe7" font-family="Trebuchet MS, sans-serif">SIGNAL LAB</text>
+  <text x="800" y="320" font-size="48" text-anchor="middle" fill="#24333f" font-family="Trebuchet MS, sans-serif">CONSOLE</text>
+  <text x="805" y="475" font-size="30" text-anchor="middle" fill="#24333f" font-family="Trebuchet MS, sans-serif">KEYCARD</text>
+</svg>

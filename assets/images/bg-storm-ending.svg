@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 900" role="img" aria-labelledby="title desc">
+  <title id="title">Storm Ending</title>
+  <desc id="desc">Flat storm illustration with simple text labels.</desc>
+  <rect width="1600" height="900" fill="#2c3845"/>
+  <rect y="590" width="1600" height="310" fill="#182026"/>
+  <ellipse cx="460" cy="210" rx="200" ry="92" fill="#617788"/>
+  <ellipse cx="760" cy="180" rx="210" ry="100" fill="#7e93a2"/>
+  <ellipse cx="1080" cy="220" rx="220" ry="105" fill="#62798b"/>
+  <polygon points="860,270 930,270 880,430 955,430 770,640 835,470 760,470" fill="#f2d06e"/>
+  <text x="800" y="114" font-size="62" text-anchor="middle" fill="#edf1f4" font-family="Trebuchet MS, sans-serif">STORM ENDING</text>
+  <text x="800" y="182" font-size="36" text-anchor="middle" fill="#edf1f4" font-family="Trebuchet MS, sans-serif">STATIC</text>
+</svg>
