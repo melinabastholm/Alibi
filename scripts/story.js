@@ -1,4 +1,22 @@
 document.addEventListener("DOMContentLoaded", function () {
+  var DESIGN_WIDTH = 1440;
+  var DESIGN_HEIGHT = 1080;
+  var debugPanel = document.querySelector(".debug-panel");
+  var viewport = document.querySelector(".viewport");
+
+  if (debugPanel) {
+    debugPanel.open = false;
+  }
+
+  function updateScale() {
+    var scale = Math.min(window.innerWidth / DESIGN_WIDTH, window.innerHeight / DESIGN_HEIGHT);
+    document.documentElement.style.setProperty("--scale", String(scale));
+
+    if (viewport) {
+      viewport.style.setProperty("--scale", String(scale));
+    }
+  }
+
   var engine = new window.VisualNovelEngine({
     startSceneId: "intro-scene",
     root: document.querySelector(".stage-screen"),
@@ -31,51 +49,44 @@ document.addEventListener("DOMContentLoaded", function () {
   }
 
   engine.actions = {
-    startStory: function (game) {
-      game.resetState();
-      game.goTo("intro-scene");
-    },
     restartStory: function (game) {
       resetAudio();
       game.resetState();
     },
-    chooseSignal: function (game) {
-      game.state.investigatedSignal = true;
-      game.state.route = "lab";
+    packBackpack: function (game) {
+      game.state.broughtBackpack = true;
+      game.state.travelStyle = "prepared";
       game.updateDebugPanel();
     },
-    chooseRoof: function (game) {
-      game.state.investigatedSignal = false;
-      game.state.route = "roof";
-      game.state.hasKeycard = false;
+    travelLight: function (game) {
+      game.state.broughtBackpack = false;
+      game.state.travelStyle = "light";
       game.updateDebugPanel();
     },
-    takeKeycard: function (game) {
-      game.state.hasKeycard = true;
+    helpAlex: function (game) {
+      game.state.helpedAlex = true;
+      game.state.recoveredNotepad = true;
       game.updateDebugPanel();
     },
-    leaveKeycard: function (game) {
-      game.state.hasKeycard = false;
-      game.updateDebugPanel();
-    },
-    helpNoah: function (game) {
-      game.state.finalChoice = "helpNoah";
-      game.updateDebugPanel();
-    },
-    helpAva: function (game) {
-      game.state.finalChoice = "helpAva";
+    rushAhead: function (game) {
+      game.state.helpedAlex = false;
+      game.state.recoveredNotepad = false;
       game.updateDebugPanel();
     },
     checkEnding: function (game) {
       resetAudio();
 
-      if (game.state.investigatedSignal && game.state.hasKeycard && game.state.finalChoice === "helpNoah") {
-        return "clear-ending-scene";
+      if (game.state.broughtBackpack && game.state.helpedAlex) {
+        game.state.ending = "good";
+        game.updateDebugPanel();
+        return "garden-good-ending-scene";
       }
 
-      return "storm-ending-scene";
+      game.state.ending = "rough";
+      game.updateDebugPanel();
+      return "garden-bad-ending-scene";
     },
-    playLabTone: function () {
+    playSceneTone: function () {
       playSound("sound-lab");
     },
     playEndingTone: function () {
@@ -101,5 +112,9 @@ document.addEventListener("DOMContentLoaded", function () {
     }
   });
 
+  window.addEventListener("resize", updateScale);
+  updateScale();
+
   window.game = engine;
+  engine.start();
 });
