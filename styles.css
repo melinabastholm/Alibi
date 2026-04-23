@@ -127,8 +127,6 @@ h2 {
 
 .character {
   position: absolute;
-  bottom: 14rem;
-  width: min(34vw, 340px);
   z-index: 1;
   object-fit: contain;
   filter: drop-shadow(0 22px 20px rgba(0, 0, 0, 0.16));
@@ -140,27 +138,6 @@ h2 {
     filter 200ms ease;
 }
 
-.character-left {
-  left: 4%;
-}
-
-.character-right {
-  right: 4%;
-}
-
-.character-mid-left {
-  left: 26%;
-}
-
-.character-mid-right {
-  right: 26%;
-}
-
-.character-small {
-  bottom: 13.4rem;
-  width: min(22vw, 220px);
-}
-
 .character.active {
   opacity: 1;
   transform: translateY(0);
@@ -170,46 +147,182 @@ h2 {
 .item {
   position: absolute;
   z-index: 1;
-  width: min(10vw, 110px);
   object-fit: contain;
   filter: drop-shadow(0 14px 16px rgba(0, 0, 0, 0.22));
 }
 
-.item-left {
-  left: 7%;
+#intro-scene {
+  .character[data-char="abigail"] {
+    left: 4%;
+    bottom: -11rem;
+    width: 340px;
+  }
+
+  .character[data-char="jessica"] {
+    right: 4%;
+    bottom: -6rem;
+    width: 340px;
+  }
+
+  .item[data-item="backpack"] {
+    left: 7%;
+    bottom: 13.4rem;
+    width: 110px;
+  }
+
+  .item[data-item="mug"] {
+    left: 50%;
+    bottom: 13.4rem;
+    width: 82px;
+    transform: translateX(-50%);
+  }
+
+  .item[data-item="phone"] {
+    right: 7%;
+    bottom: 17rem;
+    width: 82px;
+  }
 }
 
-.item-mid-left {
-  left: 26%;
+#park-scene {
+  .character[data-char="abigail"] {
+    left: 4%;
+    bottom: -11rem;
+    width: 340px;
+  }
+
+  .character[data-char="alex"] {
+    right: 4%;
+    bottom: -6rem;
+    width: 340px;
+  }
+
+  .item[data-item="headphones"] {
+    left: 26%;
+    bottom: 13.4rem;
+    width: 82px;
+  }
+
+  .item[data-item="notepad"] {
+    right: 26%;
+    bottom: 13.4rem;
+    width: 82px;
+  }
 }
 
-.item-center {
-  left: 50%;
-  transform: translateX(-50%);
+#street-night-scene {
+  .character[data-char="abigail"] {
+    left: 4%;
+    bottom: -11rem;
+    width: 340px;
+  }
+
+  .character[data-char="jack"] {
+    right: 4%;
+    bottom: -6rem;
+    width: 340px;
+  }
+
+  .item[data-item="phone"] {
+    left: 7%;
+    bottom: 13.4rem;
+    width: 82px;
+  }
+
+  .item[data-item="shoes"] {
+    right: 7%;
+    bottom: 13.4rem;
+    width: 82px;
+  }
 }
 
-.item-mid-right {
-  right: 26%;
+#garden-good-ending-scene {
+  .character[data-char="abigail"] {
+    left: 4%;
+    bottom: -11rem;
+    width: 220px;
+  }
+
+  .character[data-char="alex"] {
+    left: 26%;
+    bottom: -6rem;
+    width: 220px;
+  }
+
+  .character[data-char="jessica"] {
+    right: 26%;
+    bottom: -6rem;
+    width: 220px;
+  }
+
+  .character[data-char="jack"] {
+    right: 4%;
+    bottom: -6rem;
+    width: 220px;
+  }
+
+  .item[data-item="backpack"] {
+    left: 7%;
+    bottom: 13.4rem;
+    width: 110px;
+  }
+
+  .item[data-item="headphones"] {
+    left: 26%;
+    bottom: 13.4rem;
+    width: 82px;
+  }
+
+  .item[data-item="mug"] {
+    left: 50%;
+    bottom: 22rem;
+    width: 82px;
+    transform: translateX(-50%);
+  }
+
+  .item[data-item="notepad"] {
+    right: 26%;
+    bottom: 13.4rem;
+    width: 82px;
+  }
 }
 
-.item-right {
-  right: 7%;
-}
+#garden-bad-ending-scene {
+  .character[data-char="abigail"] {
+    left: 4%;
+    bottom: -11rem;
+    width: 220px;
+  }
 
-.item-low {
-  bottom: 13.4rem;
-}
+  .character[data-char="alex"] {
+    left: 26%;
+    bottom: -6rem;
+    width: 220px;
+  }
 
-.item-mid {
-  bottom: 17rem;
-}
+  .character[data-char="jessica"] {
+    right: 26%;
+    bottom: -6rem;
+    width: 220px;
+  }
 
-.item-high {
-  bottom: 22rem;
-}
+  .character[data-char="jack"] {
+    right: 4%;
+    bottom: -6rem;
+    width: 220px;
+  }
 
-.item-small {
-  width: min(7vw, 82px);
+  .item[data-item="phone"] {
+    left: 7%;
+    bottom: 13.4rem;
+    width: 82px;
+  }
+
+  .item[data-item="shoes"] {
+    right: 7%;
+    bottom: 13.4rem;
+    width: 82px;
+  }
 }
 
 .is-hidden {
