@@ -27,7 +27,7 @@
     }
 
     this.waitingForClick = false;
-    this.continueButton.classList.add("is-hidden");
+    this.hideContinueButton();
     this.continueScene(this.flowToken);
   };
 
@@ -78,9 +78,60 @@
     this.choiceList.innerHTML = "";
   };
 
+  VisualNovelEngine.prototype.hideContinueButton = function () {
+    this.continueButton.classList.add("is-hidden");
+  };
+
+  VisualNovelEngine.prototype.showContinueButton = function () {
+    this.continueButton.classList.remove("is-hidden");
+  };
+
+  VisualNovelEngine.prototype.clearActions = function () {
+    this.waitingForClick = false;
+    this.hideContinueButton();
+    this.clearChoices();
+  };
+
+  VisualNovelEngine.prototype.createChoiceButton = function (templateButton, step, token) {
+    var engine = this;
+    var button = document.createElement("button");
+
+    button.type = "button";
+    button.textContent = templateButton.textContent.trim();
+
+    button.addEventListener("click", function () {
+      if (token !== engine.flowToken) {
+        return;
+      }
+
+      if (templateButton.dataset.run) {
+        engine.runAction(templateButton.dataset.run, {
+          button: templateButton,
+          sourceStep: step
+        });
+      }
+
+      if (token !== engine.flowToken) {
+        return;
+      }
+
+      engine.clearActions();
+
+      if (templateButton.dataset.next) {
+        engine.goTo(templateButton.dataset.next);
+        return;
+      }
+
+      engine.continueScene(token);
+    });
+
+    return button;
+  };
+
   VisualNovelEngine.prototype.setDialog = function (speaker, text) {
-    this.speakerName.textContent = speaker || "Narrator";
+    this.speakerName.textContent = speaker || "";
     this.dialogText.textContent = text || "";
+    this.speakerName.classList.toggle("is-hidden", !speaker);
   };
 
   VisualNovelEngine.prototype.setActiveCharacter = function (characterName) {
@@ -207,8 +258,7 @@
 
     this.flowToken += 1;
     this.waitingForClick = false;
-    this.clearChoices();
-    this.continueButton.classList.add("is-hidden");
+    this.clearActions();
 
     var scenes = this.root.querySelectorAll(".scene");
     scenes.forEach(function (scene) {
@@ -239,8 +289,7 @@
       }
     }
 
-    this.clearChoices();
-    this.continueButton.classList.add("is-hidden");
+    this.clearActions();
   };
 
   VisualNovelEngine.prototype.executeStep = function (step, token) {
@@ -291,9 +340,9 @@
     }
 
     if (stepType === "wait-click") {
-      this.waitingForClick = true;
       this.clearChoices();
-      this.continueButton.classList.remove("is-hidden");
+      this.waitingForClick = true;
+      this.showContinueButton();
       return "pause";
     }
 
@@ -320,43 +369,11 @@
   };
 
   VisualNovelEngine.prototype.renderChoices = function (step, token) {
-    var engine = this;
-    this.clearChoices();
-    this.continueButton.classList.add("is-hidden");
+    this.clearActions();
 
     Array.from(step.querySelectorAll("button")).forEach(function (templateButton) {
-      var button = document.createElement("button");
-      button.type = "button";
-      button.textContent = templateButton.textContent.trim();
-
-      button.addEventListener("click", function () {
-        if (token !== engine.flowToken) {
-          return;
-        }
-
-        if (templateButton.dataset.run) {
-          engine.runAction(templateButton.dataset.run, {
-            button: templateButton,
-            sourceStep: step
-          });
-        }
-
-        if (token !== engine.flowToken) {
-          return;
-        }
-
-        engine.clearChoices();
-
-        if (templateButton.dataset.next) {
-          engine.goTo(templateButton.dataset.next);
-          return;
-        }
-
-        engine.continueScene(token);
-      });
-
-      engine.choiceList.appendChild(button);
-    });
+      this.choiceList.appendChild(this.createChoiceButton(templateButton, step, token));
+    }, this);
   };
 
   window.VisualNovelEngine = VisualNovelEngine;
