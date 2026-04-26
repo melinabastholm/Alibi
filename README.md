@@ -13,8 +13,8 @@ It is intentionally simple:
 
 - `index.html`: scene markup, step markup, and the sample story
 - `styles.css`: layout, visual styling, and character highlighting
-- `scripts/engine.js`: core engine logic
-- `scripts/story.js`: story-specific actions and ending logic
+- `scripts/engine.js`: reusable engine runtime, DOM bootstrapping, scaling, audio helpers, and step handling
+- `scripts/story.js`: only story-specific state, helper functions, and custom actions
 - `assets/images/`: flat SVG backgrounds and characters with simple text labels
 - `assets/audio/`: two small WAV tones used by the sample
 
@@ -60,15 +60,25 @@ It is intentionally simple:
 </section>
 ```
 
-## Example action
+## Example story code
 
 ```js
-engine.actions.checkEnding = function (game) {
-  if (game.state.investigatedSignal && game.state.hasKeycard) {
-    return "clear-ending-scene";
-  }
+function resolveEndingScene(state) {
+  return state.broughtBackpack && state.helpedAlex
+    ? "garden-good-ending-scene"
+    : "garden-bad-ending-scene";
+}
 
-  return "storm-ending-scene";
+const storyActions = {
+  checkEnding(game) {
+    const endingSceneId = resolveEndingScene(game.state);
+
+    game.setState({
+      ending: endingSceneId === "garden-good-ending-scene" ? "good" : "rough"
+    });
+
+    return endingSceneId;
+  }
 };
 ```
 
@@ -80,4 +90,4 @@ For teaching, students can usually stay in three places:
 
 - `index.html` to add scenes, steps, and choices
 - `styles.css` to restyle the UI
-- `scripts/story.js` to add variables, functions, and ending logic
+- `scripts/story.js` to add story-specific state, helpers, and branching logic

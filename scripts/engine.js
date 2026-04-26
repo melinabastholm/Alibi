@@ -1,25 +1,47 @@
 (function () {
-  function VisualNovelEngine(options) {
-    this.startSceneId = options.startSceneId;
-    this.root = options.root;
-    this.dialogText = options.dialogText;
-    this.speakerName = options.speakerName;
-    this.dialogPanel = options.dialogPanel;
-    this.choiceList = options.choiceList;
-    this.continueButton = options.continueButton;
-    this.debugScene = options.debugScene;
-    this.stateOutput = options.stateOutput;
-    this.state = {};
-    this.actions = {};
-    this.currentScene = null;
-    this.currentSteps = [];
-    this.stepIndex = 0;
-    this.flowToken = 0;
-    this.waitingForClick = false;
-    this.imageCache = {};
+  const DEFAULT_SELECTORS = Object.freeze({
+    viewport: ".viewport",
+    root: ".stage-screen",
+    dialogPanel: ".dialog-panel",
+    dialogText: "#dialog-text",
+    speakerName: "#speaker-name",
+    choiceList: "#choice-list",
+    continueButton: "#continue-button",
+    debugPanel: ".debug-panel",
+    debugScene: "#debug-scene",
+    stateOutput: "#state-output",
+    audio: "audio"
+  });
 
-    this.handleContinueClick = this.handleContinueClick.bind(this);
-    this.continueButton.addEventListener("click", this.handleContinueClick);
+  const DEFAULT_DESIGN_SIZE = Object.freeze({
+    width: 1440,
+    height: 1080
+  });
+
+  function copyState(state) {
+    return { ...(state || {}) };
+  }
+
+  function resolveElement(value, fallbackSelector) {
+    const target = value ?? fallbackSelector;
+
+    if (!target) {
+      return null;
+    }
+
+    if (typeof target === "string") {
+      return document.querySelector(target);
+    }
+
+    return target;
+  }
+
+  function requireElement(element, label) {
+    if (!element) {
+      throw new Error(`VisualNovelEngine could not find ${label}.`);
+    }
+
+    return element;
   }
 
   function clampChannel(value) {
@@ -28,7 +50,7 @@
 
   function expandHex(hex) {
     if (hex.length === 4) {
-      return "#" + hex.charAt(1) + hex.charAt(1) + hex.charAt(2) + hex.charAt(2) + hex.charAt(3) + hex.charAt(3);
+      return `#${hex[1]}${hex[1]}${hex[2]}${hex[2]}${hex[3]}${hex[3]}`;
     }
 
     return hex;
@@ -39,12 +61,12 @@
       return null;
     }
 
-    var normalized = expandHex(hex);
+    const normalized = expandHex(hex);
 
     return {
-      r: parseInt(normalized.slice(1, 3), 16),
-      g: parseInt(normalized.slice(3, 5), 16),
-      b: parseInt(normalized.slice(5, 7), 16)
+      r: Number.parseInt(normalized.slice(1, 3), 16),
+      g: Number.parseInt(normalized.slice(3, 5), 16),
+      b: Number.parseInt(normalized.slice(5, 7), 16)
     };
   }
 
@@ -58,428 +80,573 @@
 
   function rgbString(color, alpha) {
     if (typeof alpha === "number") {
-      return "rgba(" + color.r + ", " + color.g + ", " + color.b + ", " + alpha + ")";
+      return `rgba(${color.r}, ${color.g}, ${color.b}, ${alpha})`;
     }
 
-    return "rgb(" + color.r + ", " + color.g + ", " + color.b + ")";
+    return `rgb(${color.r}, ${color.g}, ${color.b})`;
   }
 
-  VisualNovelEngine.prototype.handleContinueClick = function () {
-    if (!this.waitingForClick) {
-      return;
+  class VisualNovelEngine {
+    static create(options = {}) {
+      return new VisualNovelEngine({
+        startSceneId: options.startSceneId,
+        viewport: resolveElement(options.viewport, DEFAULT_SELECTORS.viewport),
+        root: requireElement(resolveElement(options.root, DEFAULT_SELECTORS.root), "the stage root"),
+        dialogPanel: requireElement(resolveElement(options.dialogPanel, DEFAULT_SELECTORS.dialogPanel), "the dialog panel"),
+        dialogText: requireElement(resolveElement(options.dialogText, DEFAULT_SELECTORS.dialogText), "the dialog text"),
+        speakerName: requireElement(resolveElement(options.speakerName, DEFAULT_SELECTORS.speakerName), "the speaker label"),
+        choiceList: requireElement(resolveElement(options.choiceList, DEFAULT_SELECTORS.choiceList), "the choice list"),
+        continueButton: requireElement(resolveElement(options.continueButton, DEFAULT_SELECTORS.continueButton), "the continue button"),
+        debugPanel: resolveElement(options.debugPanel, DEFAULT_SELECTORS.debugPanel),
+        debugScene: resolveElement(options.debugScene, DEFAULT_SELECTORS.debugScene),
+        stateOutput: resolveElement(options.stateOutput, DEFAULT_SELECTORS.stateOutput),
+        audioElements: Array.from(options.audioElements || document.querySelectorAll(DEFAULT_SELECTORS.audio)),
+        initialState: copyState(options.initialState),
+        actions: options.actions || {},
+        designWidth: options.designWidth || DEFAULT_DESIGN_SIZE.width,
+        designHeight: options.designHeight || DEFAULT_DESIGN_SIZE.height
+      });
     }
 
-    this.waitingForClick = false;
-    this.hideContinueButton();
-    this.continueScene(this.flowToken);
-  };
+    static boot(options = {}) {
+      const launch = function () {
+        const engine = VisualNovelEngine.create(options);
+        const globalName = options.globalName === undefined ? "game" : options.globalName;
 
-  VisualNovelEngine.prototype.start = function () {
-    this.preloadImages();
-    this.goTo(this.startSceneId);
-  };
+        if (globalName) {
+          window[globalName] = engine;
+        }
 
-  VisualNovelEngine.prototype.preloadImage = function (src) {
-    var preload;
+        engine.start();
+        return engine;
+      };
 
-    if (!src) {
-      return null;
+      if (document.readyState === "loading") {
+        document.addEventListener("DOMContentLoaded", launch, { once: true });
+        return null;
+      }
+
+      return launch();
     }
 
-    if (this.imageCache[src]) {
-      return this.imageCache[src];
+    constructor(options) {
+      if (!options.startSceneId) {
+        throw new Error("VisualNovelEngine requires a startSceneId.");
+      }
+
+      this.startSceneId = options.startSceneId;
+      this.viewport = options.viewport;
+      this.root = options.root;
+      this.dialogPanel = options.dialogPanel;
+      this.dialogText = options.dialogText;
+      this.speakerName = options.speakerName;
+      this.choiceList = options.choiceList;
+      this.continueButton = options.continueButton;
+      this.debugPanel = options.debugPanel;
+      this.debugScene = options.debugScene;
+      this.stateOutput = options.stateOutput;
+      this.audioElements = options.audioElements;
+      this.designWidth = options.designWidth;
+      this.designHeight = options.designHeight;
+      this.initialState = copyState(options.initialState);
+
+      this.state = copyState(this.initialState);
+      this.actions = {};
+      this.currentScene = null;
+      this.currentSteps = [];
+      this.stepIndex = 0;
+      this.flowToken = 0;
+      this.waitingForClick = false;
+      this.imageCache = new Map();
+
+      this.handleContinueClick = this.handleContinueClick.bind(this);
+      this.handleDocumentClick = this.handleDocumentClick.bind(this);
+      this.updateScale = this.updateScale.bind(this);
+
+      this.registerActions(options.actions);
+      this.bindEvents();
+      this.updateDebugPanel();
+
+      if (this.debugPanel) {
+        this.debugPanel.open = false;
+      }
     }
 
-    preload = new window.Image();
-    preload.src = src;
-    this.imageCache[src] = preload;
-    return preload;
-  };
-
-  VisualNovelEngine.prototype.isImageReady = function (src) {
-    var image = this.imageCache[src];
-
-    return Boolean(image && image.complete && image.naturalWidth > 0);
-  };
-
-  VisualNovelEngine.prototype.preloadImages = function () {
-    var engine = this;
-
-    if (!this.root) {
-      return;
+    bindEvents() {
+      this.continueButton.addEventListener("click", this.handleContinueClick);
+      document.addEventListener("click", this.handleDocumentClick);
+      window.addEventListener("resize", this.updateScale);
     }
 
-    this.root.querySelectorAll("img[src]").forEach(function (image) {
-      engine.preloadImage(image.getAttribute("src"));
-    });
+    destroy() {
+      this.continueButton.removeEventListener("click", this.handleContinueClick);
+      document.removeEventListener("click", this.handleDocumentClick);
+      window.removeEventListener("resize", this.updateScale);
+    }
 
-    this.root.querySelectorAll('[data-step="swap-image"][data-src]').forEach(function (step) {
-      engine.preloadImage(step.dataset.src);
-    });
-  };
+    start() {
+      this.preloadImages();
+      this.updateScale();
+      this.goTo(this.startSceneId);
+    }
 
-  VisualNovelEngine.prototype.resetState = function () {
-    this.state = {};
-    this.updateDebugPanel();
-  };
+    updateScale() {
+      const scale = Math.min(
+        window.innerWidth / this.designWidth,
+        window.innerHeight / this.designHeight
+      );
 
-  VisualNovelEngine.prototype.clearChoices = function () {
-    this.choiceList.innerHTML = "";
-  };
+      document.documentElement.style.setProperty("--scale", String(scale));
 
-  VisualNovelEngine.prototype.hideContinueButton = function () {
-    this.continueButton.classList.add("is-hidden");
-  };
+      if (this.viewport) {
+        this.viewport.style.setProperty("--scale", String(scale));
+      }
+    }
 
-  VisualNovelEngine.prototype.showContinueButton = function () {
-    this.continueButton.classList.remove("is-hidden");
-  };
+    setState(updates = {}) {
+      this.state = {
+        ...this.state,
+        ...updates
+      };
+      this.updateDebugPanel();
+      return this.state;
+    }
 
-  VisualNovelEngine.prototype.clearActions = function () {
-    this.waitingForClick = false;
-    this.hideContinueButton();
-    this.clearChoices();
-  };
+    resetState() {
+      this.state = copyState(this.initialState);
+      this.updateDebugPanel();
+      return this.state;
+    }
 
-  VisualNovelEngine.prototype.createChoiceButton = function (templateButton, step, token) {
-    var engine = this;
-    var button = document.createElement("button");
+    registerAction(name, action) {
+      if (typeof action !== "function") {
+        throw new TypeError(`Action "${name}" must be a function.`);
+      }
 
-    button.type = "button";
-    button.textContent = templateButton.textContent.trim();
+      this.actions[name] = action;
+      return this;
+    }
 
-    button.addEventListener("click", function () {
-      if (token !== engine.flowToken) {
+    registerActions(actions = {}) {
+      Object.entries(actions).forEach(([name, action]) => {
+        this.registerAction(name, action);
+      });
+      return this;
+    }
+
+    handleContinueClick() {
+      if (!this.waitingForClick) {
         return;
       }
 
-      if (templateButton.dataset.run) {
-        engine.runAction(templateButton.dataset.run, {
-          button: templateButton,
-          sourceStep: step
-        });
-      }
+      this.waitingForClick = false;
+      this.hideContinueButton();
+      this.continueScene(this.flowToken);
+    }
 
-      if (token !== engine.flowToken) {
+    handleDocumentClick(event) {
+      const runButton = event.target.closest("[data-run]");
+
+      if (!runButton || runButton.closest(".steps")) {
         return;
       }
 
-      engine.clearActions();
+      this.runAction(runButton.dataset.run, { button: runButton, event });
 
-      if (templateButton.dataset.next) {
-        engine.goTo(templateButton.dataset.next);
-        return;
+      if (runButton.dataset.next) {
+        this.goTo(runButton.dataset.next);
+      }
+    }
+
+    preloadImage(src) {
+      if (!src) {
+        return null;
       }
 
-      engine.continueScene(token);
-    });
+      if (this.imageCache.has(src)) {
+        return this.imageCache.get(src);
+      }
 
-    return button;
-  };
-
-  VisualNovelEngine.prototype.applyDialogColor = function (hexColor) {
-    var panel = this.dialogPanel;
-
-    if (!panel) {
-      return;
+      const preload = new window.Image();
+      preload.src = src;
+      this.imageCache.set(src, preload);
+      return preload;
     }
 
-    var color = parseHexColor(hexColor);
-
-    if (!color) {
-      panel.style.removeProperty("--dialog-border-color");
-      panel.style.removeProperty("--dialog-bg-top");
-      panel.style.removeProperty("--dialog-bg-bottom");
-      panel.style.removeProperty("--speaker-bg");
-      panel.style.removeProperty("--speaker-text");
-      return;
+    isImageReady(src) {
+      const image = this.imageCache.get(src);
+      return Boolean(image && image.complete && image.naturalWidth > 0);
     }
 
-    var border = mixColors(color, { r: 24, g: 32, b: 38 }, 0.18);
-    var bgTop = mixColors(color, { r: 255, g: 255, b: 255 }, 0.9);
-    var bgBottom = mixColors(color, { r: 245, g: 232, b: 214 }, 0.82);
-    var speakerBg = mixColors(color, { r: 255, g: 255, b: 255 }, 0.78);
-    var speakerText = mixColors(color, { r: 24, g: 32, b: 38 }, 0.35);
+    preloadImages() {
+      this.root.querySelectorAll("img[src]").forEach((image) => {
+        this.preloadImage(image.getAttribute("src"));
+      });
 
-    panel.style.setProperty("--dialog-border-color", rgbString(border));
-    panel.style.setProperty("--dialog-bg-top", rgbString(bgTop, 0.96));
-    panel.style.setProperty("--dialog-bg-bottom", rgbString(bgBottom, 0.98));
-    panel.style.setProperty("--speaker-bg", rgbString(speakerBg, 0.9));
-    panel.style.setProperty("--speaker-text", rgbString(speakerText));
-  };
-
-  VisualNovelEngine.prototype.setDialog = function (speaker, text, hexColor) {
-    this.speakerName.textContent = speaker || "";
-    this.dialogText.textContent = text || "";
-    this.speakerName.classList.toggle("is-hidden", !speaker);
-    this.applyDialogColor(hexColor);
-  };
-
-  VisualNovelEngine.prototype.setActiveCharacter = function (selector) {
-    if (!this.currentScene) {
-      return;
+      this.root.querySelectorAll('[data-step="swap-image"][data-src]').forEach((step) => {
+        this.preloadImage(step.dataset.src);
+      });
     }
 
-    var characters = this.currentScene.querySelectorAll("[data-char]");
-    characters.forEach(function (character) {
-      character.classList.remove("active");
-    });
-
-    if (!selector) {
-      return;
+    clearChoices() {
+      this.choiceList.innerHTML = "";
     }
 
-    var activeCharacter = this.currentScene.querySelector(selector);
-
-    if (activeCharacter) {
-      activeCharacter.classList.add("active");
-    }
-  };
-
-  VisualNovelEngine.prototype.showElement = function (selector) {
-    if (!this.currentScene) {
-      return;
+    hideContinueButton() {
+      this.continueButton.classList.add("is-hidden");
     }
 
-    var element = this.currentScene.querySelector(selector);
-
-    if (element) {
-      element.classList.remove("is-hidden");
-    }
-  };
-
-  VisualNovelEngine.prototype.hideElement = function (selector) {
-    if (!this.currentScene) {
-      return;
+    showContinueButton() {
+      this.continueButton.classList.remove("is-hidden");
     }
 
-    var element = this.currentScene.querySelector(selector);
-
-    if (element) {
-      element.classList.add("is-hidden");
-      element.classList.remove("active");
-    }
-  };
-
-  VisualNovelEngine.prototype.swapImage = function (selector, src, token, duration) {
-    if (!this.currentScene || !src) {
-      return false;
+    clearActions() {
+      this.waitingForClick = false;
+      this.hideContinueButton();
+      this.clearChoices();
     }
 
-    var element = this.currentScene.querySelector(selector);
-    var engine = this;
-    var fadeDuration = Number(duration || 220);
-    var preload = this.preloadImage(src);
-    var startSwap;
+    createChoiceButton(templateButton, step, token) {
+      const button = document.createElement("button");
+      button.type = "button";
+      button.textContent = templateButton.textContent.trim();
 
-    if (!element || element.tagName !== "IMG") {
-      return false;
-    }
-
-    startSwap = function () {
-      var clone = element.cloneNode(false);
-      var previousTransitionDuration = element.style.transitionDuration;
-
-      clone.removeAttribute("data-char");
-      clone.removeAttribute("data-item");
-      clone.classList.remove("active");
-      clone.classList.add("is-swap-clone");
-      clone.style.transitionDuration = fadeDuration + "ms";
-      element.style.transitionDuration = fadeDuration + "ms";
-
-      element.classList.add("is-swapping");
-      element.insertAdjacentElement("afterend", clone);
-      element.src = src;
-
-      clone.offsetWidth;
-
-      window.requestAnimationFrame(function () {
-        if (token !== engine.flowToken) {
-          element.style.transitionDuration = previousTransitionDuration;
-          clone.remove();
+      button.addEventListener("click", () => {
+        if (token !== this.flowToken) {
           return;
         }
 
-        window.requestAnimationFrame(function () {
-          if (token !== engine.flowToken) {
+        if (templateButton.dataset.run) {
+          this.runAction(templateButton.dataset.run, {
+            button: templateButton,
+            sourceStep: step
+          });
+        }
+
+        if (token !== this.flowToken) {
+          return;
+        }
+
+        this.clearActions();
+
+        if (templateButton.dataset.next) {
+          this.goTo(templateButton.dataset.next);
+          return;
+        }
+
+        this.continueScene(token);
+      });
+
+      return button;
+    }
+
+    applyDialogColor(hexColor) {
+      const color = parseHexColor(hexColor);
+
+      if (!color) {
+        this.dialogPanel.style.removeProperty("--dialog-border-color");
+        this.dialogPanel.style.removeProperty("--dialog-bg-top");
+        this.dialogPanel.style.removeProperty("--dialog-bg-bottom");
+        this.dialogPanel.style.removeProperty("--speaker-bg");
+        this.dialogPanel.style.removeProperty("--speaker-text");
+        return;
+      }
+
+      const border = mixColors(color, { r: 24, g: 32, b: 38 }, 0.18);
+      const backgroundTop = mixColors(color, { r: 255, g: 255, b: 255 }, 0.9);
+      const backgroundBottom = mixColors(color, { r: 245, g: 232, b: 214 }, 0.82);
+      const speakerBackground = mixColors(color, { r: 255, g: 255, b: 255 }, 0.78);
+      const speakerText = mixColors(color, { r: 24, g: 32, b: 38 }, 0.35);
+
+      this.dialogPanel.style.setProperty("--dialog-border-color", rgbString(border));
+      this.dialogPanel.style.setProperty("--dialog-bg-top", rgbString(backgroundTop, 0.96));
+      this.dialogPanel.style.setProperty("--dialog-bg-bottom", rgbString(backgroundBottom, 0.98));
+      this.dialogPanel.style.setProperty("--speaker-bg", rgbString(speakerBackground, 0.9));
+      this.dialogPanel.style.setProperty("--speaker-text", rgbString(speakerText));
+    }
+
+    setDialog(speaker, text, hexColor) {
+      this.speakerName.textContent = speaker || "";
+      this.dialogText.textContent = text || "";
+      this.speakerName.classList.toggle("is-hidden", !speaker);
+      this.applyDialogColor(hexColor);
+    }
+
+    setActiveCharacter(selector) {
+      if (!this.currentScene) {
+        return;
+      }
+
+      this.currentScene.querySelectorAll("[data-char]").forEach((character) => {
+        character.classList.remove("active");
+      });
+
+      if (!selector) {
+        return;
+      }
+
+      const activeCharacter = this.currentScene.querySelector(selector);
+
+      if (activeCharacter) {
+        activeCharacter.classList.add("active");
+      }
+    }
+
+    showElement(selector) {
+      if (!this.currentScene || !selector) {
+        return;
+      }
+
+      const element = this.currentScene.querySelector(selector);
+
+      if (element) {
+        element.classList.remove("is-hidden");
+      }
+    }
+
+    hideElement(selector) {
+      if (!this.currentScene || !selector) {
+        return;
+      }
+
+      const element = this.currentScene.querySelector(selector);
+
+      if (element) {
+        element.classList.add("is-hidden");
+        element.classList.remove("active");
+      }
+    }
+
+    swapImage(selector, src, token, duration) {
+      if (!this.currentScene || !selector || !src) {
+        return false;
+      }
+
+      const element = this.currentScene.querySelector(selector);
+      const fadeDuration = Number(duration || 220);
+      const preload = this.preloadImage(src);
+
+      if (!element || element.tagName !== "IMG") {
+        return false;
+      }
+
+      const startSwap = () => {
+        const clone = element.cloneNode(false);
+        const previousTransitionDuration = element.style.transitionDuration;
+
+        clone.removeAttribute("data-char");
+        clone.removeAttribute("data-item");
+        clone.classList.remove("active");
+        clone.classList.add("is-swap-clone");
+        clone.style.transitionDuration = `${fadeDuration}ms`;
+        element.style.transitionDuration = `${fadeDuration}ms`;
+
+        element.classList.add("is-swapping");
+        element.insertAdjacentElement("afterend", clone);
+        element.src = src;
+
+        clone.offsetWidth;
+
+        window.requestAnimationFrame(() => {
+          if (token !== this.flowToken) {
             element.style.transitionDuration = previousTransitionDuration;
             clone.remove();
             return;
           }
 
-          clone.classList.add("is-swapping");
-          element.classList.remove("is-swapping");
+          window.requestAnimationFrame(() => {
+            if (token !== this.flowToken) {
+              element.style.transitionDuration = previousTransitionDuration;
+              clone.remove();
+              return;
+            }
+
+            clone.classList.add("is-swapping");
+            element.classList.remove("is-swapping");
+          });
         });
-      });
 
-      window.setTimeout(function () {
-        clone.remove();
-        element.style.transitionDuration = previousTransitionDuration;
+        window.setTimeout(() => {
+          clone.remove();
+          element.style.transitionDuration = previousTransitionDuration;
 
-        if (token === engine.flowToken) {
-          engine.continueScene(token);
-        }
-      }, fadeDuration);
-    };
+          if (token === this.flowToken) {
+            this.continueScene(token);
+          }
+        }, fadeDuration);
+      };
 
-    if (this.isImageReady(src)) {
-      startSwap();
+      if (this.isImageReady(src)) {
+        startSwap();
+        return true;
+      }
+
+      preload.onload = startSwap;
+      preload.onerror = startSwap;
       return true;
     }
 
-    preload.onload = startSwap;
-    preload.onerror = startSwap;
+    updateDebugPanel() {
+      if (this.debugScene) {
+        this.debugScene.textContent = this.currentScene ? this.currentScene.id : "none";
+      }
 
-    return true;
-  };
-
-  VisualNovelEngine.prototype.updateDebugPanel = function () {
-    this.debugScene.textContent = this.currentScene ? this.currentScene.id : "none";
-    this.stateOutput.textContent = JSON.stringify(this.state, null, 2);
-  };
-
-  VisualNovelEngine.prototype.runAction = function (actionName, details) {
-    var action = this.actions[actionName];
-
-    if (typeof action !== "function") {
-      console.warn('Action "' + actionName + '" was not found.');
-      return;
+      if (this.stateOutput) {
+        this.stateOutput.textContent = JSON.stringify(this.state, null, 2);
+      }
     }
 
-    return action(this, details || {});
-  };
-
-  VisualNovelEngine.prototype.goTo = function (sceneId) {
-    var nextScene = this.root.querySelector("#" + sceneId);
-
-    if (!nextScene) {
-      console.warn('Scene "' + sceneId + '" was not found.');
-      return;
+    stopAllAudio() {
+      this.audioElements.forEach((sound) => {
+        sound.pause();
+        sound.currentTime = 0;
+      });
     }
 
-    this.flowToken += 1;
-    this.waitingForClick = false;
-    this.clearActions();
+    playAudio(id) {
+      const sound = document.getElementById(id);
 
-    var scenes = this.root.querySelectorAll(".scene");
-    scenes.forEach(function (scene) {
-      scene.classList.remove("is-active");
-    });
+      if (!sound) {
+        return null;
+      }
 
-    nextScene.classList.add("is-active");
-    this.currentScene = nextScene;
-    this.currentSteps = Array.from(nextScene.querySelectorAll(".steps [data-step]"));
-    this.stepIndex = 0;
-    this.updateDebugPanel();
-    this.continueScene(this.flowToken);
-  };
-
-  VisualNovelEngine.prototype.continueScene = function (token) {
-    if (token !== this.flowToken || !this.currentScene) {
-      return;
+      this.stopAllAudio();
+      sound.play().catch(function () {
+        return null;
+      });
+      return sound;
     }
 
-    while (this.stepIndex < this.currentSteps.length) {
-      var step = this.currentSteps[this.stepIndex];
-      this.stepIndex += 1;
+    runAction(actionName, details = {}) {
+      const action = this.actions[actionName];
 
-      var outcome = this.executeStep(step, token);
+      if (typeof action !== "function") {
+        console.warn(`Action "${actionName}" was not found.`);
+        return null;
+      }
 
-      if (outcome === "pause" || outcome === "scene-changed") {
+      return action(this, details);
+    }
+
+    goTo(sceneId) {
+      const nextScene = this.root.querySelector(`#${sceneId}`);
+
+      if (!nextScene) {
+        console.warn(`Scene "${sceneId}" was not found.`);
         return;
       }
+
+      this.flowToken += 1;
+      this.waitingForClick = false;
+      this.clearActions();
+
+      this.root.querySelectorAll(".scene").forEach((scene) => {
+        scene.classList.remove("is-active");
+      });
+
+      nextScene.classList.add("is-active");
+      this.currentScene = nextScene;
+      this.currentSteps = Array.from(nextScene.querySelectorAll(".steps [data-step]"));
+      this.stepIndex = 0;
+      this.updateDebugPanel();
+      this.continueScene(this.flowToken);
     }
 
-    this.clearActions();
-  };
-
-  VisualNovelEngine.prototype.executeStep = function (step, token) {
-    var stepType = step.dataset.step;
-
-    if (stepType === "say") {
-      this.setDialog(step.dataset.speaker, step.textContent.trim(), step.dataset.color);
-      return "continue";
-    }
-
-    if (stepType === "focus") {
-      this.setActiveCharacter(step.dataset.target || "");
-      return "continue";
-    }
-
-    if (stepType === "show") {
-      this.showElement(step.dataset.target);
-      return "continue";
-    }
-
-    if (stepType === "hide") {
-      this.hideElement(step.dataset.target);
-      return "continue";
-    }
-
-    if (stepType === "swap-image") {
-      if (this.swapImage(step.dataset.target, step.dataset.src, token, step.dataset.duration)) {
-        return "pause";
+    continueScene(token) {
+      if (token !== this.flowToken || !this.currentScene) {
+        return;
       }
 
-      return "continue";
-    }
+      while (this.stepIndex < this.currentSteps.length) {
+        const step = this.currentSteps[this.stepIndex];
+        this.stepIndex += 1;
 
-    if (stepType === "run") {
-      var actionResult = this.runAction(step.dataset.action, { step: step });
+        const outcome = this.executeStep(step, token);
 
-      if (typeof actionResult === "string") {
-        this.goTo(actionResult);
-        return "scene-changed";
-      }
-
-      if (token !== this.flowToken) {
-        return "scene-changed";
-      }
-
-      return "continue";
-    }
-
-    if (stepType === "goto") {
-      this.goTo(step.dataset.scene);
-      return "scene-changed";
-    }
-
-    if (stepType === "wait-click") {
-      this.clearChoices();
-      this.waitingForClick = true;
-      this.showContinueButton();
-      return "pause";
-    }
-
-    if (stepType === "wait-ms") {
-      var waitTime = Number(step.dataset.ms || 0);
-      var engine = this;
-
-      window.setTimeout(function () {
-        if (token === engine.flowToken) {
-          engine.continueScene(token);
+        if (outcome === "pause" || outcome === "scene-changed") {
+          return;
         }
-      }, waitTime);
+      }
 
-      return "pause";
+      this.clearActions();
     }
 
-    if (stepType === "choice") {
-      this.renderChoices(step, token);
-      return "pause";
+    executeStep(step, token) {
+      const stepType = step.dataset.step;
+
+      switch (stepType) {
+        case "say":
+          this.setDialog(step.dataset.speaker, step.textContent.trim(), step.dataset.color);
+          return "continue";
+
+        case "focus":
+          this.setActiveCharacter(step.dataset.target || "");
+          return "continue";
+
+        case "show":
+          this.showElement(step.dataset.target);
+          return "continue";
+
+        case "hide":
+          this.hideElement(step.dataset.target);
+          return "continue";
+
+        case "swap-image":
+          return this.swapImage(step.dataset.target, step.dataset.src, token, step.dataset.duration)
+            ? "pause"
+            : "continue";
+
+        case "run": {
+          const actionResult = this.runAction(step.dataset.action, { step });
+
+          if (typeof actionResult === "string") {
+            this.goTo(actionResult);
+            return "scene-changed";
+          }
+
+          if (token !== this.flowToken) {
+            return "scene-changed";
+          }
+
+          return "continue";
+        }
+
+        case "goto":
+          this.goTo(step.dataset.scene);
+          return "scene-changed";
+
+        case "wait-click":
+          this.clearChoices();
+          this.waitingForClick = true;
+          this.showContinueButton();
+          return "pause";
+
+        case "wait-ms":
+          window.setTimeout(() => {
+            if (token === this.flowToken) {
+              this.continueScene(token);
+            }
+          }, Number(step.dataset.ms || 0));
+          return "pause";
+
+        case "choice":
+          this.renderChoices(step, token);
+          return "pause";
+
+        default:
+          console.warn(`Step type "${stepType}" is not supported.`);
+          return "continue";
+      }
     }
 
-    console.warn('Step type "' + stepType + '" is not supported.');
-    return "continue";
-  };
+    renderChoices(step, token) {
+      this.clearActions();
 
-  VisualNovelEngine.prototype.renderChoices = function (step, token) {
-    this.clearActions();
-
-    Array.from(step.querySelectorAll("button")).forEach(function (templateButton) {
-      this.choiceList.appendChild(this.createChoiceButton(templateButton, step, token));
-    }, this);
-  };
+      Array.from(step.querySelectorAll("button")).forEach((templateButton) => {
+        this.choiceList.appendChild(this.createChoiceButton(templateButton, step, token));
+      });
+    }
+  }
 
   window.VisualNovelEngine = VisualNovelEngine;
 }());
