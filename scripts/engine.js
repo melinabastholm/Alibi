@@ -103,6 +103,7 @@
         audioElements: Array.from(options.audioElements || document.querySelectorAll(DEFAULT_SELECTORS.audio)),
         initialState: copyState(options.initialState),
         actions: options.actions || {},
+        conditions: options.conditions || {},
         designWidth: options.designWidth || DEFAULT_DESIGN_SIZE.width,
         designHeight: options.designHeight || DEFAULT_DESIGN_SIZE.height
       });
@@ -152,6 +153,7 @@
 
       this.state = copyState(this.initialState);
       this.actions = {};
+      this.conditions = {};
       this.currentScene = null;
       this.currentSteps = [];
       this.stepIndex = 0;
@@ -161,9 +163,11 @@
 
       this.handleContinueClick = this.handleContinueClick.bind(this);
       this.handleDocumentClick = this.handleDocumentClick.bind(this);
+      this.handleDocumentKeydown = this.handleDocumentKeydown.bind(this);
       this.updateScale = this.updateScale.bind(this);
 
       this.registerActions(options.actions);
+      this.registerConditions(options.conditions);
       this.bindEvents();
       this.updateDebugPanel();
 
@@ -175,12 +179,14 @@
     bindEvents() {
       this.continueButton.addEventListener("click", this.handleContinueClick);
       document.addEventListener("click", this.handleDocumentClick);
+      document.addEventListener("keydown", this.handleDocumentKeydown);
       window.addEventListener("resize", this.updateScale);
     }
 
     destroy() {
       this.continueButton.removeEventListener("click", this.handleContinueClick);
       document.removeEventListener("click", this.handleDocumentClick);
+      document.removeEventListener("keydown", this.handleDocumentKeydown);
       window.removeEventListener("resize", this.updateScale);
     }
 
@@ -209,12 +215,14 @@
         ...updates
       };
       this.updateDebugPanel();
+      this.refreshConditionalElements();
       return this.state;
     }
 
     resetState() {
       this.state = copyState(this.initialState);
       this.updateDebugPanel();
+      this.refreshConditionalElements();
       return this.state;
     }
 
@@ -230,6 +238,22 @@
     registerActions(actions = {}) {
       Object.entries(actions).forEach(([name, action]) => {
         this.registerAction(name, action);
+      });
+      return this;
+    }
+
+    registerCondition(name, condition) {
+      if (typeof condition !== "function") {
+        throw new TypeError(`Condition "${name}" must be a function.`);
+      }
+
+      this.conditions[name] = condition;
+      return this;
+    }
+
+    registerConditions(conditions = {}) {
+      Object.entries(conditions).forEach(([name, condition]) => {
+        this.registerCondition(name, condition);
       });
       return this;
     }
@@ -251,11 +275,38 @@
         return;
       }
 
-      this.runAction(runButton.dataset.run, { button: runButton, event });
+      if (!this.isInteractiveElementAvailable(runButton)) {
+        return;
+      }
+
+      this.runAction(runButton.dataset.run, {
+        button: runButton,
+        element: runButton,
+        event
+      });
 
       if (runButton.dataset.next) {
         this.goTo(runButton.dataset.next);
       }
+    }
+
+    handleDocumentKeydown(event) {
+      if (event.key !== "Enter" && event.key !== " ") {
+        return;
+      }
+
+      const interactiveElement = event.target.closest("[data-run]");
+
+      if (!interactiveElement || interactiveElement.tagName === "BUTTON") {
+        return;
+      }
+
+      if (!this.isInteractiveElementAvailable(interactiveElement)) {
+        return;
+      }
+
+      event.preventDefault();
+      interactiveElement.click();
     }
 
     preloadImage(src) {
@@ -340,6 +391,35 @@
       return button;
     }
 
+    isInteractiveElementAvailable(element) {
+      return Boolean(
+        element
+        && !element.closest(".steps")
+        && !element.hasAttribute("disabled")
+        && !element.classList.contains("is-hidden")
+      );
+    }
+
+    enhanceInteractiveElements(scope = this.currentScene || this.root) {
+      if (!scope) {
+        return;
+      }
+
+      scope.querySelectorAll("[data-run]").forEach((element) => {
+        if (element.closest(".steps") || element.tagName === "BUTTON") {
+          return;
+        }
+
+        if (!element.hasAttribute("tabindex")) {
+          element.tabIndex = 0;
+        }
+
+        if (!element.hasAttribute("role")) {
+          element.setAttribute("role", "button");
+        }
+      });
+    }
+
     applyDialogColor(hexColor) {
       const color = parseHexColor(hexColor);
 
@@ -415,6 +495,45 @@
         element.classList.add("is-hidden");
         element.classList.remove("active");
       }
+    }
+
+    evaluateCondition(conditionName, element) {
+      const condition = this.conditions[conditionName];
+
+      if (typeof condition !== "function") {
+        console.warn(`Condition "${conditionName}" was not found.`);
+        return false;
+      }
+
+      return Boolean(condition(this, { element }));
+    }
+
+    updateConditionalElement(element) {
+      const visibleIf = element.dataset.visibleIf;
+      const visibleIfNot = element.dataset.visibleIfNot;
+      let isVisible = true;
+
+      if (visibleIf) {
+        isVisible = isVisible && this.evaluateCondition(visibleIf, element);
+      }
+
+      if (visibleIfNot) {
+        isVisible = isVisible && !this.evaluateCondition(visibleIfNot, element);
+      }
+
+      element.classList.toggle("is-hidden", !isVisible);
+    }
+
+    refreshConditionalElements(scope = this.currentScene || this.root) {
+      if (!scope) {
+        return;
+      }
+
+      this.enhanceInteractiveElements(scope);
+
+      scope.querySelectorAll("[data-visible-if], [data-visible-if-not]").forEach((element) => {
+        this.updateConditionalElement(element);
+      });
     }
 
     swapImage(selector, src, token, duration) {
@@ -548,6 +667,7 @@
       this.currentScene = nextScene;
       this.currentSteps = Array.from(nextScene.querySelectorAll(".steps [data-step]"));
       this.stepIndex = 0;
+      this.refreshConditionalElements(nextScene);
       this.updateDebugPanel();
       this.continueScene(this.flowToken);
     }
@@ -589,6 +709,10 @@
 
         case "hide":
           this.hideElement(step.dataset.target);
+          return "continue";
+
+        case "refresh":
+          this.refreshConditionalElements();
           return "continue";
 
         case "swap-image":

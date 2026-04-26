@@ -24,6 +24,7 @@ It is intentionally simple:
 - `focus`: mark one character as active using `data-target`; use an empty target to clear focus
 - `show`: show an element in the current scene
 - `hide`: hide an element in the current scene
+- `refresh`: re-evaluate conditional scene elements after external DOM changes
 - `swap-image`: crossfade from the current image to a new `src`; swap targets are preloaded on startup
 - `run`: call a JavaScript action
 - `goto`: switch to another scene
@@ -37,6 +38,13 @@ It is intentionally simple:
 <section class="scene" id="intro-scene">
   <img class="scene-background" src="assets/images/bg-campus.svg">
   <img class="character is-hidden" data-char="ava" src="assets/images/char-ava.svg">
+  <img
+    class="item"
+    data-item="mug"
+    data-run="pickUpMug"
+    data-visible-if="shouldShowMug"
+    src="assets/images/items/item-mug.png"
+  >
 
   <div class="steps">
     <div data-step="show" data-target='[data-char="ava"]'></div>
@@ -60,18 +68,37 @@ It is intentionally simple:
 </section>
 ```
 
+Interactive scene elements can use these attributes:
+
+- `data-run="actionName"`: make any scene element clickable and call a story action
+- `data-next="scene-id"`: optionally go to another scene after the action runs
+- `data-visible-if="conditionName"`: only show the element when that story condition returns `true`
+- `data-visible-if-not="conditionName"`: hide the element when that story condition returns `true`
+
 ## Example story code
 
 ```js
-function resolveEndingScene(state) {
-  return state.broughtBackpack && state.helpedAlex
-    ? "garden-good-ending-scene"
-    : "garden-bad-ending-scene";
-}
+const storyConditions = {
+  shouldShowMug(game) {
+    return !game.state.pickedUpMug;
+  }
+};
 
 const storyActions = {
+  pickUpMug(game) {
+    if (game.state.pickedUpMug) {
+      return;
+    }
+
+    game.setState({
+      pickedUpMug: true
+    });
+  },
+
   checkEnding(game) {
-    const endingSceneId = resolveEndingScene(game.state);
+    const endingSceneId = game.state.broughtBackpack && game.state.helpedAlex
+      ? "garden-good-ending-scene"
+      : "garden-bad-ending-scene";
 
     game.setState({
       ending: endingSceneId === "garden-good-ending-scene" ? "good" : "rough"
@@ -80,6 +107,18 @@ const storyActions = {
     return endingSceneId;
   }
 };
+
+window.VisualNovelEngine.boot({
+  startSceneId: "intro-scene",
+  initialState: {
+    pickedUpMug: false,
+    broughtBackpack: false,
+    helpedAlex: false,
+    ending: null
+  },
+  conditions: storyConditions,
+  actions: storyActions
+});
 ```
 
 ## Run it

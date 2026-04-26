@@ -3,6 +3,12 @@
   const BAD_ENDING_SCENE_ID = "garden-bad-ending-scene";
 
   // Add more story-specific helpers and actions here as the game grows.
+  const storyConditions = {
+    shouldShowMug(game) {
+      return !game.state.pickedUpMug;
+    }
+  };
+
   const storyActions = {
     restartStory(game) {
       game.stopAllAudio();
@@ -37,6 +43,17 @@
       });
     },
 
+    pickUpMug(game) {
+      if (game.state.pickedUpMug) {
+        return;
+      }
+
+      game.setState({
+        pickedUpMug: true
+      });
+      game.setDialog("Abigail", "I should bring the mug too.", "#79b8f9");
+    },
+
     checkEnding(game) {
       const endingSceneId = game.state.broughtBackpack && game.state.helpedAlex
           ? GOOD_ENDING_SCENE_ID
@@ -66,8 +83,10 @@
       travelStyle: null,
       helpedAlex: false,
       recoveredNotepad: false,
+      pickedUpMug: false,
       ending: null
     },
+    conditions: storyConditions,
     actions: storyActions
   });
 }());
