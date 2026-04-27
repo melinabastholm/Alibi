@@ -19,72 +19,185 @@
                     <img
                         class="character is-hidden"
                         data-char="abigail"
-                        src="assets/images/characters/char-abigail-neutral.png"
+                        src="assets/images/characters/char-abigail-sad.png"
                     >
                     <img
                         class="character is-hidden"
-                        data-char="jessica"
-                        src="assets/images/characters/char-jessica-happy.png"
+                        data-char="alex"
+                        src="assets/images/characters/char-alex-neutral.png"
+                    >
+
+                    <div class="steps">
+                        <div data-step="show" data-target='[data-char="abigail"]'></div>
+                        <div data-step="show" data-target='[data-char="alex"]'></div>
+                        <div data-step="focus" data-target='[data-char="abigail"]'></div>
+                        <div data-step="say" data-speaker="Abigail" data-color="#79b8f9">
+                            Min notesbog er væk. Alt fra vores idéudvikling
+                            ligger i den.
+                        </div>
+                        <div data-step="wait-click"></div>
+                        <div data-step="focus" data-target='[data-char="alex"]'></div>
+                        <div data-step="say" data-speaker="Alex" data-color="#bdf9ac">
+                            Okay. Vi skal ikke panikke. Vi kan rekonstruere det
+                            meste, hvis vi tænker os om.
+                        </div>
+                        <div data-step="wait-click"></div>
+                        <div data-step="focus" data-target='[data-char="abigail"]'></div>
+                        <div data-step="say" data-speaker="Abigail" data-color="#79b8f9">
+                            Det er ikke bare noter. Der er også mine skitser og
+                            de valg, vi tog undervejs.
+                        </div>
+                        <div data-step="choice">
+                            <button type="button" data-run="encourageAbigail" data-next="living-room-search-scene">
+                                Vi finder den sammen.
+                            </button>
+                            <button type="button" data-run="doubtAbigail" data-next="living-room-search-scene">
+                                Er du sikker på, du ikke bare har glemt den?
+                            </button>
+                            <button type="button" data-run="startRoomSearch" data-next="living-room-search-scene">
+                                Lad os starte med at undersøge rummet.
+                            </button>
+                        </div>
+                    </div>
+                </section>
+
+                <section class="scene" id="living-room-search-scene">
+                    <img
+                        class="scene-background"
+                        src="assets/images/scenes/scene-living-room.png"
+                    >
+                    <img
+                        class="character"
+                        data-char="abigail"
+                        src="assets/images/characters/char-abigail-neutral.png"
+                    >
+                    <img
+                        class="character"
+                        data-char="alex"
+                        src="assets/images/characters/char-alex-neutral.png"
                     >
                     <img
                         class="item"
                         data-item="backpack"
+                        data-run="inspectBackpack"
+                        data-visible-if="shouldShowBackpack"
                         src="assets/images/items/item-backpack.png"
                     >
                     <img
                         class="item"
                         data-item="mug"
-                        data-run="pickUpMug"
+                        data-run="inspectMug"
                         data-visible-if="shouldShowMug"
                         src="assets/images/items/item-mug.png"
                     >
                     <img
                         class="item"
                         data-item="phone"
+                        data-run="inspectPhone"
+                        data-visible-if="shouldShowPhone"
                         src="assets/images/items/item-phone.png"
                     >
 
+                    <section class="scene-panel">
+                        <p class="eyebrow">Living Room</p>
+                        <h2>Undersøg stuen</h2>
+                        <p class="scene-panel-copy">
+                            Find spor, tal med gruppen, og saml nok information
+                            til at gå videre. Du kan gå til haven, når du har
+                            fundet jordsporet eller opbygget nok fokus.
+                        </p>
+                        <div class="scene-actions">
+                            <button class="secondary-button" type="button" data-run="talkToAbigail">
+                                Tal med Abigail
+                            </button>
+                            <button class="secondary-button" type="button" data-run="talkToAlex">
+                                Tal med Alex
+                            </button>
+                            <button class="primary-button" type="button" data-run="goToGarden">
+                                Gå ud i haven
+                            </button>
+                        </div>
+                    </section>
+
                     <div class="steps">
-                        <div data-step="show" data-target='[data-char="abigail"]'></div>
-                        <div data-step="show" data-target='[data-char="jessica"]'></div>
+                        <div data-step="run" data-action="playSceneTone"></div>
+                        <div data-step="focus" data-target='[data-char="alex"]'></div>
+                        <div data-step="say" data-speaker="Alex" data-color="#bdf9ac">
+                            Vi skal bruge spor. Kig rundt i rummet og se, hvad
+                            der ikke passer.
+                        </div>
+                    </div>
+                </section>
+
+                <section class="scene" id="garden-scene">
+                    <img
+                        class="scene-background"
+                        src="assets/images/scenes/scene-garden.png"
+                    >
+                    <img
+                        class="character"
+                        data-char="abigail"
+                        src="assets/images/characters/char-abigail-neutral.png"
+                    >
+                    <img
+                        class="character"
+                        data-char="jessica"
+                        src="assets/images/characters/char-jessica-neutral.png"
+                    >
+                    <img
+                        class="item"
+                        data-item="headphones"
+                        data-run="inspectHeadphones"
+                        data-visible-if="shouldShowHeadphones"
+                        src="assets/images/items/item-headphones.png"
+                    >
+                    <img
+                        class="item"
+                        data-item="shoes"
+                        data-run="inspectShoes"
+                        data-visible-if="shouldShowShoes"
+                        src="assets/images/items/item-shoes.png"
+                    >
+
+                    <section class="scene-panel scene-panel--right">
+                        <p class="eyebrow">Garden</p>
+                        <h2>Følg sporet videre</h2>
+                        <p class="scene-panel-copy">
+                            Jessica ved måske mere, og tingene i haven fortæller
+                            også deres egen historie. Du kan først gå til
+                            parken, når du både har talt med Jessica og fundet
+                            headphones.
+                        </p>
+                        <div class="scene-actions">
+                            <button class="secondary-button" type="button" data-run="askJessicaAboutJack">
+                                Hvad lavede Jack herude?
+                            </button>
+                            <button class="secondary-button" type="button" data-run="challengeJessica">
+                                Hvorfor sagde du ikke noget før?
+                            </button>
+                            <button class="secondary-button" type="button" data-run="thankJessica">
+                                Tak. Det hjælper faktisk.
+                            </button>
+                            <button class="primary-button" type="button" data-run="goToPark">
+                                Gå mod parken
+                            </button>
+                        </div>
+                    </section>
+
+                    <div class="steps">
+                        <div data-step="focus" data-target='[data-char="jessica"]'></div>
+                        <div data-step="say" data-speaker="Jessica" data-color="#8b5cf6">
+                            Jeg troede, I stadig var indenfor.
+                        </div>
+                        <div data-step="wait-click"></div>
                         <div data-step="focus" data-target='[data-char="abigail"]'></div>
                         <div data-step="say" data-speaker="Abigail" data-color="#79b8f9">
-                            Jack invited us to a late-night idea session in the
-                            villa garden. We only have a few minutes to get
-                            ready.
+                            Min notesbog er væk.
                         </div>
-                        <div data-step="wait-click"></div>
-                        <div data-step="focus" data-target=''></div>
-                        <div data-step="say" data-color="#b9b9b9">
-                            What is happening now?!
-                        </div>
-                        <div
-                            data-step="swap-image"
-                            data-target='[data-char="jessica"]'
-                            data-src="assets/images/characters/char-jessica-neutral.png"
-                        ></div>
-                        <div data-step="wait-click"></div>
                         <div data-step="focus" data-target='[data-char="jessica"]'></div>
                         <div data-step="say" data-speaker="Jessica" data-color="#8b5cf6">
-                            Oh no...
-                        </div>
-                        <div
-                            data-step="swap-image"
-                            data-target='[data-char="jessica"]'
-                            data-src="assets/images/characters/char-jessica-sad.png"
-                        ></div>
-                        <div data-step="focus" data-target='[data-char="jessica"]'></div>
-                        <div data-step="say" data-speaker="Jessica" data-color="#8b5cf6">
-                            Bring the backpack if you want to play hero later.
-                            Or take only your phone and travel light.
-                        </div>
-                        <div data-step="choice">
-                            <button type="button" data-run="packBackpack" data-next="park-scene">
-                                Pack the backpack
-                            </button>
-                            <button type="button" data-run="travelLight" data-next="park-scene">
-                                Take only the phone
-                            </button>
+                            Jeg så Jack herude tidligere. Han virkede ikke helt
+                            sig selv.
                         </div>
                     </div>
                 </section>
@@ -95,49 +208,76 @@
                         src="assets/images/scenes/scene-park.png"
                     >
                     <img
-                        class="character is-hidden"
+                        class="character"
                         data-char="abigail"
                         src="assets/images/characters/char-abigail-neutral.png"
                     >
                     <img
-                        class="character is-hidden"
+                        class="character"
                         data-char="alex"
-                        src="assets/images/characters/char-alex-sad.png"
+                        src="assets/images/characters/char-alex-neutral.png"
                     >
                     <img
-                        class="item"
-                        data-item="headphones"
-                        src="assets/images/items/item-headphones.png"
+                        class="character"
+                        data-char="jack"
+                        src="assets/images/characters/char-jack-sad.png"
                     >
                     <img
                         class="item"
                         data-item="notepad"
+                        data-run="inspectNotepad"
+                        data-visible-if="shouldShowNotepad"
                         src="assets/images/items/item-notepad.png"
                     >
 
+                    <section class="scene-panel">
+                        <p class="eyebrow">Park</p>
+                        <h2>Tal med Jack</h2>
+                        <p class="scene-panel-copy">
+                            Jack ved, hvad der er sket, men gruppens reaktion
+                            afhænger af dine valg. Find notesbogen først, og vælg
+                            så hvordan du vil svare ham.
+                        </p>
+                        <div class="scene-actions">
+                            <button class="secondary-button" type="button" data-run="confrontJack">
+                                Du burde have sagt det.
+                            </button>
+                            <button class="secondary-button" type="button" data-run="stayCalmWithJack">
+                                Okay. Hvor blæste den hen?
+                            </button>
+                            <button class="secondary-button" type="button" data-run="accuseJack">
+                                Det her ødelægger hele projektet.
+                            </button>
+                            <button
+                                class="primary-button"
+                                type="button"
+                                data-run="supportTheGroup"
+                                data-visible-if="canOfferSupportChoice"
+                            >
+                                Lad os samle det vigtigste og hjælpe hinanden.
+                            </button>
+                        </div>
+                    </section>
+
                     <div class="steps">
-                        <div data-step="run" data-action="playSceneTone"></div>
-                        <div data-step="show" data-target='[data-char="abigail"]'></div>
-                        <div data-step="show" data-target='[data-char="alex"]'></div>
-                        <div data-step="focus" data-target='[data-char="alex"]'></div>
-                        <div data-step="say" data-speaker="Alex" data-color="#bdf9ac">
-                            I dropped Jack's notepad, and now the headphones are
-                            tangled in the grass. If we arrive without them, the
-                            whole plan falls apart.
+                        <div data-step="focus" data-target='[data-char="jack"]'></div>
+                        <div data-step="say" data-speaker="Jack" data-color="#f9bcac">
+                            Jeg vidste, I ville finde mig.
                         </div>
                         <div data-step="wait-click"></div>
                         <div data-step="focus" data-target='[data-char="abigail"]'></div>
                         <div data-step="say" data-speaker="Abigail" data-color="#79b8f9">
-                            We can stop and help, or leave right now and hope
-                            Jack can improvise.
+                            Jack... har du min notesbog?
                         </div>
-                        <div data-step="choice">
-                            <button type="button" data-run="helpAlex" data-next="street-night-scene">
-                                Help Alex gather the things
-                            </button>
-                            <button type="button" data-run="rushAhead" data-next="street-night-scene">
-                                Keep moving to the villa
-                            </button>
+                        <div data-step="focus" data-target='[data-char="jack"]'></div>
+                        <div data-step="say" data-speaker="Jack" data-color="#f9bcac">
+                            Ikke længere. Jeg spildte kaffe på en side, tog den
+                            med ud for at tørre den, og så tog vinden fat.
+                        </div>
+                        <div data-step="focus" data-target='[data-char="alex"]'></div>
+                        <div data-step="say" data-speaker="Alex" data-color="#bdf9ac">
+                            Kig ved bænken. Hvis nogle sider stadig kan læses,
+                            kan vi måske redde projektet.
                         </div>
                     </div>
                 </section>
@@ -148,90 +288,90 @@
                         src="assets/images/scenes/scene-street-night.png"
                     >
                     <img
-                        class="character is-hidden"
+                        class="character"
                         data-char="abigail"
                         src="assets/images/characters/char-abigail-neutral.png"
                     >
                     <img
-                        class="character is-hidden"
+                        class="character"
+                        data-char="alex"
+                        src="assets/images/characters/char-alex-neutral.png"
+                    >
+                    <img
+                        class="character"
+                        data-char="jessica"
+                        src="assets/images/characters/char-jessica-neutral.png"
+                    >
+                    <img
+                        class="character"
                         data-char="jack"
                         src="assets/images/characters/char-jack-neutral.png"
                     >
-                    <img
-                        class="item"
-                        data-item="phone"
-                        src="assets/images/items/item-phone.png"
-                    >
-                    <img
-                        class="item"
-                        data-item="shoes"
-                        src="assets/images/items/item-shoes.png"
-                    >
+
+                    <section class="scene-panel scene-panel--right">
+                        <p class="eyebrow">Street Night</p>
+                        <h2>Før midnat</h2>
+                        <p class="scene-panel-copy">
+                            Gruppen går hjem gennem den mørke gade. Nu viser
+                            dine tidligere valg, om de stadig fungerer som et
+                            team, eller om aftenen har skabt for meget afstand.
+                        </p>
+                        <div class="scene-actions">
+                            <button class="primary-button" type="button" data-run="resolveEnding">
+                                Se slutningen
+                            </button>
+                        </div>
+                    </section>
 
                     <div class="steps">
-                        <div data-step="show" data-target='[data-char="abigail"]'></div>
-                        <div data-step="show" data-target='[data-char="jack"]'></div>
-                        <div data-step="focus" data-target='[data-char="jack"]'></div>
-                        <div data-step="say" data-speaker="Jack" data-color="#f9bcac">
-                            Jessica just messaged me. The path into the garden
-                            is soaked, and she ruined her shoes on the way here.
-                        </div>
-                        <div data-step="wait-click"></div>
                         <div data-step="focus" data-target='[data-char="abigail"]'></div>
                         <div data-step="say" data-speaker="Abigail" data-color="#79b8f9">
-                            If I brought the backpack, there should be spare
-                            shoes inside. If Alex found the notepad, we can
-                            still run Jack's whole presentation.
+                            Vi har notesbogen. Nu skal vi beslutte, om vi stadig
+                            er et team.
                         </div>
-                        <div data-step="wait-click"></div>
-                        <div data-step="run" data-action="checkEnding"></div>
                     </div>
                 </section>
 
-                <section class="scene" id="garden-good-ending-scene" data-hide-story-ui="true">
+                <section class="scene" id="ending-good-scene" data-hide-story-ui="true">
                     <img
                         class="scene-background"
-                        src="assets/images/scenes/scene-garden.png"
+                        src="assets/images/scenes/scene-living-room.png"
                     >
 
                     <section class="ending-screen ending-screen--good">
-                        <p class="ending-kicker">Ending Scene</p>
-                        <h1>Good Ending</h1>
+                        <p class="ending-kicker">Ending A</p>
+                        <h1>Sammen før solopgang</h1>
                         <p class="ending-lead">
-                            The group reaches the garden ready for the idea
-                            session, and the night comes together because of
-                            the choices you made earlier.
+                            Notesbogen er ikke perfekt længere, men gruppen får
+                            samlet nok sider, nok idéer og nok tillid til at
+                            redde projektet før deadline.
                         </p>
 
                         <section class="ending-card">
-                            <h2>What happened</h2>
+                            <h2>Hvad der skete</h2>
                             <ul class="ending-summary">
-                                <li data-visible-if="broughtBackpack">
-                                    Abigail packed the backpack, so Jessica had
-                                    spare shoes for the wet path.
+                                <li data-visible-if="builtTrust">
+                                    Du holdt gruppen samlet, og tilliden bar jer
+                                    gennem den værste del af krisen.
                                 </li>
-                                <li data-visible-if="helpedAlex">
-                                    Abigail stopped to help Alex, so Jack got
-                                    the missing notepad back in time.
+                                <li data-visible-if="stayedFocused">
+                                    Du undersøgte sporene grundigt nok til at
+                                    finde sandheden før midnat.
                                 </li>
-                                <li data-visible-if="pickedUpMug">
-                                    Abigail also remembered the mug before
-                                    leaving home.
+                                <li data-visible-if="foundPhoneMessage">
+                                    Jacks efterladte telefonbesked blev et
+                                    vigtigt spor i efterforskningen.
                                 </li>
                                 <li>
-                                    Everyone arrives prepared, comfortable, and
-                                    ready to enjoy the evening in the garden.
+                                    I reddede projektet, ikke fordi alt gik
+                                    rigtigt, men fordi I valgte at arbejde
+                                    sammen.
                                 </li>
                             </ul>
                         </section>
 
-                        <button
-                            class="primary-button ending-button"
-                            type="button"
-                            data-run="restartStory"
-                            data-next="intro-scene"
-                        >
-                            Play again
+                        <button class="primary-button ending-button" type="button" data-run="restartStory">
+                            Spil igen
                         </button>
                     </section>
 
@@ -240,54 +380,45 @@
                     </div>
                 </section>
 
-                <section class="scene" id="garden-bad-ending-scene" data-hide-story-ui="true">
+                <section class="scene" id="ending-bad-scene" data-hide-story-ui="true">
                     <img
                         class="scene-background"
-                        src="assets/images/scenes/scene-garden.png"
+                        src="assets/images/scenes/scene-street-night.png"
                     >
 
                     <section class="ending-screen ending-screen--rough">
-                        <p class="ending-kicker">Ending Scene</p>
-                        <h1>Rough Ending</h1>
+                        <p class="ending-kicker">Ending B</p>
+                        <h1>Noterne var ikke det eneste, der forsvandt</h1>
                         <p class="ending-lead">
-                            The group still makes it to the garden, but the
-                            evening feels more improvised because some earlier
-                            choices left problems unresolved.
+                            Gruppen finder nok af notesbogen til at forstå, hvad
+                            der skete, men ikke nok ro og tillid til at samle
+                            sig helt igen.
                         </p>
 
                         <section class="ending-card">
-                            <h2>What happened</h2>
+                            <h2>Hvad der skete</h2>
                             <ul class="ending-summary">
-                                <li data-visible-if-not="broughtBackpack">
-                                    Abigail left the backpack behind, so there
-                                    were no spare shoes for Jessica.
+                                <li data-visible-if-not="builtTrust">
+                                    Mistillid og pres gjorde det sværere for
+                                    gruppen at stå sammen.
                                 </li>
-                                <li data-visible-if="traveledLight">
-                                    Traveling light made the trip faster, but it
-                                    also meant bringing fewer useful items.
+                                <li data-visible-if-not="stayedFocused">
+                                    I sprang over spor eller handlede for hurtigt,
+                                    og det kostede overblik.
                                 </li>
-                                <li data-visible-if-not="helpedAlex">
-                                    Abigail rushed ahead, so Alex did not get
-                                    help recovering Jack's notepad in time.
-                                </li>
-                                <li data-visible-if="pickedUpMug">
-                                    Abigail did at least remember the mug on
-                                    the way out.
+                                <li data-visible-if="blamedSomeone">
+                                    Beskyldningerne satte sig fast, selv efter at
+                                    sandheden kom frem.
                                 </li>
                                 <li>
-                                    The meeting still happens, but the group is
-                                    less prepared and the night feels uneven.
+                                    Projektet overlever måske. Gruppen gør ikke
+                                    helt på samme måde.
                                 </li>
                             </ul>
                         </section>
 
-                        <button
-                            class="primary-button ending-button"
-                            type="button"
-                            data-run="restartStory"
-                            data-next="intro-scene"
-                        >
-                            Try again
+                        <button class="primary-button ending-button" type="button" data-run="restartStory">
+                            Prøv igen
                         </button>
                     </section>
 

@@ -525,11 +525,16 @@ export class VisualNovelEngine {
         return;
       }
 
-      this.runAction(actionName, {
+      const actionResult = this.runAction(actionName, {
         button: runButton,
         element: runButton,
         event
       });
+
+      if (typeof actionResult === "string") {
+        this.goTo(actionResult);
+        return;
+      }
 
       if (runButton.dataset.next) {
         this.goTo(runButton.dataset.next);
@@ -640,14 +645,21 @@ export class VisualNovelEngine {
           return;
         }
 
+        let actionResult = null;
+
         if (templateButton.dataset.run) {
-          this.runAction(templateButton.dataset.run, {
+          actionResult = this.runAction(templateButton.dataset.run, {
             button: templateButton,
             sourceStep: step
           });
         }
 
         if (token !== this.flowToken) {
+          return;
+        }
+
+        if (typeof actionResult === "string") {
+          this.goTo(actionResult);
           return;
         }
 

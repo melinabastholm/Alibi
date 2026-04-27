@@ -189,89 +189,151 @@ h2 {
   outline: none;
 }
 
-#intro-scene {
+#intro-scene,
+#living-room-search-scene {
   .character[data-char="abigail"] {
-    left: 10%;
-    bottom: -11rem;
-    width: 340px;
+    left: 8%;
+    bottom: -10rem;
+    width: 350px;
   }
 
-  .character[data-char="jessica"] {
-    right: 10%;
-    bottom: -6rem;
-    width: 340px;
+  .character[data-char="alex"] {
+    right: 8%;
+    bottom: -7rem;
+    width: 330px;
   }
 
   .item[data-item="backpack"] {
-    left: 7%;
-    bottom: 13.4rem;
-    width: 110px;
+    left: 5%;
+    bottom: 21%;
+    width: 118px;
   }
 
   .item[data-item="mug"] {
-    left: 50%;
-    bottom: 13.4rem;
+    left: 39%;
+    bottom: 30%;
     width: 82px;
     transform: translateX(-50%);
   }
 
   .item[data-item="phone"] {
-    right: 7%;
-    bottom: 17rem;
-    width: 82px;
+    right: 30%;
+    bottom: 39%;
+    width: 84px;
+  }
+}
+
+#garden-scene {
+  .character[data-char="abigail"] {
+    left: 8%;
+    bottom: -10rem;
+    width: 340px;
+  }
+
+  .character[data-char="jessica"] {
+    right: 10%;
+    bottom: -7rem;
+    width: 330px;
+  }
+
+  .item[data-item="headphones"] {
+    left: 37%;
+    bottom: 39%;
+    width: 86px;
+  }
+
+  .item[data-item="shoes"] {
+    right: 36%;
+    bottom: 35%;
+    width: 96px;
   }
 }
 
 #park-scene {
   .character[data-char="abigail"] {
-    left: 10%;
-    bottom: -11rem;
-    width: 340px;
+    left: 4%;
+    bottom: -10rem;
+    width: 320px;
   }
 
   .character[data-char="alex"] {
-    right: 10%;
-    bottom: -6rem;
-    width: 340px;
+    left: 25%;
+    bottom: -7rem;
+    width: 300px;
   }
 
-  .item[data-item="headphones"] {
-    left: 26%;
-    bottom: 13.4rem;
-    width: 82px;
+  .character[data-char="jack"] {
+    right: 9%;
+    bottom: -6rem;
+    width: 330px;
   }
 
   .item[data-item="notepad"] {
-    right: 26%;
-    bottom: 13.4rem;
-    width: 82px;
+    left: 56%;
+    bottom: 52%;
+    width: 37px;
+    transform: translateX(-50%);
   }
 }
 
 #street-night-scene {
   .character[data-char="abigail"] {
-    left: 10%;
-    bottom: -11rem;
-    width: 340px;
+    left: 2%;
+    bottom: -8.5rem;
+    width: 260px;
+  }
+
+  .character[data-char="alex"] {
+    left: 20%;
+    bottom: -5.5rem;
+    width: 250px;
+  }
+
+  .character[data-char="jessica"] {
+    right: 22%;
+    bottom: -5.5rem;
+    width: 250px;
   }
 
   .character[data-char="jack"] {
-    right: 10%;
-    bottom: -6rem;
-    width: 340px;
+    right: 4%;
+    bottom: -5.5rem;
+    width: 260px;
   }
+}
 
-  .item[data-item="phone"] {
-    left: 7%;
-    bottom: 13.4rem;
-    width: 82px;
-  }
+.scene-panel {
+  position: absolute;
+  top: 1.25rem;
+  left: 1.25rem;
+  z-index: 2;
+  width: min(27rem, calc(100% - 2.5rem));
+  padding: 1.15rem 1.2rem;
+  background: rgba(252, 248, 242, 0.82);
+  border: 3px solid rgba(36, 51, 63, 0.24);
+  border-radius: 24px;
+  box-shadow: 0 18px 40px rgba(24, 32, 38, 0.16);
+  backdrop-filter: blur(12px);
+}
 
-  .item[data-item="shoes"] {
-    right: 7%;
-    bottom: 13.4rem;
-    width: 82px;
-  }
+.scene-panel--right {
+  left: auto;
+  right: 1.25rem;
+}
+
+.scene-panel-copy {
+  line-height: 1.6;
+  color: var(--ink);
+}
+
+.scene-actions {
+  display: grid;
+  gap: 0.7rem;
+  margin-top: 1rem;
+}
+
+.scene-actions button {
+  width: 100%;
 }
 
 .ending-screen {
@@ -503,7 +565,7 @@ h2 {
 
 .debug-panel summary {
   list-style: none;
-  padding: 0.5rem 0.9rem;
+  padding: 0.2rem 0.4rem;
   cursor: pointer;
   font-size: 0.8rem;
   font-weight: 700;
@@ -521,7 +583,7 @@ h2 {
 }
 
 .debug-panel[open] {
-  width: min(220px, 28vw);
+  width: 320px;
   background: rgba(252, 248, 242, 0.78);
 }
 
@@ -547,57 +609,10 @@ h2 {
   margin-bottom: 0;
   padding: 0.7rem;
   min-height: 88px;
-  max-height: 132px;
+  max-height: 240px;
   overflow: auto;
   border-radius: 12px;
   background: #1f2a33;
   color: #f4e8d9;
   font-size: 0.78rem;
-}
-
-@media (max-width: 960px) {
-  .debug-panel {
-    top: auto;
-    right: 1.25rem;
-    bottom: 13.75rem;
-  }
-
-  .debug-panel[open] {
-    width: min(220px, calc(100% - 2.5rem));
-  }
-}
-
-@media (max-width: 640px) {
-  .ending-screen {
-    padding: 2rem 1.25rem;
-  }
-
-  .ending-card {
-    padding: 1.4rem 1.2rem;
-  }
-
-  .story-ui {
-    left: 0.75rem;
-    right: 0.75rem;
-    bottom: 0.75rem;
-  }
-
-  .dialog-panel {
-    min-height: 180px;
-  }
-
-  .action-panel > .primary-button {
-    justify-self: center;
-  }
-
-  .debug-panel {
-    left: 0.75rem;
-    right: 0.75rem;
-    bottom: 16rem;
-    width: fit-content;
-  }
-
-  .debug-panel[open] {
-    width: calc(100% - 1.5rem);
-  }
 }
