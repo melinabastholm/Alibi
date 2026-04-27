@@ -274,93 +274,89 @@ h2 {
   }
 }
 
-#garden-good-ending-scene {
-  .character[data-char="abigail"] {
-    left: 10%;
-    bottom: -11rem;
-    width: 220px;
-  }
-
-  .character[data-char="alex"] {
-    left: 26%;
-    bottom: -6rem;
-    width: 220px;
-  }
-
-  .character[data-char="jessica"] {
-    right: 26%;
-    bottom: -6rem;
-    width: 220px;
-  }
-
-  .character[data-char="jack"] {
-    right: 10%;
-    bottom: -6rem;
-    width: 220px;
-  }
-
-  .item[data-item="backpack"] {
-    left: 7%;
-    bottom: 13.4rem;
-    width: 110px;
-  }
-
-  .item[data-item="headphones"] {
-    left: 26%;
-    bottom: 13.4rem;
-    width: 82px;
-  }
-
-  .item[data-item="mug"] {
-    left: 50%;
-    bottom: 22rem;
-    width: 82px;
-    transform: translateX(-50%);
-  }
-
-  .item[data-item="notepad"] {
-    right: 26%;
-    bottom: 13.4rem;
-    width: 82px;
-  }
+.ending-screen {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  display: grid;
+  align-content: center;
+  justify-items: center;
+  gap: 1.25rem;
+  padding: 4rem;
+  text-align: center;
 }
 
-#garden-bad-ending-scene {
-  .character[data-char="abigail"] {
-    left: 10%;
-    bottom: -11rem;
-    width: 220px;
-  }
+.ending-screen::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background:
+    linear-gradient(180deg, rgba(17, 22, 28, 0.26), rgba(17, 22, 28, 0.7)),
+    radial-gradient(circle at top, rgba(255, 255, 255, 0.26), transparent 48%);
+}
 
-  .character[data-char="alex"] {
-    left: 26%;
-    bottom: -6rem;
-    width: 220px;
-  }
+.ending-screen > * {
+  position: relative;
+}
 
-  .character[data-char="jessica"] {
-    right: 26%;
-    bottom: -6rem;
-    width: 220px;
-  }
+.ending-screen--good {
+  color: #f7f4ee;
+}
 
-  .character[data-char="jack"] {
-    right: 10%;
-    bottom: -6rem;
-    width: 220px;
-  }
+.ending-screen--rough {
+  color: #fff5eb;
+}
 
-  .item[data-item="phone"] {
-    left: 7%;
-    bottom: 13.4rem;
-    width: 82px;
-  }
+.ending-kicker {
+  padding: 0.45rem 0.8rem;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.14);
+  text-transform: uppercase;
+  letter-spacing: 0.16em;
+  font-size: 0.78rem;
+  font-weight: 700;
+}
 
-  .item[data-item="shoes"] {
-    right: 7%;
-    bottom: 13.4rem;
-    width: 82px;
-  }
+.ending-lead {
+  max-width: 40rem;
+  font-size: 1.08rem;
+  line-height: 1.7;
+  text-wrap: balance;
+}
+
+.ending-card {
+  width: min(44rem, 100%);
+  padding: 1.8rem 2rem;
+  border: 2px solid rgba(255, 255, 255, 0.2);
+  border-radius: 28px;
+  background: rgba(18, 24, 30, 0.6);
+  box-shadow: 0 24px 46px rgba(0, 0, 0, 0.22);
+  backdrop-filter: blur(14px);
+  text-align: left;
+}
+
+.ending-screen--good .ending-card {
+  background:
+    linear-gradient(180deg, rgba(28, 48, 55, 0.74), rgba(19, 31, 36, 0.76)),
+    rgba(18, 24, 30, 0.6);
+}
+
+.ending-screen--rough .ending-card {
+  background:
+    linear-gradient(180deg, rgba(62, 40, 30, 0.78), rgba(34, 22, 18, 0.82)),
+    rgba(18, 24, 30, 0.6);
+}
+
+.ending-summary {
+  display: grid;
+  gap: 0.8rem;
+  margin: 0;
+  padding-left: 1.2rem;
+  line-height: 1.6;
+}
+
+.ending-button {
+  min-width: 12rem;
 }
 
 .is-hidden {
@@ -391,6 +387,10 @@ h2 {
   flex-direction: column;
   gap: 0.75rem;
   align-items: center;
+}
+
+.story-ui.is-hidden {
+  display: none;
 }
 
 .dialog-panel {
@@ -568,6 +568,14 @@ h2 {
 }
 
 @media (max-width: 640px) {
+  .ending-screen {
+    padding: 2rem 1.25rem;
+  }
+
+  .ending-card {
+    padding: 1.4rem 1.2rem;
+  }
+
   .story-ui {
     left: 0.75rem;
     right: 0.75rem;

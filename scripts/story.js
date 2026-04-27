@@ -45,6 +45,38 @@ import { VisualNovelEngine } from "./engine.js";
      */
     shouldShowMug(game) {
       return !game.state.pickedUpMug;
+    },
+
+    /**
+     * @param {StoryEngine} game
+     * @returns {boolean}
+     */
+    broughtBackpack(game) {
+      return game.state.broughtBackpack;
+    },
+
+    /**
+     * @param {StoryEngine} game
+     * @returns {boolean}
+     */
+    traveledLight(game) {
+      return game.state.travelStyle === "light";
+    },
+
+    /**
+     * @param {StoryEngine} game
+     * @returns {boolean}
+     */
+    helpedAlex(game) {
+      return game.state.helpedAlex;
+    },
+
+    /**
+     * @param {StoryEngine} game
+     * @returns {boolean}
+     */
+    pickedUpMug(game) {
+      return game.state.pickedUpMug;
     }
   };
 

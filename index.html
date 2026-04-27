@@ -188,138 +188,111 @@
                     </div>
                 </section>
 
-                <section class="scene" id="garden-good-ending-scene">
+                <section class="scene" id="garden-good-ending-scene" data-hide-story-ui="true">
                     <img
                         class="scene-background"
                         src="assets/images/scenes/scene-garden.png"
                     >
-                    <img
-                        class="character is-hidden"
-                        data-char="abigail"
-                        src="assets/images/characters/char-abigail-happy.png"
-                    >
-                    <img
-                        class="character is-hidden"
-                        data-char="alex"
-                        src="assets/images/characters/char-alex-happy.png"
-                    >
-                    <img
-                        class="character is-hidden"
-                        data-char="jessica"
-                        src="assets/images/characters/char-jessica-happy.png"
-                    >
-                    <img
-                        class="character is-hidden"
-                        data-char="jack"
-                        src="assets/images/characters/char-jack-happy.png"
-                    >
-                    <img
-                        class="item"
-                        data-item="backpack"
-                        src="assets/images/items/item-backpack.png"
-                    >
-                    <img
-                        class="item"
-                        data-item="headphones"
-                        src="assets/images/items/item-headphones.png"
-                    >
-                    <img
-                        class="item"
-                        data-item="mug"
-                        src="assets/images/items/item-mug.png"
-                    >
-                    <img
-                        class="item"
-                        data-item="notepad"
-                        src="assets/images/items/item-nodepad.png"
-                    >
+
+                    <section class="ending-screen ending-screen--good">
+                        <p class="ending-kicker">Ending Scene</p>
+                        <h1>Good Ending</h1>
+                        <p class="ending-lead">
+                            The group reaches the garden ready for the idea
+                            session, and the night comes together because of
+                            the choices you made earlier.
+                        </p>
+
+                        <section class="ending-card">
+                            <h2>What happened</h2>
+                            <ul class="ending-summary">
+                                <li data-visible-if="broughtBackpack">
+                                    Abigail packed the backpack, so Jessica had
+                                    spare shoes for the wet path.
+                                </li>
+                                <li data-visible-if="helpedAlex">
+                                    Abigail stopped to help Alex, so Jack got
+                                    the missing notepad back in time.
+                                </li>
+                                <li data-visible-if="pickedUpMug">
+                                    Abigail also remembered the mug before
+                                    leaving home.
+                                </li>
+                                <li>
+                                    Everyone arrives prepared, comfortable, and
+                                    ready to enjoy the evening in the garden.
+                                </li>
+                            </ul>
+                        </section>
+
+                        <button
+                            class="primary-button ending-button"
+                            type="button"
+                            data-run="restartStory"
+                            data-next="intro-scene"
+                        >
+                            Play again
+                        </button>
+                    </section>
 
                     <div class="steps">
                         <div data-step="run" data-action="playEndingTone"></div>
-                        <div data-step="show" data-target='[data-char="abigail"]'></div>
-                        <div data-step="show" data-target='[data-char="alex"]'></div>
-                        <div data-step="show" data-target='[data-char="jessica"]'></div>
-                        <div data-step="show" data-target='[data-char="jack"]'></div>
-                        <div data-step="focus" data-target='[data-char="jessica"]'></div>
-                        <div data-step="say" data-speaker="Jessica" data-color="#8b5cf6">
-                            You packed the backpack and stopped for Alex.
-                            Now everyone is here, the notes survived, and my
-                            shoes have been replaced.
-                        </div>
-                        <div data-step="wait-click"></div>
-                        <div data-step="focus" data-target='[data-char="jack"]'></div>
-                        <div data-step="say" data-speaker="Jack" data-color="#f9bcac">
-                            That is the good ending. Small choices turned into
-                            a smooth night in the garden.
-                        </div>
-                        <div data-step="choice">
-                            <button type="button" data-run="restartStory" data-next="intro-scene">
-                                Play again
-                            </button>
-                        </div>
                     </div>
                 </section>
 
-                <section class="scene" id="garden-bad-ending-scene">
+                <section class="scene" id="garden-bad-ending-scene" data-hide-story-ui="true">
                     <img
                         class="scene-background"
                         src="assets/images/scenes/scene-garden.png"
                     >
-                    <img
-                        class="character is-hidden"
-                        data-char="abigail"
-                        src="assets/images/characters/char-abigail-sad.png"
-                    >
-                    <img
-                        class="character is-hidden"
-                        data-char="alex"
-                        src="assets/images/characters/char-alex-sad.png"
-                    >
-                    <img
-                        class="character is-hidden"
-                        data-char="jessica"
-                        src="assets/images/characters/char-jessica-sad.png"
-                    >
-                    <img
-                        class="character is-hidden"
-                        data-char="jack"
-                        src="assets/images/characters/char-jack-sad.png"
-                    >
-                    <img
-                        class="item"
-                        data-item="phone"
-                        src="assets/images/items/item-phone.png"
-                    >
-                    <img
-                        class="item"
-                        data-item="shoes"
-                        src="assets/images/items/item-shoes.png"
-                    >
+
+                    <section class="ending-screen ending-screen--rough">
+                        <p class="ending-kicker">Ending Scene</p>
+                        <h1>Rough Ending</h1>
+                        <p class="ending-lead">
+                            The group still makes it to the garden, but the
+                            evening feels more improvised because some earlier
+                            choices left problems unresolved.
+                        </p>
+
+                        <section class="ending-card">
+                            <h2>What happened</h2>
+                            <ul class="ending-summary">
+                                <li data-visible-if-not="broughtBackpack">
+                                    Abigail left the backpack behind, so there
+                                    were no spare shoes for Jessica.
+                                </li>
+                                <li data-visible-if="traveledLight">
+                                    Traveling light made the trip faster, but it
+                                    also meant bringing fewer useful items.
+                                </li>
+                                <li data-visible-if-not="helpedAlex">
+                                    Abigail rushed ahead, so Alex did not get
+                                    help recovering Jack's notepad in time.
+                                </li>
+                                <li data-visible-if="pickedUpMug">
+                                    Abigail did at least remember the mug on
+                                    the way out.
+                                </li>
+                                <li>
+                                    The meeting still happens, but the group is
+                                    less prepared and the night feels uneven.
+                                </li>
+                            </ul>
+                        </section>
+
+                        <button
+                            class="primary-button ending-button"
+                            type="button"
+                            data-run="restartStory"
+                            data-next="intro-scene"
+                        >
+                            Try again
+                        </button>
+                    </section>
 
                     <div class="steps">
                         <div data-step="run" data-action="playEndingTone"></div>
-                        <div data-step="show" data-target='[data-char="abigail"]'></div>
-                        <div data-step="show" data-target='[data-char="alex"]'></div>
-                        <div data-step="show" data-target='[data-char="jessica"]'></div>
-                        <div data-step="show" data-target='[data-char="jack"]'></div>
-                        <div data-step="focus" data-target='[data-char="jack"]'></div>
-                        <div data-step="say" data-speaker="Jack" data-color="#f9bcac">
-                            We still made it to the garden, but the night feels
-                            scattered. Someone is missing a key item, and
-                            Jessica had to sit out half the plan.
-                        </div>
-                        <div data-step="wait-click"></div>
-                        <div data-step="focus" data-target='[data-char="abigail"]'></div>
-                        <div data-step="say" data-speaker="Abigail" data-color="#79b8f9">
-                            That is the rough ending. Try a different
-                            combination if you want everyone comfortable and
-                            fully prepared.
-                        </div>
-                        <div data-step="choice">
-                            <button type="button" data-run="restartStory" data-next="intro-scene">
-                                Play again
-                            </button>
-                        </div>
                     </div>
                 </section>
 

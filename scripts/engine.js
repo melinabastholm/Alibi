@@ -21,6 +21,7 @@
  * @property {ElementTarget=} speakerName
  * @property {ElementTarget=} choiceList
  * @property {ElementTarget=} continueButton
+ * @property {ElementTarget=} storyUi
  * @property {ElementTarget=} debugPanel
  * @property {ElementTarget=} debugScene
  * @property {ElementTarget=} stateOutput
@@ -43,6 +44,7 @@
  * @property {HTMLElement} speakerName
  * @property {HTMLElement} choiceList
  * @property {HTMLButtonElement} continueButton
+ * @property {HTMLElement} storyUi
  * @property {HTMLDetailsElement | null} debugPanel
  * @property {HTMLElement | null} debugScene
  * @property {HTMLElement | null} stateOutput
@@ -62,6 +64,7 @@ const DEFAULT_SELECTORS = Object.freeze({
     speakerName: "#speaker-name",
     choiceList: "#choice-list",
     continueButton: "#continue-button",
+    storyUi: ".story-ui",
     debugPanel: ".debug-panel",
     debugScene: "#debug-scene",
     stateOutput: "#state-output",
@@ -204,6 +207,9 @@ export class VisualNovelEngine {
     /** @type {HTMLButtonElement} */
     continueButton;
 
+    /** @type {HTMLElement} */
+    storyUi;
+
     /** @type {HTMLDetailsElement | null} */
     debugPanel;
 
@@ -275,6 +281,7 @@ export class VisualNovelEngine {
           /** @type {HTMLButtonElement | null} */ (resolveElement(settings.continueButton, DEFAULT_SELECTORS.continueButton)),
           "the continue button"
         ),
+        storyUi: requireElement(resolveElement(settings.storyUi, DEFAULT_SELECTORS.storyUi), "the story UI"),
         debugPanel: /** @type {HTMLDetailsElement | null} */ (resolveElement(settings.debugPanel, DEFAULT_SELECTORS.debugPanel)),
         debugScene: resolveElement(settings.debugScene, DEFAULT_SELECTORS.debugScene),
         stateOutput: resolveElement(settings.stateOutput, DEFAULT_SELECTORS.stateOutput),
@@ -333,6 +340,7 @@ export class VisualNovelEngine {
       this.speakerName = options.speakerName;
       this.choiceList = options.choiceList;
       this.continueButton = options.continueButton;
+      this.storyUi = options.storyUi;
       this.debugPanel = options.debugPanel;
       this.debugScene = options.debugScene;
       this.stateOutput = options.stateOutput;
@@ -936,6 +944,12 @@ export class VisualNovelEngine {
     }
 
     /** @returns {void} */
+    syncStoryUiVisibility() {
+      const hideStoryUi = this.currentScene?.dataset.hideStoryUi === "true";
+      this.storyUi.classList.toggle("is-hidden", hideStoryUi);
+    }
+
+    /** @returns {void} */
     stopAllAudio() {
       this.audioElements.forEach((sound) => {
         sound.pause();
@@ -1004,6 +1018,7 @@ export class VisualNovelEngine {
         return /** @type {HTMLElement} */ (node);
       });
       this.stepIndex = 0;
+      this.syncStoryUiVisibility();
       this.refreshConditionalElements(nextScene);
       this.updateDebugPanel();
       this.continueScene(this.flowToken);
