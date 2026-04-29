@@ -224,6 +224,7 @@ const storyActions = {
       'Jeg havde notesbogen på bordet, lige før vi ryddede op. Alt det vigtige er skrevet derinde.',
       '#79b8f9',
     );
+    game.playSfx('dialog-abigail-notebook');
   },
 
   /**
@@ -249,6 +250,7 @@ const storyActions = {
       'Lad os tage ét spor ad gangen. Hvis noget virker mærkeligt, er det sikkert vigtigt.',
       '#bdf9ac',
     );
+    game.playSfx('dialog-alex-clue');
   },
 
   /**
@@ -300,6 +302,7 @@ const storyActions = {
       return;
     }
 
+    game.playSfx('sfx-pickup');
     game.setState({
       itemHasPhone: true,
       clueFoundPhoneMessage: true,
@@ -326,6 +329,7 @@ const storyActions = {
       return;
     }
 
+    game.playSfx('sfx-pickup');
     game.setState({
       clueFoundGarden: true,
       statFocus: game.state.statFocus + 1,
@@ -418,6 +422,7 @@ const storyActions = {
       return;
     }
 
+    game.playSfx('sfx-pickup');
     game.setState({
       itemHasHeadphones: true,
       statFocus: game.state.statFocus + 1,
@@ -443,6 +448,7 @@ const storyActions = {
       return;
     }
 
+    game.playSfx('sfx-pickup');
     game.setState({
       itemHasShoes: true,
     });
@@ -483,6 +489,7 @@ const storyActions = {
       return;
     }
 
+    game.playSfx('sfx-pickup');
     game.setState({
       itemHasNotepad: true,
     });
@@ -599,21 +606,6 @@ const storyActions = {
     return isGoodEnding ? 'ending-good-scene' : 'ending-bad-scene';
   },
 
-  /**
-   * @param {StoryEngine} game
-   * @returns {void}
-   */
-  playSceneTone(game) {
-    game.playAudio('sound-lab');
-  },
-
-  /**
-   * @param {StoryEngine} game
-   * @returns {void}
-   */
-  playEndingTone(game) {
-    game.playAudio('sound-ending');
-  },
 };
 
 VisualNovelEngine.boot({

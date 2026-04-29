@@ -222,6 +222,9 @@ export class VisualNovelEngine {
   /** @type {HTMLAudioElement[]} */
   audioElements;
 
+  /** @type {HTMLAudioElement | null} */
+  currentMusic;
+
   /** @type {number} */
   designWidth;
 
@@ -257,6 +260,9 @@ export class VisualNovelEngine {
 
   /** @type {Map<string, HTMLImageElement>} */
   imageCache;
+
+  /** @type {boolean} */
+  audioUnlocked;
 
   /**
    * @param {VisualNovelEngineOptions | undefined} options
@@ -381,6 +387,8 @@ export class VisualNovelEngine {
     this.stateOutput = options.stateOutput;
     /** @type {HTMLAudioElement[]} */
     this.audioElements = Array.from(options.audioElements || []);
+    /** @type {HTMLAudioElement | null} */
+    this.currentMusic = null;
     this.designWidth = options.designWidth;
     this.designHeight = options.designHeight;
     this.initialState = copyState(options.initialState || {});
@@ -399,10 +407,12 @@ export class VisualNovelEngine {
     this.flowToken = 0;
     this.waitingForClick = false;
     this.imageCache = new Map();
+    this.audioUnlocked = false;
 
     this.handleContinueClick = this.handleContinueClick.bind(this);
     this.handleDocumentClick = this.handleDocumentClick.bind(this);
     this.handleDocumentKeydown = this.handleDocumentKeydown.bind(this);
+    this.handleFirstInteraction = this.handleFirstInteraction.bind(this);
     this.updateScale = this.updateScale.bind(this);
 
     this.registerActions(options.actions);
@@ -420,6 +430,8 @@ export class VisualNovelEngine {
     this.continueButton.addEventListener('click', this.handleContinueClick);
     document.addEventListener('click', this.handleDocumentClick);
     document.addEventListener('keydown', this.handleDocumentKeydown);
+    document.addEventListener('pointerdown', this.handleFirstInteraction);
+    document.addEventListener('keydown', this.handleFirstInteraction);
     window.addEventListener('resize', this.updateScale);
   }
 
@@ -428,6 +440,8 @@ export class VisualNovelEngine {
     this.continueButton.removeEventListener('click', this.handleContinueClick);
     document.removeEventListener('click', this.handleDocumentClick);
     document.removeEventListener('keydown', this.handleDocumentKeydown);
+    document.removeEventListener('pointerdown', this.handleFirstInteraction);
+    document.removeEventListener('keydown', this.handleFirstInteraction);
     window.removeEventListener('resize', this.updateScale);
   }
 
@@ -532,6 +546,7 @@ export class VisualNovelEngine {
       return;
     }
 
+    this.playSfx('sfx-click');
     this.waitingForClick = false;
     this.hideContinueButton();
     this.continueScene(this.flowToken);
@@ -559,6 +574,10 @@ export class VisualNovelEngine {
 
     if (!actionName) {
       return;
+    }
+
+    if (runButton.tagName === 'BUTTON') {
+      this.playSfx('sfx-click');
     }
 
     const actionResult = this.runAction(actionName, {
@@ -601,6 +620,19 @@ export class VisualNovelEngine {
 
     event.preventDefault();
     interactiveElement.click();
+  }
+
+  /** @returns {void} */
+  handleFirstInteraction() {
+    if (this.audioUnlocked) {
+      return;
+    }
+
+    this.audioUnlocked = true;
+
+    if (this.currentScene?.dataset.music) {
+      this.playMusic(this.currentScene.dataset.music);
+    }
   }
 
   /**
@@ -684,6 +716,7 @@ export class VisualNovelEngine {
         return;
       }
 
+      this.playSfx('sfx-click');
       let actionResult = null;
 
       if (templateButton.dataset.run) {
@@ -1027,10 +1060,89 @@ export class VisualNovelEngine {
 
   /** @returns {void} */
   stopAllAudio() {
+    this.currentMusic = null;
     this.audioElements.forEach((sound) => {
       sound.pause();
       sound.currentTime = 0;
     });
+  }
+
+  /** @returns {void} */
+  stopMusic() {
+    if (!this.currentMusic) {
+      return;
+    }
+
+    this.currentMusic.pause();
+    this.currentMusic.currentTime = 0;
+    this.currentMusic = null;
+  }
+
+  /**
+   * @param {string} id
+   * @returns {HTMLAudioElement | null}
+   */
+  getAudioElement(id) {
+    return /** @type {HTMLAudioElement | null} */ (
+      document.getElementById(id)
+    );
+  }
+
+  /**
+   * @param {string | undefined} id
+   * @returns {HTMLAudioElement | null}
+   */
+  playMusic(id) {
+    if (!id) {
+      this.stopMusic();
+      return null;
+    }
+
+    const sound = this.getAudioElement(id);
+
+    if (!sound) {
+      return null;
+    }
+
+    if (this.currentMusic && this.currentMusic !== sound) {
+      this.stopMusic();
+    }
+
+    this.currentMusic = sound;
+    sound.loop = true;
+
+    if (sound.paused) {
+      sound.currentTime = 0;
+    }
+
+    sound.play().catch(function () {
+      return null;
+    });
+    return sound;
+  }
+
+  /**
+   * @param {string} id
+   * @param {{ restart?: boolean }=} options
+   * @returns {HTMLAudioElement | null}
+   */
+  playSfx(id, options = {}) {
+    const sound = this.getAudioElement(id);
+
+    if (!sound) {
+      return null;
+    }
+
+    sound.loop = false;
+
+    if (options.restart !== false) {
+      sound.currentTime = 0;
+    }
+
+    sound.play().catch(function () {
+      return null;
+    });
+    return sound;
   }
 
   /**
@@ -1038,19 +1150,13 @@ export class VisualNovelEngine {
    * @returns {HTMLAudioElement | null}
    */
   playAudio(id) {
-    const sound = /** @type {HTMLAudioElement | null} */ (
-      document.getElementById(id)
-    );
+    const sound = this.getAudioElement(id);
 
     if (!sound) {
       return null;
     }
 
-    this.stopAllAudio();
-    sound.play().catch(function () {
-      return null;
-    });
-    return sound;
+    return this.playMusic(id);
   }
 
   /**
@@ -1102,6 +1208,8 @@ export class VisualNovelEngine {
     this.stepIndex = 0;
     this.syncStoryUiVisibility();
     this.refreshConditionalElements(nextScene);
+    this.playSfx(nextScene.dataset.transitionSound || '', { restart: true });
+    this.playMusic(nextScene.dataset.music);
     this.updateDebugPanel();
     this.continueScene(this.flowToken);
   }

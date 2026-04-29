@@ -11,7 +11,11 @@
     <main class="app-shell">
         <section class="viewport">
             <section class="stage-screen">
-                <section class="scene" id="intro-scene">
+                <section
+                    class="scene"
+                    id="intro-scene"
+                    data-music="music-peaceful-piano"
+                >
                     <img
                         class="scene-background"
                         src="assets/images/scenes/scene-living-room.png"
@@ -61,7 +65,12 @@
                     </div>
                 </section>
 
-                <section class="scene" id="living-room-search-scene">
+                <section
+                    class="scene"
+                    id="living-room-search-scene"
+                    data-music="music-game"
+                    data-transition-sound="transition-soft"
+                >
                     <img
                         class="scene-background"
                         src="assets/images/scenes/scene-living-room.png"
@@ -120,7 +129,6 @@
                     </section>
 
                     <div class="steps">
-                        <div data-step="run" data-action="playSceneTone"></div>
                         <div data-step="focus" data-target='[data-char="alex"]'></div>
                         <div data-step="say" data-speaker="Alex" data-color="#bdf9ac">
                             Vi skal bruge spor. Kig rundt i rummet og se, hvad
@@ -129,7 +137,12 @@
                     </div>
                 </section>
 
-                <section class="scene" id="garden-scene">
+                <section
+                    class="scene"
+                    id="garden-scene"
+                    data-music="music-forest"
+                    data-transition-sound="transition-blizzard"
+                >
                     <img
                         class="scene-background"
                         src="assets/images/scenes/scene-garden.png"
@@ -202,7 +215,12 @@
                     </div>
                 </section>
 
-                <section class="scene" id="park-scene">
+                <section
+                    class="scene"
+                    id="park-scene"
+                    data-music="music-ominous"
+                    data-transition-sound="transition-epic"
+                >
                     <img
                         class="scene-background"
                         src="assets/images/scenes/scene-park.png"
@@ -282,7 +300,12 @@
                     </div>
                 </section>
 
-                <section class="scene" id="street-night-scene">
+                <section
+                    class="scene"
+                    id="street-night-scene"
+                    data-music="music-ominous"
+                    data-transition-sound="transition-scary"
+                >
                     <img
                         class="scene-background"
                         src="assets/images/scenes/scene-street-night.png"
@@ -332,7 +355,13 @@
                     </div>
                 </section>
 
-                <section class="scene" id="ending-good-scene" data-hide-story-ui="true">
+                <section
+                    class="scene"
+                    id="ending-good-scene"
+                    data-hide-story-ui="true"
+                    data-music="music-game-over-good"
+                    data-transition-sound="transition-futuristic"
+                >
                     <img
                         class="scene-background"
                         src="assets/images/scenes/scene-living-room.png"
@@ -375,12 +404,16 @@
                         </button>
                     </section>
 
-                    <div class="steps">
-                        <div data-step="run" data-action="playEndingTone"></div>
-                    </div>
+                    <div class="steps"></div>
                 </section>
 
-                <section class="scene" id="ending-bad-scene" data-hide-story-ui="true">
+                <section
+                    class="scene"
+                    id="ending-bad-scene"
+                    data-hide-story-ui="true"
+                    data-music="music-game-over-bad"
+                    data-transition-sound="transition-glitch"
+                >
                     <img
                         class="scene-background"
                         src="assets/images/scenes/scene-street-night.png"
@@ -422,9 +455,7 @@
                         </button>
                     </section>
 
-                    <div class="steps">
-                        <div data-step="run" data-action="playEndingTone"></div>
-                    </div>
+                    <div class="steps"></div>
                 </section>
 
                 <details class="debug-panel">
@@ -458,7 +489,30 @@
         </section>
     </main>
 
-    <audio id="sound-lab" preload="auto" src="assets/audio/lab-tone.wav"></audio>
-    <audio id="sound-ending" preload="auto" src="assets/audio/ending-tone.wav"></audio>
+    <audio id="music-peaceful-piano" preload="auto" src="assets/audio/music-peaceful-piano.mp3"></audio>
+    <audio id="music-game" preload="auto" src="assets/audio/music-game.mp3"></audio>
+    <audio id="music-forest" preload="auto" src="assets/audio/music-forest.mp3"></audio>
+    <audio id="music-ominous" preload="auto" src="assets/audio/music-ominous.mp3"></audio>
+    <audio id="music-game-over-good" preload="auto" src="assets/audio/music-game-over-good.mp3"></audio>
+    <audio id="music-game-over-bad" preload="auto" src="assets/audio/music-game-over-bad.mp3"></audio>
+    <audio id="transition-soft" preload="auto" src="assets/audio/transition-soft.mp3"></audio>
+    <audio id="transition-scary" preload="auto" src="assets/audio/transition-scary.mp3"></audio>
+    <audio id="transition-glitch" preload="auto" src="assets/audio/transition-glitch.mp3"></audio>
+    <audio id="transition-futuristic" preload="auto" src="assets/audio/transition-futuristic.mp3"></audio>
+    <audio id="transition-epic" preload="auto" src="assets/audio/transition-epic.mp3"></audio>
+    <audio id="transition-blizzard" preload="auto" src="assets/audio/transition-blizzard.mp3"></audio>
+    <audio id="sfx-click" preload="auto" src="assets/audio/sfx-click.mp3"></audio>
+    <audio id="sfx-pickup" preload="auto" src="assets/audio/sfx-pickup.mp3"></audio>
+    <audio id="sfx-bell" preload="auto" src="assets/audio/sfx-bell.mp3"></audio>
+    <audio
+        id="dialog-abigail-notebook"
+        preload="auto"
+        src="assets/audio/dialog_abigail_Jeg havde notesbogen på bordet, lige før vi ryddede op. Alt det vigtige er skrevet derinde.mp3"
+    ></audio>
+    <audio
+        id="dialog-alex-clue"
+        preload="auto"
+        src="assets/audio/dialog_alex_Lad os tage ét spor ad gangen. Hvis noget virker mærkeligt, er det sikkert vigtigt.mp3"
+    ></audio>
 </body>
 </html>
