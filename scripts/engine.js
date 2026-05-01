@@ -22,6 +22,7 @@
  * @property {ElementTarget=} choiceList
  * @property {ElementTarget=} continueButton
  * @property {ElementTarget=} storyUi
+ * @property {ElementTarget=} musicToggleButton
  * @property {ElementTarget=} debugPanel
  * @property {ElementTarget=} debugScene
  * @property {ElementTarget=} stateOutput
@@ -45,6 +46,7 @@
  * @property {HTMLElement} choiceList
  * @property {HTMLButtonElement} continueButton
  * @property {HTMLElement} storyUi
+ * @property {HTMLButtonElement | null} musicToggleButton
  * @property {HTMLDetailsElement | null} debugPanel
  * @property {HTMLElement | null} debugScene
  * @property {HTMLElement | null} stateOutput
@@ -65,6 +67,7 @@ const DEFAULT_SELECTORS = Object.freeze({
   choiceList: '#choice-list',
   continueButton: '#continue-button',
   storyUi: '.story-ui',
+  musicToggleButton: '#music-toggle',
   debugPanel: '.debug-panel',
   debugScene: '#debug-scene',
   stateOutput: '#state-output',
@@ -210,6 +213,9 @@ export class VisualNovelEngine {
   /** @type {HTMLElement} */
   storyUi;
 
+  /** @type {HTMLButtonElement | null} */
+  musicToggleButton;
+
   /** @type {HTMLDetailsElement | null} */
   debugPanel;
 
@@ -264,6 +270,9 @@ export class VisualNovelEngine {
   /** @type {boolean} */
   audioUnlocked;
 
+  /** @type {boolean} */
+  musicMuted;
+
   /**
    * @param {VisualNovelEngineOptions | undefined} options
    * @returns {VisualNovelEngine}
@@ -310,6 +319,12 @@ export class VisualNovelEngine {
       storyUi: requireElement(
         resolveElement(settings.storyUi, DEFAULT_SELECTORS.storyUi),
         'the story UI',
+      ),
+      musicToggleButton: /** @type {HTMLButtonElement | null} */ (
+        resolveElement(
+          settings.musicToggleButton,
+          DEFAULT_SELECTORS.musicToggleButton,
+        )
       ),
       debugPanel: /** @type {HTMLDetailsElement | null} */ (
         resolveElement(settings.debugPanel, DEFAULT_SELECTORS.debugPanel)
@@ -382,6 +397,7 @@ export class VisualNovelEngine {
     this.choiceList = options.choiceList;
     this.continueButton = options.continueButton;
     this.storyUi = options.storyUi;
+    this.musicToggleButton = options.musicToggleButton;
     this.debugPanel = options.debugPanel;
     this.debugScene = options.debugScene;
     this.stateOutput = options.stateOutput;
@@ -408,8 +424,10 @@ export class VisualNovelEngine {
     this.waitingForClick = false;
     this.imageCache = new Map();
     this.audioUnlocked = false;
+    this.musicMuted = false;
 
     this.handleContinueClick = this.handleContinueClick.bind(this);
+    this.handleMusicToggleClick = this.handleMusicToggleClick.bind(this);
     this.handleDocumentClick = this.handleDocumentClick.bind(this);
     this.handleDocumentKeydown = this.handleDocumentKeydown.bind(this);
     this.handleFirstInteraction = this.handleFirstInteraction.bind(this);
@@ -418,6 +436,7 @@ export class VisualNovelEngine {
     this.registerActions(options.actions);
     this.registerConditions(options.conditions);
     this.bindEvents();
+    this.updateMusicToggleButton();
     this.updateDebugPanel();
 
     if (this.debugPanel) {
@@ -428,6 +447,10 @@ export class VisualNovelEngine {
   /** @returns {void} */
   bindEvents() {
     this.continueButton.addEventListener('click', this.handleContinueClick);
+    this.musicToggleButton?.addEventListener(
+      'click',
+      this.handleMusicToggleClick,
+    );
     document.addEventListener('click', this.handleDocumentClick);
     document.addEventListener('keydown', this.handleDocumentKeydown);
     document.addEventListener('pointerdown', this.handleFirstInteraction);
@@ -438,6 +461,10 @@ export class VisualNovelEngine {
   /** @returns {void} */
   destroy() {
     this.continueButton.removeEventListener('click', this.handleContinueClick);
+    this.musicToggleButton?.removeEventListener(
+      'click',
+      this.handleMusicToggleClick,
+    );
     document.removeEventListener('click', this.handleDocumentClick);
     document.removeEventListener('keydown', this.handleDocumentKeydown);
     document.removeEventListener('pointerdown', this.handleFirstInteraction);
@@ -552,6 +579,11 @@ export class VisualNovelEngine {
     this.continueScene(this.flowToken);
   }
 
+  /** @returns {void} */
+  handleMusicToggleClick() {
+    this.setMusicMuted(!this.musicMuted);
+  }
+
   /**
    * @param {MouseEvent} event
    * @returns {void}
@@ -622,15 +654,28 @@ export class VisualNovelEngine {
     interactiveElement.click();
   }
 
-  /** @returns {void} */
-  handleFirstInteraction() {
+  /**
+   * @param {Event=} event
+   * @returns {void}
+   */
+  handleFirstInteraction(event) {
     if (this.audioUnlocked) {
+      return;
+    }
+
+    const interactionTarget =
+      event?.target instanceof Element ? event.target : null;
+
+    if (
+      this.musicToggleButton &&
+      interactionTarget?.closest(`#${this.musicToggleButton.id}`)
+    ) {
       return;
     }
 
     this.audioUnlocked = true;
 
-    if (this.currentScene?.dataset.music) {
+    if (!this.musicMuted && this.currentScene?.dataset.music) {
       this.playMusic(this.currentScene.dataset.music);
     }
   }
@@ -1079,6 +1124,39 @@ export class VisualNovelEngine {
   }
 
   /**
+   * @param {boolean} muted
+   * @returns {void}
+   */
+  setMusicMuted(muted) {
+    this.musicMuted = muted;
+
+    if (this.musicMuted) {
+      if (this.currentMusic) {
+        this.currentMusic.pause();
+      }
+    } else if (this.currentScene?.dataset.music) {
+      this.playMusic(this.currentScene.dataset.music);
+    }
+
+    this.updateMusicToggleButton();
+  }
+
+  /** @returns {void} */
+  updateMusicToggleButton() {
+    if (!this.musicToggleButton) {
+      return;
+    }
+
+    this.musicToggleButton.setAttribute(
+      'aria-pressed',
+      String(this.musicMuted),
+    );
+    this.musicToggleButton.textContent = this.musicMuted
+      ? 'Slå musik til'
+      : 'Slå musik fra';
+  }
+
+  /**
    * @param {string} id
    * @returns {HTMLAudioElement | null}
    */
@@ -1110,6 +1188,11 @@ export class VisualNovelEngine {
 
     this.currentMusic = sound;
     sound.loop = true;
+
+    if (this.musicMuted) {
+      sound.pause();
+      return sound;
+    }
 
     if (sound.paused) {
       sound.currentTime = 0;

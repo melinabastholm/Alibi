@@ -219,9 +219,26 @@
                         class="item"
                         data-item="handprint"
                         data-run="inspectHandprint"
-                        data-visible-if="shouldShowHandprint"
                         src="assets/images/items/item-handprint.png"
                     >
+
+                    <section class="scene-panel">
+                        <p class="eyebrow">Living Room</p>
+                        <h2>Undersøg stuen</h2>
+                        <p class="scene-panel-copy">
+                            Vil du finde en at spørge om hjælp?
+                        </p>
+                        <div class="scene-actions">
+                            <button
+                                class="primary-button"
+                                type="button"
+                                data-run="goToTheBar"
+
+                            >
+                                Gå hen til baren
+                            </button>
+                        </div>
+                    </section>
 
                     <div class="steps">
                         <div data-step="show" data-target='[data-char="caroline"]'></div>
@@ -233,21 +250,16 @@
                         </div>
                         <div data-step="wait-click"></div>
 
-                    <div data-step="wait-click"></div>
-                    <div data-step="show" data-target='[data-char="caroline"]'></div>
-                    <div data-step="show" data-target='[data-char="sofie"]'></div>
-                    <div data-step="focus"></div>
-                    <div data-step="say" data-speaker="" data-color="#f3e7cf">
-                        "Efter grundig undersøgelse, Sofie ligger ikke langt fra gydens indgang, men ingen har
-                        tilsyneladende set hende. Du noterer også at der stadig er en del blod, mest under og på Sofie.
-                        Hun kigger også kort ned i skraldespanden for at se om der ligger noget der, men øverst ligger
-                        der i hvert fald intet."
-                    </div>
+                        <div data-step="say" data-speaker="" data-color="#f3e7cf">
+                            "Efter grundig undersøgelse, Sofie ligger ikke langt fra gydens indgang, men ingen har
+                            tilsyneladende set hende. Du noterer også at der stadig er en del blod, mest under og på Sofie.
+                            Hun kigger også kort ned i skraldespanden for at se om der ligger noget der, men øverst ligger
+                            der i hvert fald intet."
+                        </div>
 
 
                         <div data-step="wait-click"></div>
                         <div data-step="focus" data-target='[data-char="caroline"]'></div>
-                        <div data-step="show" data-target='[data-char="sofie"]'></div>
                         <div data-step="say" data-speaker="Caroline" data-color="#79b8f9">
                             Okay... Er der mon noget der tegner på hvad fanden der er sket?
                         </div>
@@ -260,7 +272,7 @@
                             <button type="button" data-run="encourageCaroline" data-next="living-room-search-scene">
                                 Rod ned i skraldespandene
                             </button>
-                            <button type="button" data-run="encourageCaroline" data-next="walk-to-the-bar-scene">
+                            <button type="button" data-run="goToTheBar">
                                 Gå hen til baren
                             </button>
                         </div>
@@ -905,16 +917,22 @@
                     <div class="steps"></div>
                 </section>
 
-                <details class="debug-panel">
-                    <summary>Debug</summary>
-                    <div class="debug-content">
-                        <h2>Live state</h2>
-                        <p class="debug-line">
-                            <strong>Current scene:</strong> <span id="debug-scene">none</span>
-                        </p>
-                        <pre id="state-output">{}</pre>
-                    </div>
-                </details>
+                <section class="utility-controls">
+                    <details class="debug-panel">
+                        <summary>Debug</summary>
+                        <div class="debug-content">
+                            <h2>Live state</h2>
+                            <p class="debug-line">
+                                <strong>Current scene:</strong> <span id="debug-scene">none</span>
+                            </p>
+                            <pre id="state-output">{}</pre>
+                        </div>
+                    </details>
+
+                    <button class="music-toggle" id="music-toggle" type="button" aria-pressed="false">
+                        Slå musik fra
+                    </button>
+                </section>
 
                 <section class="story-ui">
                     <section class="action-panel">

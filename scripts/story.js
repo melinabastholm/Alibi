@@ -68,8 +68,8 @@ const storyConditions = {
    * @param {StoryEngine} game
    * @returns {boolean}
    */
-  shouldShowHandprint(game) {
-    return !game.state.storyCheckedHandprint;
+  hasCheckedHandprint(game) {
+    return game.state.storyCheckedHandprint === true;
   },
 
   /**
@@ -184,6 +184,23 @@ const storyActions = {
    * @param {StoryEngine} game
    * @returns {void}
    */
+  goToTheBar(game) {
+    if (game.state.storyCheckedHandprint === true) {
+      game.goTo('walk-to-the-bar-scene');
+      return;
+    }
+
+    game.setDialog(
+      'Caroline',
+      'Vi skal først finde noget',
+      '#79b8f9',
+    );
+  },
+
+  /**
+   * @param {StoryEngine} game
+   * @returns {void}
+   */
   doubtCaroline(game) {
     game.setState({
       statTrust: game.state.statTrust - 1,
@@ -260,7 +277,7 @@ const storyActions = {
   inspectHandprint(game) {
     if (game.state.storyCheckedHandprint) {
       game.setDialog(
-        'Sofie',
+        '',
         'Du har allerede kigget i tasken. Notesbogen var der ikke.',
         '#bdf9ac',
       );
@@ -269,17 +286,7 @@ const storyActions = {
 
     game.setState({
       storyCheckedHandprint: true,
-      statFocus: game.state.statFocus + 1,
     });
-
-    if (game.state.statTrust < 0) {
-      game.setDialog(
-        'Sofie',
-        'Det er min taske. Kig bare, men Caroline lagde notesbogen på bordet længe efter, jeg pakkede ud.',
-        '#bdf9ac',
-      );
-      return;
-    }
 
     game.setDialog(
       'Caroline',
