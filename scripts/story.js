@@ -15,14 +15,14 @@ const storyInitialState = {
   itemHasHeadphones: false,
   itemHasPhone: false,
   itemHasShoes: false,
-  talkedToAbigail: false,
-  talkedToAlex: false,
+  talkedToCaroline: false,
+  talkedToSofie: false,
   talkedToJack: false,
   talkedToJessica: false,
   clueFoundGarden: false,
   clueFoundPhoneMessage: false,
   storyAccusedSomeone: false,
-  storyCheckedBackpack: false,
+  storyCheckedHandprint: false,
   storyEnding: /** @type {'good' | 'bad' | null} */ (null),
 };
 
@@ -68,8 +68,8 @@ const storyConditions = {
    * @param {StoryEngine} game
    * @returns {boolean}
    */
-  shouldShowBackpack(game) {
-    return !game.state.storyCheckedBackpack;
+  shouldShowHandprint(game) {
+    return !game.state.storyCheckedHandprint;
   },
 
   /**
@@ -166,17 +166,17 @@ const storyActions = {
   restartStory(game) {
     game.stopAllAudio();
     game.resetState();
-    return 'intro-scene';
+    return 'toilet-scene';
   },
 
   /**
    * @param {StoryEngine} game
    * @returns {void}
    */
-  encourageAbigail(game) {
+  encourageCaroline(game) {
     game.setState({
       statTrust: game.state.statTrust + 1,
-      talkedToAbigail: true,
+      talkedToCaroline: true,
     });
   },
 
@@ -184,7 +184,7 @@ const storyActions = {
    * @param {StoryEngine} game
    * @returns {void}
    */
-  doubtAbigail(game) {
+  doubtCaroline(game) {
     game.setState({
       statTrust: game.state.statTrust - 1,
       storyAccusedSomeone: true,
@@ -205,14 +205,14 @@ const storyActions = {
    * @param {StoryEngine} game
    * @returns {void}
    */
-  talkToAbigail(game) {
+  talkToCaroline(game) {
     game.setState({
-      talkedToAbigail: true,
+      talkedToCaroline: true,
     });
 
     if (game.state.statTrust < 0) {
       game.setDialog(
-        'Abigail',
+        'Caroline',
         'Jeg prøver virkelig at huske det hele. Jeg har bare brug for, at vi holder hovedet koldt.',
         '#79b8f9',
       );
@@ -220,25 +220,25 @@ const storyActions = {
     }
 
     game.setDialog(
-      'Abigail',
+      'Caroline',
       'Jeg havde notesbogen på bordet, lige før vi ryddede op. Alt det vigtige er skrevet derinde.',
       '#79b8f9',
     );
-    game.playSfx('dialog-abigail-notebook');
+    game.playSfx('dialog-caroline-notebook');
   },
 
   /**
    * @param {StoryEngine} game
    * @returns {void}
    */
-  talkToAlex(game) {
+  talkToSofie(game) {
     game.setState({
-      talkedToAlex: true,
+      talkedToSofie: true,
     });
 
     if (game.state.statTrust < 0) {
       game.setDialog(
-        'Alex',
+        'Sofie',
         'Hvis vi bruger energien på at pege fingre, mister vi endnu mere tid. Kig efter faktiske spor.',
         '#bdf9ac',
       );
@@ -246,21 +246,21 @@ const storyActions = {
     }
 
     game.setDialog(
-      'Alex',
+      'Sofie',
       'Lad os tage ét spor ad gangen. Hvis noget virker mærkeligt, er det sikkert vigtigt.',
       '#bdf9ac',
     );
-    game.playSfx('dialog-alex-clue');
+    game.playSfx('dialog-sofie-clue');
   },
 
   /**
    * @param {StoryEngine} game
    * @returns {void}
    */
-  inspectBackpack(game) {
-    if (game.state.storyCheckedBackpack) {
+  inspectHandprint(game) {
+    if (game.state.storyCheckedHandprint) {
       game.setDialog(
-        'Alex',
+        'Sofie',
         'Du har allerede kigget i tasken. Notesbogen var der ikke.',
         '#bdf9ac',
       );
@@ -268,22 +268,22 @@ const storyActions = {
     }
 
     game.setState({
-      storyCheckedBackpack: true,
+      storyCheckedHandprint: true,
       statFocus: game.state.statFocus + 1,
     });
 
     if (game.state.statTrust < 0) {
       game.setDialog(
-        'Alex',
-        'Det er min taske. Kig bare, men Abigail lagde notesbogen på bordet længe efter, jeg pakkede ud.',
+        'Sofie',
+        'Det er min taske. Kig bare, men Caroline lagde notesbogen på bordet længe efter, jeg pakkede ud.',
         '#bdf9ac',
       );
       return;
     }
 
     game.setDialog(
-      'Alex',
-      'Det er min taske. Du må gerne kigge, men jeg pakkede først ud, efter Abigail lagde notesbogen på bordet.',
+      'Caroline',
+      'Der! et håndaftryk i blod, det er næsten helt utydeligt, men det er også over på den anden bar? ',
       '#bdf9ac',
     );
   },
@@ -295,7 +295,7 @@ const storyActions = {
   inspectPhone(game) {
     if (game.state.clueFoundPhoneMessage) {
       game.setDialog(
-        'Abigail',
+        'Caroline',
         'Det er stadig Jacks telefon. Beskeden på skærmen gør mig ikke mindre nysgerrig.',
         '#79b8f9',
       );
@@ -309,7 +309,7 @@ const storyActions = {
       statFocus: game.state.statFocus + 1,
     });
     game.setDialog(
-      'Abigail',
+      'Caroline',
       'Det er Jacks telefon. Der ligger en halvskrevet besked om noget, han skal nå udenfor.',
       '#79b8f9',
     );
@@ -322,7 +322,7 @@ const storyActions = {
   inspectMug(game) {
     if (game.state.clueFoundGarden) {
       game.setDialog(
-        'Alex',
+        'Sofie',
         'Jorden på koppen peger stadig mod haven. Det er nok vores bedste spor lige nu.',
         '#bdf9ac',
       );
@@ -335,7 +335,7 @@ const storyActions = {
       statFocus: game.state.statFocus + 1,
     });
     game.setDialog(
-      'Alex',
+      'Sofie',
       'Der er jord på kanten. Det er mærkeligt, hvis den kun har stået herinde. Vi bør kigge i haven.',
       '#bdf9ac',
     );
@@ -351,7 +351,7 @@ const storyActions = {
     }
 
     game.setDialog(
-      'Alex',
+      'Sofie',
       'Vi har ikke nok endnu. Kig dig omkring en gang til, før vi løber videre.',
       '#bdf9ac',
     );
@@ -441,7 +441,7 @@ const storyActions = {
   inspectShoes(game) {
     if (game.state.itemHasShoes) {
       game.setDialog(
-        'Abigail',
+        'Caroline',
         'Skoene er stadig mudrede. Nogen er gået ud og ind flere gange i aften.',
         '#79b8f9',
       );
@@ -453,7 +453,7 @@ const storyActions = {
       itemHasShoes: true,
     });
     game.setDialog(
-      'Abigail',
+      'Caroline',
       'Der er mudder på dem. Nogen har været ude og ind flere gange.',
       '#79b8f9',
     );
@@ -469,7 +469,7 @@ const storyActions = {
     }
 
     game.setDialog(
-      'Abigail',
+      'Caroline',
       'Jeg føler stadig, vi mangler noget. Hvorfor skulle Jack gå mod parken?',
       '#79b8f9',
     );
@@ -482,7 +482,7 @@ const storyActions = {
   inspectNotepad(game) {
     if (game.state.itemHasNotepad) {
       game.setDialog(
-        'Alex',
+        'Sofie',
         'Notesbogen er allerede fundet. Nu handler det om, hvad vi gør bagefter.',
         '#bdf9ac',
       );
@@ -494,7 +494,7 @@ const storyActions = {
       itemHasNotepad: true,
     });
     game.setDialog(
-      'Abigail',
+      'Caroline',
       'Det meste er ødelagt, men nogle sider kan stadig læses. Måske kan vi stadig redde afleveringen.',
       '#79b8f9',
     );
@@ -573,7 +573,7 @@ const storyActions = {
   supportTheGroup(game) {
     if (!game.state.itemHasNotepad) {
       game.setDialog(
-        'Alex',
+        'Sofie',
         'Hvis vi skal samle gruppen, skal vi først samle selve notesbogen op.',
         '#bdf9ac',
       );
@@ -610,7 +610,7 @@ const storyActions = {
 
 VisualNovelEngine.boot({
   // Change this if you want the story to begin in another scene from index.html.
-  startSceneId: 'intro-scene',
+  startSceneId: 'toilet-scene',
   initialState: storyInitialState,
   conditions: /** @type {Record<string, import('./engine.js').EngineCondition>} */ (
     storyConditions

@@ -5,8 +5,8 @@
   --ink: #182026;
   --panel: rgba(252, 248, 242, 0.94);
   --panel-border: #24333f;
-  --accent: #d96d3f;
-  --accent-dark: #aa4c28;
+  --accent: #a01d1d;
+  --accent-dark: #781111;
   --shadow: rgba(24, 32, 38, 0.18);
   --muted: #63707a;
 }
@@ -189,21 +189,113 @@ h2 {
   outline: none;
 }
 
-#intro-scene,
+#toilet-scene {
+  .character[data-char="caroline"] {
+    left: 32%;
+    bottom: 10rem;
+    width: 250px;
+  }
+}
+#gyde-scene {
+  .character[data-char="caroline"] {
+    left: 12%;
+    bottom: -8rem;
+    width: 320px;
+  }
+
+  .character[data-char="sofie"] {
+    right: 8%;
+    bottom: -7rem;
+    width: 330px;
+  }
+}
+
+#tjek-sofie-scene {
+  .character[data-char="caroline"] {
+    left: 12%;
+    bottom: -8rem;
+    width: 320px;
+  }
+
+  .character[data-char="sofie"] {
+    right: 8%;
+    bottom: -7rem;
+    width: 330px;
+  }
+}
+#search-gyden-scene {
+  .character[data-char="caroline"] {
+    left: 12%;
+    bottom: -8rem;
+    width: 320px;
+  }
+    .item[data-item="handprint"] {
+      left: 37%;
+      bottom: 39%;
+      width: 86px;
+
+  }
+
+  .character[data-char="sofie"] {
+    right: 8%;
+    bottom: -7rem;
+    width: 330px;
+  }
+}
+#walk-to-the-bar-scene {
+  .character[data-char="caroline"] {
+    left: 12%;
+    bottom: -8rem;
+    width: 320px;
+  }
+
+  .character[data-char="bartender"] {
+    right: 6%;
+    bottom: -7rem;
+    width: 300px;
+  }
+
+  .character[data-char="whiskey-guy"] {
+    right: 28%;
+    bottom: -7rem;
+    width: 280px;
+  }
+}
+#back-to-the-club-scene {
+  .character[data-char="caroline"] {
+    left: 32%;
+    bottom: 10rem;
+    width: 250px;
+  }
+}
+
+#whiskey-guy-scene {
+  .character[data-char="caroline"] {
+    left: 12%;
+    bottom: -8rem;
+    width: 320px;
+  }
+
+  .character[data-char="whiskey-guy"] {
+    right: 28%;
+    bottom: -7rem;
+    width: 280px;
+  }
+}
 #living-room-search-scene {
-  .character[data-char="abigail"] {
+  .character[data-char="caroline"] {
     left: 8%;
     bottom: -10rem;
     width: 350px;
   }
 
-  .character[data-char="alex"] {
+  .character[data-char="sofie"] {
     right: 8%;
     bottom: -7rem;
     width: 330px;
   }
 
-  .item[data-item="backpack"] {
+  .item[data-item="handprin"] {
     left: 5%;
     bottom: 21%;
     width: 118px;
@@ -224,7 +316,7 @@ h2 {
 }
 
 #garden-scene {
-  .character[data-char="abigail"] {
+  .character[data-char="caroline"] {
     left: 8%;
     bottom: -10rem;
     width: 340px;
@@ -250,13 +342,13 @@ h2 {
 }
 
 #park-scene {
-  .character[data-char="abigail"] {
+  .character[data-char="caroline"] {
     left: 4%;
     bottom: -10rem;
     width: 320px;
   }
 
-  .character[data-char="alex"] {
+  .character[data-char="sofie"] {
     left: 25%;
     bottom: -7rem;
     width: 300px;
@@ -277,13 +369,13 @@ h2 {
 }
 
 #street-night-scene {
-  .character[data-char="abigail"] {
+  .character[data-char="caroline"] {
     left: 2%;
     bottom: -8.5rem;
     width: 260px;
   }
 
-  .character[data-char="alex"] {
+  .character[data-char="sofie"] {
     left: 20%;
     bottom: -5.5rem;
     width: 250px;
