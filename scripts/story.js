@@ -182,11 +182,17 @@ const storyActions = {
 
   /**
    * @param {StoryEngine} game
+   * @param {import('./engine.js').EngineActionDetails} details
    * @returns {void}
    */
-  goToTheBar(game) {
+  goToSceneAfterHandprint(game, details) {
     if (game.state.storyCheckedHandprint === true) {
-      game.goTo('walk-to-the-bar-scene');
+      const targetScene = details.button?.dataset.targetScene;
+
+      if (targetScene) {
+        game.goTo(targetScene);
+      }
+
       return;
     }
 

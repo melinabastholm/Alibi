@@ -191,56 +191,50 @@ h2 {
 
 #toilet-scene {
   .character[data-char="caroline"] {
-    left: 32%;
-    bottom: 10rem;
-    width: 250px;
+    left: 23%;
+    bottom: 9rem;
+    width: 320px;
   }
 }
 #gyde-scene {
   .character[data-char="caroline"] {
-    left: 12%;
-    bottom: -8rem;
-    width: 320px;
+    left: 8%;
+    bottom: 9rem;
+    width: 300px;
   }
 
   .character[data-char="sofie"] {
     right: 8%;
-    bottom: -7rem;
-    width: 330px;
+    bottom: 6rem;
+    width: 280px;
   }
 }
 
 #tjek-sofie-scene {
   .character[data-char="caroline"] {
-    left: 12%;
-    bottom: -8rem;
-    width: 320px;
+    left: 8%;
+    bottom: 9rem;
+    width: 300px;
   }
 
   .character[data-char="sofie"] {
     right: 8%;
-    bottom: -7rem;
-    width: 330px;
+    bottom: 6rem;
+    width: 280px;
   }
 }
 #search-gyden-scene {
   .character[data-char="caroline"] {
-    left: 12%;
-    bottom: -8rem;
-    width: 320px;
-  }
-    .item[data-item="handprint"] {
-      left: 37%;
-      bottom: 39%;
-      width: 86px;
-
-  }
-
-  .character[data-char="sofie"] {
     right: 8%;
-    bottom: -7rem;
+    bottom: 9rem;
     width: 330px;
   }
+  .item[data-item="handprint"] {
+    right: 22%;
+    bottom: 83%;
+    width: 86px;
+  }
+
 }
 #walk-to-the-bar-scene {
   .character[data-char="caroline"] {
@@ -251,14 +245,14 @@ h2 {
 
   .character[data-char="bartender"] {
     right: 6%;
-    bottom: -7rem;
+    bottom: 7rem;
     width: 300px;
   }
 
-  .character[data-char="whiskey-guy"] {
+  .character[data-char="rune"] {
     right: 28%;
-    bottom: -7rem;
-    width: 280px;
+    bottom: 21.5rem;
+    width: 180px;
   }
 }
 #back-to-the-club-scene {
@@ -276,7 +270,7 @@ h2 {
     width: 320px;
   }
 
-  .character[data-char="whiskey-guy"] {
+  .character[data-char="rune"] {
     right: 28%;
     bottom: -7rem;
     width: 280px;
