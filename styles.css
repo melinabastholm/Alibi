@@ -230,13 +230,14 @@ h2 {
     width: 330px;
   }
   .item[data-item="handprint"] {
-    right: 22%;
-    bottom: 83%;
-    width: 86px;
+    right: 0%;
+    bottom: 81%;
+    width: 70px;
   }
 
 }
-#walk-to-the-bar-scene {
+#walk-to-the-bar-scene,
+#back-to-the-bar-scene {
   .character[data-char="caroline"] {
     left: 12%;
     bottom: -8rem;
@@ -255,15 +256,232 @@ h2 {
     width: 180px;
   }
 }
-#back-to-the-club-scene {
+
+#back-to-the-club-scene, #back-to-the-club-p2-scene{
   .character[data-char="caroline"] {
     left: 32%;
     bottom: 10rem;
     width: 250px;
   }
+
+  .character[data-char="doorman"] {
+    right: 28%;
+    bottom: -7rem;
+    width: 280px;
+  }
 }
 
 #whiskey-guy-scene {
+  .character[data-char="caroline"] {
+    left: 12%;
+    bottom: -8rem;
+    width: 320px;
+  }
+
+  .character[data-char="rune"] {
+    right: 28%;
+    bottom: -7rem;
+    width: 280px;
+  }
+}
+
+#talk-to-doorman-scene {
+  .character[data-char="caroline"] {
+    left: 12%;
+    bottom: -8rem;
+    width: 320px;
+  }
+
+  .character[data-char="rune"] {
+    right: 28%;
+    bottom: -7rem;
+    width: 280px;
+  }
+}
+
+#retrace-your-steps-scene {
+  .character[data-char="caroline"] {
+    left: 12%;
+    bottom: -8rem;
+    width: 320px;
+  }
+
+  .character[data-char="rune"] {
+    right: 28%;
+    bottom: -7rem;
+    width: 280px;
+  }
+}
+
+#VIP-room-scene {
+  .character[data-char="caroline"] {
+    left: 12%;
+    bottom: -8rem;
+    width: 320px;
+  }
+
+  .character[data-char="rune"] {
+    right: 28%;
+    bottom: -7rem;
+    width: 280px;
+  }
+}
+
+#doorman-spg-1-scene {
+  .character[data-char="caroline"] {
+    left: 12%;
+    bottom: -8rem;
+    width: 320px;
+  }
+
+  .character[data-char="rune"] {
+    right: 28%;
+    bottom: -7rem;
+    width: 280px;
+  }
+}
+
+#doorman-spg-2-scene {
+  .character[data-char="caroline"] {
+    left: 12%;
+    bottom: -8rem;
+    width: 320px;
+  }
+
+  .character[data-char="rune"] {
+    right: 28%;
+    bottom: -7rem;
+    width: 280px;
+  }
+}
+
+#doorman-spg-3-scene {
+  .character[data-char="caroline"] {
+    left: 12%;
+    bottom: -8rem;
+    width: 320px;
+  }
+
+  .character[data-char="rune"] {
+    right: 28%;
+    bottom: -7rem;
+    width: 280px;
+  }
+}
+
+#doorman-spg-4-scene {
+  .character[data-char="caroline"] {
+    left: 12%;
+    bottom: -8rem;
+    width: 320px;
+  }
+
+  .character[data-char="rune"] {
+    right: 28%;
+    bottom: -7rem;
+    width: 280px;
+  }
+}
+
+#check-the-trash-scene {
+  .character[data-char="caroline"] {
+    left: 12%;
+    bottom: -8rem;
+    width: 320px;
+  }
+
+  .character[data-char="rune"] {
+    right: 28%;
+    bottom: -7rem;
+    width: 280px;
+  }
+}
+
+#rune-spg-1-scene {
+  .character[data-char="caroline"] {
+    left: 12%;
+    bottom: -8rem;
+    width: 320px;
+  }
+
+  .character[data-char="rune"] {
+    right: 28%;
+    bottom: -7rem;
+    width: 280px;
+  }
+}
+
+#rune-spg-2-scene {
+  .character[data-char="caroline"] {
+    left: 12%;
+    bottom: -8rem;
+    width: 320px;
+  }
+
+  .character[data-char="rune"] {
+    right: 28%;
+    bottom: -7rem;
+    width: 280px;
+  }
+}
+
+#rune-spg-3-scene {
+  .character[data-char="caroline"] {
+    left: 12%;
+    bottom: -8rem;
+    width: 320px;
+  }
+
+  .character[data-char="rune"] {
+    right: 28%;
+    bottom: -7rem;
+    width: 280px;
+  }
+}
+
+#rune-spg-4-scene {
+  .character[data-char="caroline"] {
+    left: 12%;
+    bottom: -8rem;
+    width: 320px;
+  }
+
+  .character[data-char="rune"] {
+    right: 28%;
+    bottom: -7rem;
+    width: 280px;
+  }
+}
+
+#check-upstairs-scene {
+  .character[data-char="caroline"] {
+    left: 12%;
+    bottom: -8rem;
+    width: 320px;
+  }
+
+  .character[data-char="rune"] {
+    right: 28%;
+    bottom: -7rem;
+    width: 280px;
+  }
+}
+
+#check-trash-agian-scene {
+  .character[data-char="caroline"] {
+    left: 12%;
+    bottom: -8rem;
+    width: 320px;
+  }
+
+  .character[data-char="rune"] {
+    right: 28%;
+    bottom: -7rem;
+    width: 280px;
+  }
+}
+
+#call-the-police-scene {
   .character[data-char="caroline"] {
     left: 12%;
     bottom: -8rem;

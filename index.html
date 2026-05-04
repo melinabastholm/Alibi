@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="da">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -11,6 +11,7 @@
     <main class="app-shell">
         <section class="viewport">
             <section class="stage-screen">
+                <!-- Done -->
                 <section class="scene" id="toilet-scene"
                     data-music="music-peaceful-piano"
                 >
@@ -58,7 +59,7 @@
                         </div>
                     </div>
                 </section>
-
+                <!-- Mangler at tilføje afgrening-->
                 <section class="scene" id="gyde-scene"
                          data-music="music-peaceful-piano"
                 >
@@ -100,7 +101,7 @@
                         </div>
                     </div>
                 </section>
-
+                <!-- Mangler at tilføje afgrening -->
                 <section class="scene" id="tjek-sofie-scene"
                          data-music="music-peaceful-piano"
                 >
@@ -197,7 +198,7 @@
                         </div>
                     </div>
                 </section>
-
+                <!-- Mangler at tilføje afgrening -->
                 <section class="scene" id="search-gyden-scene"
                          data-music="music-peaceful-piano"
                 >
@@ -277,7 +278,7 @@
 
                     </div>
                 </section>
-
+                <!-- Mangler at tilføje afgrening -->
                 <section class="scene" id="walk-to-the-bar-scene"
                          data-music="music-peaceful-piano"
                 >
@@ -358,7 +359,7 @@
                         </div>
                     </div>
                 </section>
-
+                <!-- Mangler at tilføje afgrening -->
                 <section class="scene" id="back-to-the-club-scene"
                          data-music="music-peaceful-piano"
                 >
@@ -407,7 +408,7 @@
                         </div>
                     </div>
                 </section>
-
+                <!-- Mangler at tilføje afgrening -->
                 <section class="scene" id="back-to-the-club-p2-scene"
                          data-music="music-peaceful-piano"
                 >
@@ -419,6 +420,11 @@
                         class="character is-hidden"
                         data-char="caroline"
                         src="assets/images/characters/caroline.png"
+                    >
+                    <img
+                        class="character is-hidden"
+                        data-char="doorman"
+                        src="assets/images/characters/doorman-hel.png"
                     >
 
                     <div data-step="wait-click"></div>
@@ -459,7 +465,7 @@
                         </div>
                     </div>
                 </section>
-
+                <!-- Mangler at tilføje afgrening -->
                 <section class="scene" id="whiskey-guy-scene"
                          data-music="music-peaceful-piano"
                 >
@@ -527,11 +533,1441 @@
                             <button type="button" data-run="encourageCaroline" data-next="living-room-search-scene">
                                 Hvad er det der er ovenpå?
                             </button>
-                            <button type="button" data-run="encourageCaroline" data-next="living-room-search-scene">
+                            <button type="button" data-run="encourageCaroline" data-next="back-to-the-bar-scene">
                                 Gør noget andet
                             </button>
                         </div>
                     </div>
+                </section>
+                <!-- Done -->
+                <section class="scene" id="rune-spg-1-scene"
+                         data-music="music-peaceful-piano"
+                >
+                    <img
+                        class="scene-background"
+                        src="assets/images/scenes/club-scene.jpg"
+                    >
+                    <img
+                        class="character is-hidden"
+                        data-char="caroline"
+                        src="assets/images/characters/caroline.png"
+                    >
+                    <img
+                        class="character is-hidden"
+                        data-char="rune"
+                        src="assets/images/characters/rune-halv.png"
+                    >
+
+
+                        <div class="steps">
+                            <div data-step="wait-click"></div>
+                            <div data-step="focus" data-target='[data-char="caroline"]'></div>
+                            <div data-step="show" data-target='[data-char="rune"]'></div>
+                            <div data-step="say" data-speaker="Caroline" data-color="#79b8f9">
+                                Denne gang? Vi har mødt før?
+                            </div>
+                            <div data-step="wait-click"></div>
+
+                            <div class="steps">
+                                <div data-step="wait-click"></div>
+                                <div data-step="show" data-target='[data-char="caroline"]'></div>
+                                <div data-step="focus" data-target='[data-char="rune"]'></div>
+                                <div data-step="say" data-speaker="Whiskey-guy" data-color="#79b8f9">
+                                    Hahahaha, du må ha’ drukket meget, så lad mig introducere mig selv igen. Mit navn
+                                    er Rune og jeg ejer denne bar, og den klub ved siden af, som jeg viste dig og din
+                                    søde veninde i aftes.
+                                </div>
+                                <div data-step="wait-click"></div>
+
+                                <div data-step="choice">
+                                    <button type="button" data-run="encourageCaroline" data-next="whiskey-guy-spg-scene">
+                                        Continue
+                                    </button>
+                                    </div>
+                                </div>
+                </section>
+                <!-- Ikke begyndt -->
+                <section class="scene" id="rune-spg-2-scene"
+                         data-music="music-peaceful-piano"
+                >
+                    <img
+                        class="scene-background"
+                        src="assets/images/scenes/club-scene.jpg"
+                    >
+                    <img
+                        class="character is-hidden"
+                        data-char="caroline"
+                        src="assets/images/characters/caroline.png"
+                    >
+                    <img
+                        class="character is-hidden"
+                        data-char="rune"
+                        src="assets/images/characters/rune-halv.png"
+                    >
+
+                    <div class="steps">
+                        <div data-step="show" data-target='[data-char="caroline"]'></div>
+                        <div data-step="show" data-target='[data-char="rune"]'></div>
+                        <div data-step="focus"></div>
+                        <div data-step="say" data-speaker="" data-color="#f3e7cf">
+                            "Caroline rykker sig over til “whisky manden” hun føler sig lidt nervøs, dog ved hun ikke
+                            hvorfor, der er noget ved ham, som hun ikke bryder sig om."
+                        </div>
+                        <div data-step="wait-click"></div>
+
+                        <div class="steps">
+                            <div data-step="wait-click"></div>
+                            <div data-step="focus" data-target='[data-char="caroline"]'></div>
+                            <div data-step="show" data-target='[data-char="rune"]'></div>
+                            <div data-step="say" data-speaker="Caroline" data-color="#79b8f9">
+                                Undskyld mig.
+                            </div>
+                            <div data-step="wait-click"></div>
+
+                            <div class="steps">
+                                <div data-step="wait-click"></div>
+                                <div data-step="show" data-target='[data-char="caroline"]'></div>
+                                <div data-step="focus" data-target='[data-char="rune"]'></div>
+                                <div data-step="say" data-speaker="Whiskey-guy" data-color="#79b8f9">
+                                    Jamen dog, det bare mit held at sådan en skøn pige som dig kommer op og snakker med mig,
+                                    hvordan kan jeg være til tjeneste denne gang?
+                                </div>
+                                <div data-step="wait-click"></div>
+
+                                <div class="steps">
+                                    <div data-step="show" data-target='[data-char="caroline"]'></div>
+                                    <div data-step="show" data-target='[data-char="rune"]'></div>
+                                    <div data-step="focus"></div>
+                                    <div data-step="say" data-speaker="" data-color="#f3e7cf">
+                                        "Caroline følte allerede noget krybe ind under hendes hud, hun kunne allerede føle
+                                        hans ‘fuckboy’ energi. Dog måtte hun fortsætte."
+                                    </div>
+                                    <div data-step="wait-click"></div>
+
+                                    <div data-step="choice">
+                                        <button type="button" data-run="encourageCaroline" data-next="living-room-search-scene">
+                                            Denne gang? Vi har mødt før?
+                                        </button>
+                                        <button type="button" data-run="encourageCaroline" data-next="living-room-search-scene">
+                                            Har du set min ven før?
+                                        </button>
+                                        <button type="button" data-run="encourageCaroline" data-next="living-room-search-scene">
+                                            Hvad er det der er ovenpå?
+                                        </button>
+                                        <button type="button" data-run="encourageCaroline" data-next="living-room-search-scene">
+                                            Gør noget andet
+                                        </button>
+                                    </div>
+                                </div>
+                </section>
+                <!-- Ikke begyndt -->
+                <section class="scene" id="rune-spg-3-scene"
+                         data-music="music-peaceful-piano"
+                >
+                    <img
+                        class="scene-background"
+                        src="assets/images/scenes/club-scene.jpg"
+                    >
+                    <img
+                        class="character is-hidden"
+                        data-char="caroline"
+                        src="assets/images/characters/caroline.png"
+                    >
+                    <img
+                        class="character is-hidden"
+                        data-char="rune"
+                        src="assets/images/characters/rune-halv.png"
+                    >
+
+                    <div class="steps">
+                        <div data-step="show" data-target='[data-char="caroline"]'></div>
+                        <div data-step="show" data-target='[data-char="rune"]'></div>
+                        <div data-step="focus"></div>
+                        <div data-step="say" data-speaker="" data-color="#f3e7cf">
+                            "Caroline rykker sig over til “whisky manden” hun føler sig lidt nervøs, dog ved hun ikke
+                            hvorfor, der er noget ved ham, som hun ikke bryder sig om."
+                        </div>
+                        <div data-step="wait-click"></div>
+
+                        <div class="steps">
+                            <div data-step="wait-click"></div>
+                            <div data-step="focus" data-target='[data-char="caroline"]'></div>
+                            <div data-step="show" data-target='[data-char="rune"]'></div>
+                            <div data-step="say" data-speaker="Caroline" data-color="#79b8f9">
+                                Undskyld mig.
+                            </div>
+                            <div data-step="wait-click"></div>
+
+                            <div class="steps">
+                                <div data-step="wait-click"></div>
+                                <div data-step="show" data-target='[data-char="caroline"]'></div>
+                                <div data-step="focus" data-target='[data-char="rune"]'></div>
+                                <div data-step="say" data-speaker="Whiskey-guy" data-color="#79b8f9">
+                                    Jamen dog, det bare mit held at sådan en skøn pige som dig kommer op og snakker med mig,
+                                    hvordan kan jeg være til tjeneste denne gang?
+                                </div>
+                                <div data-step="wait-click"></div>
+
+                                <div class="steps">
+                                    <div data-step="show" data-target='[data-char="caroline"]'></div>
+                                    <div data-step="show" data-target='[data-char="rune"]'></div>
+                                    <div data-step="focus"></div>
+                                    <div data-step="say" data-speaker="" data-color="#f3e7cf">
+                                        "Caroline følte allerede noget krybe ind under hendes hud, hun kunne allerede føle
+                                        hans ‘fuckboy’ energi. Dog måtte hun fortsætte."
+                                    </div>
+                                    <div data-step="wait-click"></div>
+
+                                    <div data-step="choice">
+                                        <button type="button" data-run="encourageCaroline" data-next="living-room-search-scene">
+                                            Denne gang? Vi har mødt før?
+                                        </button>
+                                        <button type="button" data-run="encourageCaroline" data-next="living-room-search-scene">
+                                            Har du set min ven før?
+                                        </button>
+                                        <button type="button" data-run="encourageCaroline" data-next="living-room-search-scene">
+                                            Hvad er det der er ovenpå?
+                                        </button>
+                                        <button type="button" data-run="encourageCaroline" data-next="living-room-search-scene">
+                                            Gør noget andet
+                                        </button>
+                                    </div>
+                                </div>
+                </section>
+                <!-- Ikke begyndt -->
+                <section class="scene" id="rune-spg-4-scene"
+                         data-music="music-peaceful-piano"
+                >
+                    <img
+                        class="scene-background"
+                        src="assets/images/scenes/club-scene.jpg"
+                    >
+                    <img
+                        class="character is-hidden"
+                        data-char="caroline"
+                        src="assets/images/characters/caroline.png"
+                    >
+                    <img
+                        class="character is-hidden"
+                        data-char="rune"
+                        src="assets/images/characters/rune-halv.png"
+                    >
+
+                    <div class="steps">
+                        <div data-step="show" data-target='[data-char="caroline"]'></div>
+                        <div data-step="show" data-target='[data-char="rune"]'></div>
+                        <div data-step="focus"></div>
+                        <div data-step="say" data-speaker="" data-color="#f3e7cf">
+                            "Caroline rykker sig over til “whisky manden” hun føler sig lidt nervøs, dog ved hun ikke
+                            hvorfor, der er noget ved ham, som hun ikke bryder sig om."
+                        </div>
+                        <div data-step="wait-click"></div>
+
+                        <div class="steps">
+                            <div data-step="wait-click"></div>
+                            <div data-step="focus" data-target='[data-char="caroline"]'></div>
+                            <div data-step="show" data-target='[data-char="rune"]'></div>
+                            <div data-step="say" data-speaker="Caroline" data-color="#79b8f9">
+                                Undskyld mig.
+                            </div>
+                            <div data-step="wait-click"></div>
+
+                            <div class="steps">
+                                <div data-step="wait-click"></div>
+                                <div data-step="show" data-target='[data-char="caroline"]'></div>
+                                <div data-step="focus" data-target='[data-char="rune"]'></div>
+                                <div data-step="say" data-speaker="Whiskey-guy" data-color="#79b8f9">
+                                    Jamen dog, det bare mit held at sådan en skøn pige som dig kommer op og snakker med mig,
+                                    hvordan kan jeg være til tjeneste denne gang?
+                                </div>
+                                <div data-step="wait-click"></div>
+
+                                <div class="steps">
+                                    <div data-step="show" data-target='[data-char="caroline"]'></div>
+                                    <div data-step="show" data-target='[data-char="rune"]'></div>
+                                    <div data-step="focus"></div>
+                                    <div data-step="say" data-speaker="" data-color="#f3e7cf">
+                                        "Caroline følte allerede noget krybe ind under hendes hud, hun kunne allerede føle
+                                        hans ‘fuckboy’ energi. Dog måtte hun fortsætte."
+                                    </div>
+                                    <div data-step="wait-click"></div>
+
+                                    <div data-step="choice">
+                                        <button type="button" data-run="encourageCaroline" data-next="living-room-search-scene">
+                                            Denne gang? Vi har mødt før?
+                                        </button>
+                                        <button type="button" data-run="encourageCaroline" data-next="living-room-search-scene">
+                                            Har du set min ven før?
+                                        </button>
+                                        <button type="button" data-run="encourageCaroline" data-next="living-room-search-scene">
+                                            Hvad er det der er ovenpå?
+                                        </button>
+                                        <button type="button" data-run="encourageCaroline" data-next="living-room-search-scene">
+                                            Gør noget andet
+                                        </button>
+                                    </div>
+                                </div>
+                </section>
+                <!-- Mangler at tilføje afgrening -->
+                <section class="scene" id="talk-to-doorman-scene"
+                         data-music="music-peaceful-piano"
+                >
+                    <img
+                        class="scene-background"
+                        src="assets/images/scenes/club-scene.jpg"
+                    >
+                    <img
+                        class="character is-hidden"
+                        data-char="caroline"
+                        src="assets/images/characters/caroline.png"
+                    >
+                    <img
+                        class="character is-hidden"
+                        data-char="doorman"
+                        src="assets/images/characters/doorman-hel.png"
+                    >
+
+                    <div class="steps">
+                        <div data-step="show" data-target='[data-char="caroline"]'></div>
+                        <div data-step="show" data-target='[data-char="rune"]'></div>
+                        <div data-step="focus"></div>
+                        <div data-step="say" data-speaker="" data-color="#f3e7cf">
+                            "Caroline går roligt over til dørvagten, der endelig har lagt mærke til hendes eksistens,
+                            med et intens blik og et puf røg i hendes retning. Han var stor, nærmest gigantisk.
+                            Caroline stod nu og tænkte over hvor intimiderende momentet var, og hvor nemt han vil kunne
+                            dræbe hende, hvis han ville."
+                        </div>
+                        <div data-step="wait-click"></div>
+
+                        <div class="steps">
+                            <div data-step="wait-click"></div>
+                            <div data-step="show" data-target='[data-char="caroline"]'></div>
+                            <div data-step="focus" data-target='[data-char="doorman"]'></div>
+                            <div data-step="say" data-speaker="Dørmand" data-color="#79b8f9">
+                                Hvad vil du?
+                            </div>
+                            <div data-step="wait-click"></div>
+
+                            <div class="steps">
+                                <div data-step="wait-click"></div>
+                                <div data-step="show" data-target='[data-char="caroline"]'></div>
+                                <div data-step="focus" data-target='[data-char="doorman"]'></div>
+                                <div data-step="say" data-speaker="caroline" data-color="#79b8f9">
+                                    Jeg tænkte bare på om jeg kunne stille dig nogle spørgsmål, hvis det altså er okay?
+                                </div>
+                                <div data-step="wait-click"></div>
+
+                                <div class="steps">
+                                    <div data-step="show" data-target='[data-char="caroline"]'></div>
+                                    <div data-step="show" data-target='[data-char="rune"]'></div>
+                                    <div data-step="focus"></div>
+                                    <div data-step="say" data-speaker="" data-color="#f3e7cf">
+                                        Heldigvis for Caroline, nikkede dørmanden stille og roligt, med ret træt blik
+                                        bag hans øjne. Men hun valgte alligevel at tage muligheden og sætte dig overfor
+                                        ham ved bordet.
+                                    </div>
+                                    <div data-step="wait-click"></div>
+
+                                    <div data-step="choice">
+                                        <button type="button" data-run="encourageCaroline" data-next="doorman-spg-1-scene">
+                                            Genkender du den her pige?
+                                        </button>
+                                        <button type="button" data-run="encourageCaroline" data-next="doorman-spg-2-scene">
+                                            Så du noget mistænkeligt mens du stod vagt?
+                                        </button>
+                                        <button type="button" data-run="encourageCaroline" data-next="doorman-spg-3-scene">
+                                            Hørte du om noget ballade der fandt sted i aftes?
+                                        </button>
+                                        <button type="button" data-run="encourageCaroline" data-next="">
+                                            Gør noget andet
+                                        </button>
+                                    </div>
+                                </div>
+                </section>
+                <!-- Mangler at tilføje afgrening -->
+                <section class="scene" id="talk-to-doorman-scene"
+                         data-music="music-peaceful-piano"
+                >
+                    <img
+                        class="scene-background"
+                        src="assets/images/scenes/club-scene.jpg"
+                    >
+                    <img
+                        class="character is-hidden"
+                        data-char="caroline"
+                        src="assets/images/characters/caroline.png"
+                    >
+                    <img
+                        class="character is-hidden"
+                        data-char="doorman"
+                        src="assets/images/characters/doorman-hel.png"
+                    >
+
+                                    <div data-step="choice">
+                                        <button type="button" data-run="encourageCaroline" data-next="doorman-spg-1-scene">
+                                            Genkender du den her pige?
+                                        </button>
+                                        <button type="button" data-run="encourageCaroline" data-next="doorman-spg-2-scene">
+                                            Så du noget mistænkeligt mens du stod vagt?
+                                        </button>
+                                        <button type="button" data-run="encourageCaroline" data-next="doorman-spg-3-scene">
+                                            Hørte du om noget ballade der fandt sted i aftes?
+                                        </button>
+                                        <button type="button" data-run="encourageCaroline" data-next="">
+                                            Gør noget andet
+                                        </button>
+                                    </div>
+                                </div>
+                </section>
+                <!-- Done -->
+                <section class="scene" id="doorman-spg-1-scene"
+                         data-music="music-peaceful-piano"
+                >
+                    <img
+                        class="scene-background"
+                        src="assets/images/scenes/club-scene.jpg"
+                    >
+                    <img
+                        class="character is-hidden"
+                        data-char="caroline"
+                        src="assets/images/characters/caroline.png"
+                    >
+                    <img
+                        class="character is-hidden"
+                        data-char="doorman"
+                        src="assets/images/characters/doorman-tired.png"
+                    >
+
+                        <div class="steps">
+                            <div data-step="wait-click"></div>
+                            <div data-step="focus" data-target='[data-char="caroline"]'></div>
+                            <div data-step="show" data-target='[data-char="rune"]'></div>
+                            <div data-step="say" data-speaker="Caroline" data-color="#79b8f9">
+                                Genkender du den her pige?
+                            </div>
+                            <div data-step="wait-click"></div>
+
+                            <div class="steps">
+                                <div data-step="wait-click"></div>
+                                <div data-step="show" data-target='[data-char="caroline"]'></div>
+                                <div data-step="focus" data-target='[data-char="doorman"]'></div>
+                                <div data-step="say" data-speaker="doorman" data-color="#79b8f9">
+                                    Hmm, det gør jeg sikkert, hvis du spørg. Vent lige… ahh ja, jer kan jeg godt
+                                    huske, chefens nyeste fang.
+                                </div>
+                                <div data-step="wait-click"></div>
+
+                                <div class="steps">
+                                    <div data-step="wait-click"></div>
+                                    <div data-step="focus" data-target='[data-char="caroline"]'></div>
+                                    <div data-step="show" data-target='[data-char="rune"]'></div>
+                                    <div data-step="say" data-speaker="Caroline" data-color="#79b8f9">
+                                    <div data-step="say" data-speaker="" data-color="#f3e7cf">
+                                        Ohhh, øhmm, if you say so.... Så du hende gå ud af klubben i går aftens? og
+                                        muligvis hvem hun er gået med?
+                                    </div>
+                                    <div data-step="wait-click"></div>
+
+                                <div class="steps">
+                                    <div data-step="wait-click"></div>
+                                    <div data-step="show" data-target='[data-char="caroline"]'></div>
+                                    <div data-step="focus" data-target='[data-char="doorman"]'></div>
+                                    <div data-step="say" data-speaker="doorman" data-color="#79b8f9">
+                                        Jeg holder øje med hvem der kommer ind, ik dem der smutter, men hvis du ik kan
+                                        finde hende så er hun nok taget hjem.
+                                    </div>
+                                    <div data-step="wait-click"></div>
+
+                                    <div class="steps">
+                                        <div data-step="wait-click"></div>
+                                        <div data-step="focus" data-target='[data-char="caroline"]'></div>
+                                        <div data-step="show" data-target='[data-char="doorman"]'></div>
+                                        <div data-step="say" data-speaker="Caroline" data-color="#79b8f9">
+                                            <div data-step="say" data-speaker="" data-color="#f3e7cf">
+                                                ......
+                                            </div>
+                                            <div data-step="wait-click"></div>
+
+                                    <div data-step="choice">
+                                        <button type="button" data-run="encourageCaroline" data-next="talk-to-the-doorman-spg-scene">
+                                            Continue
+                                        </button>
+
+                                    </div>
+                                </div>
+                </section>
+                <!-- Done -->
+                <section class="scene" id="doorman-spg-2-scene"
+                         data-music="music-peaceful-piano"
+                >
+                    <img
+                        class="scene-background"
+                        src="assets/images/scenes/club-scene.jpg"
+                    >
+                    <img
+                        class="character is-hidden"
+                        data-char="caroline"
+                        src="assets/images/characters/caroline.png"
+                    >
+                    <img
+                        class="character is-hidden"
+                        data-char="doorman"
+                        src="assets/images/characters/doorman-tired.png"
+                    >
+
+                    <div class="steps">
+                        <div data-step="wait-click"></div>
+                        <div data-step="focus" data-target='[data-char="caroline"]'></div>
+                        <div data-step="show" data-target='[data-char="rune"]'></div>
+                        <div data-step="say" data-speaker="Caroline" data-color="#79b8f9">
+                            Så du noget mistænkeligt mens du stod vagt?
+                        </div>
+                        <div data-step="wait-click"></div>
+
+                        <div class="steps">
+                            <div data-step="wait-click"></div>
+                            <div data-step="show" data-target='[data-char="caroline"]'></div>
+                            <div data-step="focus" data-target='[data-char="doorman"]'></div>
+                            <div data-step="say" data-speaker="doorman" data-color="#79b8f9">
+                                Hvem tror du lige DU er? Politiet?... heh, selvfølgelig så jeg nogle mistænkelige i går.
+                                Jeg en sikkerhedsvagt for en klub sveske.
+                            </div>
+                            <div data-step="wait-click"></div>
+
+                            <div class="steps">
+                                <div data-step="show" data-target='[data-char="caroline"]'></div>
+                                <div data-step="show" data-target='[data-char="rune"]'></div>
+                                <div data-step="focus"></div>
+                                <div data-step="say" data-speaker="" data-color="#f3e7cf">
+                                    Caroline fandt ham lidt frustrerende, nok fordi det har været en meget, MEGET, lang dag…
+                                </div>
+                                <div data-step="wait-click"></div>
+
+                                    <div data-step="choice">
+                                        <button type="button" data-run="encourageCaroline" data-next="talk-to-the-doorman-spg-scene">
+                                            Continue
+                                        </button>
+
+                                    </div>
+                             </div>
+                </section>
+                <!-- Done-->
+                <section class="scene" id="doorman-spg-3-scene"
+                         data-music="music-peaceful-piano"
+                >
+                    <img
+                        class="scene-background"
+                        src="assets/images/scenes/club-scene.jpg"
+                    >
+                    <img
+                        class="character is-hidden"
+                        data-char="caroline"
+                        src="assets/images/characters/caroline.png"
+                    >
+                    <img
+                        class="character is-hidden"
+                        data-char="doorman"
+                        src="assets/images/characters/doorman-tired.png"
+                    >
+
+                    <div class="steps">
+                        <div data-step="wait-click"></div>
+                        <div data-step="focus" data-target='[data-char="caroline"]'></div>
+                        <div data-step="show" data-target='[data-char="rune"]'></div>
+                        <div data-step="say" data-speaker="Caroline" data-color="#79b8f9">
+                            Hørte du om noget ballade der fandt sted i aftes?
+                        </div>
+                        <div data-step="wait-click"></div>
+
+                        <div class="steps">
+                            <div data-step="wait-click"></div>
+                            <div data-step="show" data-target='[data-char="caroline"]'></div>
+                            <div data-step="focus" data-target='[data-char="doorman"]'></div>
+                            <div data-step="say" data-speaker="doorman" data-color="#79b8f9">
+                                Ahh, der altid nogen som skal lave ballade, og det mig det sender for at gøre rent.
+                            </div>
+                            <div data-step="wait-click"></div>
+
+                            <div class="steps">
+                                <div data-step="wait-click"></div>
+                                <div data-step="focus" data-target='[data-char="caroline"]'></div>
+                                <div data-step="show" data-target='[data-char="rune"]'></div>
+                                <div data-step="say" data-speaker="Caroline" data-color="#79b8f9">
+                                    <div data-step="say" data-speaker="" data-color="#f3e7cf">
+                                        Hvad skete der?
+                                    </div>
+                                    <div data-step="wait-click"></div>
+
+                                    <div class="steps">
+                                        <div data-step="wait-click"></div>
+                                        <div data-step="show" data-target='[data-char="caroline"]'></div>
+                                        <div data-step="focus" data-target='[data-char="doorman"]'></div>
+                                        <div data-step="say" data-speaker="doorman" data-color="#79b8f9">
+                                            Tro det eller ej, men… der var nogen der troede de kunne stå på hænder,
+                                            midt på dansegulvet, da han ik ku væltede han ind en gruppe og var ved at
+                                            starte en kamp så-
+                                        </div>
+                                        <div data-step="wait-click"></div>
+
+                                        <div class="steps">
+                                            <div data-step="wait-click"></div>
+                                            <div data-step="focus" data-target='[data-char="caroline"]'></div>
+                                            <div data-step="show" data-target='[data-char="doorman"]'></div>
+                                            <div data-step="say" data-speaker="Caroline" data-color="#79b8f9">
+                                                <div data-step="say" data-speaker="" data-color="#f3e7cf">
+                                                    Undskyld?!? Hørte du noget om et angreb, stoffer eller… nogen som
+                                                    hentyd til at ville dræbe nogen?
+                                                </div>
+                                                <div data-step="wait-click"></div>
+
+                                                <div class="steps">
+                                                    <div data-step="wait-click"></div>
+                                                    <div data-step="show" data-target='[data-char="caroline"]'></div>
+                                                    <div data-step="focus" data-target='[data-char="doorman"]'></div>
+                                                    <div data-step="say" data-speaker="doorman" data-color="#79b8f9">
+                                                        Jeg har ingen kommentarer til hvad folk tager når de inde i
+                                                        klubben, vi smider dem ud og vi bander dem.
+                                                    </div>
+
+                                                    <div class="steps">
+                                                        <div data-step="show" data-target='[data-char="caroline"]'></div>
+                                                        <div data-step="show" data-target='[data-char="rune"]'></div>
+                                                        <div data-step="focus"></div>
+                                                        <div data-step="say" data-speaker="" data-color="#f3e7cf">
+                                                            Vagtens svar var nærmest robotisk denne gang, og han
+                                                            kommenterede kun til det med stofferne.
+                                                        </div>
+                                                        <div data-step="wait-click"></div>
+
+                                                    <div data-step="wait-click"></div>
+                                                <div data-step="choice">
+                                                    <button type="button" data-run="encourageCaroline" data-next="talk-to-the-doorman-spg-scene">
+                                                        Continue
+                                                    </button>
+
+                                                </div>
+                                            </div>
+                </section>
+                <!-- Ikke begyndt -->
+                <section class="scene" id="back-to-the-bar-scene"
+                         data-music="music-peaceful-piano"
+                >
+                    <img
+                        class="scene-background"
+                        src="assets/images/scenes/bar-scene.jpg"
+                    >
+                    <img
+                        class="character is-hidden"
+                        data-char="caroline"
+                        src="assets/images/characters/caroline.png"
+                    >
+                    <img
+                        class="character is-hidden"
+                        data-char="bartender"
+                        src="assets/images/characters/Bartender-halv.png"
+                    >
+
+                    <img
+                        class="character is-hidden"
+                        data-char="rune"
+                        src="assets/images/characters/Rune-hel.png"
+                    >
+
+
+                    <div class="steps">
+                        <div data-step="show" data-target='[data-char="caroline"]'></div>
+                        <div data-step="focus"></div>
+                        <div data-step="say" data-speaker="" data-color="#f3e7cf">
+                            "Blodpletten fanger din interesse, du vælger at bevæge dig op til barens indgang, du trækker
+                            vejret dybt ind og lukker alle alarmklokker, som går basalt inde i din krop. Du løfter dine
+                            arme og… Med et barser Caroline igennem, hun var ikke engang sikker på, at nogle ville være
+                            der, eller at døren ville være åben. Dog ser hun to mænd derinde."
+                        </div>
+                        <div data-step="wait-click"></div>
+                        <div data-step="focus" data-target='[data-char="caroline"]'></div>
+                        <div data-step="show" data-target='[data-char="rune"]'></div>
+                        <div data-step="show" data-target='[data-char="bartender"]'></div>
+                        <div data-step="focus"></div>
+                        <div data-step="say" data-speaker="" data-color="#f3e7cf">
+                            "En mand pusser diverse glas bag baren, Caroline genkendte ham, hun har drukket her før med
+                            Sofie. Det var bartenderen, dog kendte hun ikke hans navn. Den anden var… bekendt, der var
+                            en klokke, der ringede, men hun kunne ikke lige pege fingeren på hvor fra. Han sad helt
+                            ude i siden, alene ved et bord og drak et glas med… whisky?"
+                        </div>
+
+
+                        <div data-step="wait-click"></div>
+                        <div data-step="focus" data-target='[data-char="caroline"]'></div>
+                        <div data-step="show" data-target='[data-char="rune"]'></div>
+                        <div data-step="show" data-target='[data-char="bartender"]'></div>
+                        <div data-step="say" data-speaker="Caroline" data-color="#79b8f9">
+                            Det var da godt nok lidt tidligt allerede at sidde og drikke whiskey nu... Og hvorfor har
+                            de allerede åbent?
+                        </div>
+
+                        <div data-step="wait-click"></div>
+                        <div data-step="focus" data-target='[data-char="caroline"]'></div>
+                        <div data-step="show" data-target='[data-char="rune"]'></div>
+                        <div data-step="show" data-target='[data-char="bartender"]'></div>
+                        <div data-step="focus"></div>
+                        <div data-step="say" data-speaker="" data-color="#f3e7cf">
+                            Caroline ser nu at der er en trappe bagerst, som fører ovenpå hvor toiletterne ligger,
+                            hun husker dog at der også er andre døre der oppe, men ved ikke hvad der er bag.
+                        </div>
+
+
+                        <div data-step="choice">
+                            <button type="button" data-run="encourageCaroline" data-next="living-room-search-scene">
+                                Tal med bartenderen
+                            </button>
+                            <button type="button" data-run="encourageCaroline" data-next="whiskey-guy-scene">
+                                Tal med “whisky manden”
+                            </button>
+                            <button type="button" data-run="encourageCaroline" data-next="living-room-search-scene">
+                                Kig rundt ovenpå
+                            </button>
+                        </div>
+                    </div>
+                </section>
+                <!-- Ikke begyndt -->
+                <section class="scene" id="retrace-your-steps-scene"
+                         data-music="music-peaceful-piano"
+                >
+                    <img
+                        class="scene-background"
+                        src="assets/images/scenes/club-scene.jpg"
+                    >
+                    <img
+                        class="character is-hidden"
+                        data-char="caroline"
+                        src="assets/images/characters/caroline.png"
+                    >
+                    <img
+                        class="character is-hidden"
+                        data-char="rune"
+                        src="assets/images/characters/rune-halv.png"
+                    >
+
+                    <div class="steps">
+                        <div data-step="show" data-target='[data-char="caroline"]'></div>
+                        <div data-step="show" data-target='[data-char="rune"]'></div>
+                        <div data-step="focus"></div>
+                        <div data-step="say" data-speaker="" data-color="#f3e7cf">
+                            "Caroline rykker sig over til “whisky manden” hun føler sig lidt nervøs, dog ved hun ikke
+                            hvorfor, der er noget ved ham, som hun ikke bryder sig om."
+                        </div>
+                        <div data-step="wait-click"></div>
+
+                        <div class="steps">
+                            <div data-step="wait-click"></div>
+                            <div data-step="focus" data-target='[data-char="caroline"]'></div>
+                            <div data-step="show" data-target='[data-char="rune"]'></div>
+                            <div data-step="say" data-speaker="Caroline" data-color="#79b8f9">
+                                Undskyld mig.
+                            </div>
+                            <div data-step="wait-click"></div>
+
+                            <div class="steps">
+                                <div data-step="wait-click"></div>
+                                <div data-step="show" data-target='[data-char="caroline"]'></div>
+                                <div data-step="focus" data-target='[data-char="rune"]'></div>
+                                <div data-step="say" data-speaker="Whiskey-guy" data-color="#79b8f9">
+                                    Jamen dog, det bare mit held at sådan en skøn pige som dig kommer op og snakker med mig,
+                                    hvordan kan jeg være til tjeneste denne gang?
+                                </div>
+                                <div data-step="wait-click"></div>
+
+                                <div class="steps">
+                                    <div data-step="show" data-target='[data-char="caroline"]'></div>
+                                    <div data-step="show" data-target='[data-char="rune"]'></div>
+                                    <div data-step="focus"></div>
+                                    <div data-step="say" data-speaker="" data-color="#f3e7cf">
+                                        "Caroline følte allerede noget krybe ind under hendes hud, hun kunne allerede føle
+                                        hans ‘fuckboy’ energi. Dog måtte hun fortsætte."
+                                    </div>
+                                    <div data-step="wait-click"></div>
+
+                                    <div data-step="choice">
+                                        <button type="button" data-run="encourageCaroline" data-next="living-room-search-scene">
+                                            Denne gang? Vi har mødt før?
+                                        </button>
+                                        <button type="button" data-run="encourageCaroline" data-next="living-room-search-scene">
+                                            Har du set min ven før?
+                                        </button>
+                                        <button type="button" data-run="encourageCaroline" data-next="living-room-search-scene">
+                                            Hvad er det der er ovenpå?
+                                        </button>
+                                        <button type="button" data-run="encourageCaroline" data-next="living-room-search-scene">
+                                            Gør noget andet
+                                        </button>
+                                    </div>
+                                </div>
+                </section>
+                <!-- Ikke begyndt -->
+                <section class="scene" id="VIP-room-scene"
+                         data-music="music-peaceful-piano"
+                >
+                    <img
+                        class="scene-background"
+                        src="assets/images/scenes/club-scene.jpg"
+                    >
+                    <img
+                        class="character is-hidden"
+                        data-char="caroline"
+                        src="assets/images/characters/caroline.png"
+                    >
+                    <img
+                        class="character is-hidden"
+                        data-char="rune"
+                        src="assets/images/characters/rune-halv.png"
+                    >
+
+                    <div class="steps">
+                        <div data-step="show" data-target='[data-char="caroline"]'></div>
+                        <div data-step="show" data-target='[data-char="rune"]'></div>
+                        <div data-step="focus"></div>
+                        <div data-step="say" data-speaker="" data-color="#f3e7cf">
+                            "Caroline rykker sig over til “whisky manden” hun føler sig lidt nervøs, dog ved hun ikke
+                            hvorfor, der er noget ved ham, som hun ikke bryder sig om."
+                        </div>
+                        <div data-step="wait-click"></div>
+
+                        <div class="steps">
+                            <div data-step="wait-click"></div>
+                            <div data-step="focus" data-target='[data-char="caroline"]'></div>
+                            <div data-step="show" data-target='[data-char="rune"]'></div>
+                            <div data-step="say" data-speaker="Caroline" data-color="#79b8f9">
+                                Undskyld mig.
+                            </div>
+                            <div data-step="wait-click"></div>
+
+                            <div class="steps">
+                                <div data-step="wait-click"></div>
+                                <div data-step="show" data-target='[data-char="caroline"]'></div>
+                                <div data-step="focus" data-target='[data-char="rune"]'></div>
+                                <div data-step="say" data-speaker="Whiskey-guy" data-color="#79b8f9">
+                                    Jamen dog, det bare mit held at sådan en skøn pige som dig kommer op og snakker med mig,
+                                    hvordan kan jeg være til tjeneste denne gang?
+                                </div>
+                                <div data-step="wait-click"></div>
+
+                                <div class="steps">
+                                    <div data-step="show" data-target='[data-char="caroline"]'></div>
+                                    <div data-step="show" data-target='[data-char="rune"]'></div>
+                                    <div data-step="focus"></div>
+                                    <div data-step="say" data-speaker="" data-color="#f3e7cf">
+                                        "Caroline følte allerede noget krybe ind under hendes hud, hun kunne allerede føle
+                                        hans ‘fuckboy’ energi. Dog måtte hun fortsætte."
+                                    </div>
+                                    <div data-step="wait-click"></div>
+
+                                    <div data-step="choice">
+                                        <button type="button" data-run="encourageCaroline" data-next="living-room-search-scene">
+                                            Denne gang? Vi har mødt før?
+                                        </button>
+                                        <button type="button" data-run="encourageCaroline" data-next="living-room-search-scene">
+                                            Har du set min ven før?
+                                        </button>
+                                        <button type="button" data-run="encourageCaroline" data-next="living-room-search-scene">
+                                            Hvad er det der er ovenpå?
+                                        </button>
+                                        <button type="button" data-run="encourageCaroline" data-next="living-room-search-scene">
+                                            Gør noget andet
+                                        </button>
+                                    </div>
+                                </div>
+                </section>
+                <!-- Ikke begyndt -->
+                <section class="scene" id="check-the-trash-scene"
+                         data-music="music-peaceful-piano"
+                >
+                    <img
+                        class="scene-background"
+                        src="assets/images/scenes/club-scene.jpg"
+                    >
+                    <img
+                        class="character is-hidden"
+                        data-char="caroline"
+                        src="assets/images/characters/caroline.png"
+                    >
+                    <img
+                        class="character is-hidden"
+                        data-char="rune"
+                        src="assets/images/characters/rune-halv.png"
+                    >
+
+                    <div class="steps">
+                        <div data-step="show" data-target='[data-char="caroline"]'></div>
+                        <div data-step="show" data-target='[data-char="rune"]'></div>
+                        <div data-step="focus"></div>
+                        <div data-step="say" data-speaker="" data-color="#f3e7cf">
+                            "Caroline rykker sig over til “whisky manden” hun føler sig lidt nervøs, dog ved hun ikke
+                            hvorfor, der er noget ved ham, som hun ikke bryder sig om."
+                        </div>
+                        <div data-step="wait-click"></div>
+
+                        <div class="steps">
+                            <div data-step="wait-click"></div>
+                            <div data-step="focus" data-target='[data-char="caroline"]'></div>
+                            <div data-step="show" data-target='[data-char="rune"]'></div>
+                            <div data-step="say" data-speaker="Caroline" data-color="#79b8f9">
+                                Undskyld mig.
+                            </div>
+                            <div data-step="wait-click"></div>
+
+                            <div class="steps">
+                                <div data-step="wait-click"></div>
+                                <div data-step="show" data-target='[data-char="caroline"]'></div>
+                                <div data-step="focus" data-target='[data-char="rune"]'></div>
+                                <div data-step="say" data-speaker="Whiskey-guy" data-color="#79b8f9">
+                                    Jamen dog, det bare mit held at sådan en skøn pige som dig kommer op og snakker med mig,
+                                    hvordan kan jeg være til tjeneste denne gang?
+                                </div>
+                                <div data-step="wait-click"></div>
+
+                                <div class="steps">
+                                    <div data-step="show" data-target='[data-char="caroline"]'></div>
+                                    <div data-step="show" data-target='[data-char="rune"]'></div>
+                                    <div data-step="focus"></div>
+                                    <div data-step="say" data-speaker="" data-color="#f3e7cf">
+                                        "Caroline følte allerede noget krybe ind under hendes hud, hun kunne allerede føle
+                                        hans ‘fuckboy’ energi. Dog måtte hun fortsætte."
+                                    </div>
+                                    <div data-step="wait-click"></div>
+
+                                    <div data-step="choice">
+                                        <button type="button" data-run="encourageCaroline" data-next="living-room-search-scene">
+                                            Denne gang? Vi har mødt før?
+                                        </button>
+                                        <button type="button" data-run="encourageCaroline" data-next="living-room-search-scene">
+                                            Har du set min ven før?
+                                        </button>
+                                        <button type="button" data-run="encourageCaroline" data-next="living-room-search-scene">
+                                            Hvad er det der er ovenpå?
+                                        </button>
+                                        <button type="button" data-run="encourageCaroline" data-next="living-room-search-scene">
+                                            Gør noget andet
+                                        </button>
+                                    </div>
+                                </div>
+                </section>
+                <!-- Ikke begyndt -->
+                <section class="scene" id="check-upstairs-scene"
+                         data-music="music-peaceful-piano"
+                >
+                    <img
+                        class="scene-background"
+                        src="assets/images/scenes/club-scene.jpg"
+                    >
+                    <img
+                        class="character is-hidden"
+                        data-char="caroline"
+                        src="assets/images/characters/caroline.png"
+                    >
+                    <img
+                        class="character is-hidden"
+                        data-char="rune"
+                        src="assets/images/characters/rune-halv.png"
+                    >
+
+                    <div class="steps">
+                        <div data-step="show" data-target='[data-char="caroline"]'></div>
+                        <div data-step="show" data-target='[data-char="rune"]'></div>
+                        <div data-step="focus"></div>
+                        <div data-step="say" data-speaker="" data-color="#f3e7cf">
+                            "Caroline rykker sig over til “whisky manden” hun føler sig lidt nervøs, dog ved hun ikke
+                            hvorfor, der er noget ved ham, som hun ikke bryder sig om."
+                        </div>
+                        <div data-step="wait-click"></div>
+
+                        <div class="steps">
+                            <div data-step="wait-click"></div>
+                            <div data-step="focus" data-target='[data-char="caroline"]'></div>
+                            <div data-step="show" data-target='[data-char="rune"]'></div>
+                            <div data-step="say" data-speaker="Caroline" data-color="#79b8f9">
+                                Undskyld mig.
+                            </div>
+                            <div data-step="wait-click"></div>
+
+                            <div class="steps">
+                                <div data-step="wait-click"></div>
+                                <div data-step="show" data-target='[data-char="caroline"]'></div>
+                                <div data-step="focus" data-target='[data-char="rune"]'></div>
+                                <div data-step="say" data-speaker="Whiskey-guy" data-color="#79b8f9">
+                                    Jamen dog, det bare mit held at sådan en skøn pige som dig kommer op og snakker med mig,
+                                    hvordan kan jeg være til tjeneste denne gang?
+                                </div>
+                                <div data-step="wait-click"></div>
+
+                                <div class="steps">
+                                    <div data-step="show" data-target='[data-char="caroline"]'></div>
+                                    <div data-step="show" data-target='[data-char="rune"]'></div>
+                                    <div data-step="focus"></div>
+                                    <div data-step="say" data-speaker="" data-color="#f3e7cf">
+                                        "Caroline følte allerede noget krybe ind under hendes hud, hun kunne allerede føle
+                                        hans ‘fuckboy’ energi. Dog måtte hun fortsætte."
+                                    </div>
+                                    <div data-step="wait-click"></div>
+
+                                    <div data-step="choice">
+                                        <button type="button" data-run="encourageCaroline" data-next="living-room-search-scene">
+                                            Denne gang? Vi har mødt før?
+                                        </button>
+                                        <button type="button" data-run="encourageCaroline" data-next="living-room-search-scene">
+                                            Har du set min ven før?
+                                        </button>
+                                        <button type="button" data-run="encourageCaroline" data-next="living-room-search-scene">
+                                            Hvad er det der er ovenpå?
+                                        </button>
+                                        <button type="button" data-run="encourageCaroline" data-next="living-room-search-scene">
+                                            Gør noget andet
+                                        </button>
+                                    </div>
+                                </div>
+                </section>
+                <!-- Ikke begyndt -->
+                <section class="scene" id="check-trash-agian-scene"
+                         data-music="music-peaceful-piano"
+                >
+                    <img
+                        class="scene-background"
+                        src="assets/images/scenes/club-scene.jpg"
+                    >
+                    <img
+                        class="character is-hidden"
+                        data-char="caroline"
+                        src="assets/images/characters/caroline.png"
+                    >
+                    <img
+                        class="character is-hidden"
+                        data-char="rune"
+                        src="assets/images/characters/rune-halv.png"
+                    >
+
+                    <div class="steps">
+                        <div data-step="show" data-target='[data-char="caroline"]'></div>
+                        <div data-step="show" data-target='[data-char="rune"]'></div>
+                        <div data-step="focus"></div>
+                        <div data-step="say" data-speaker="" data-color="#f3e7cf">
+                            "Caroline rykker sig over til “whisky manden” hun føler sig lidt nervøs, dog ved hun ikke
+                            hvorfor, der er noget ved ham, som hun ikke bryder sig om."
+                        </div>
+                        <div data-step="wait-click"></div>
+
+                        <div class="steps">
+                            <div data-step="wait-click"></div>
+                            <div data-step="focus" data-target='[data-char="caroline"]'></div>
+                            <div data-step="show" data-target='[data-char="rune"]'></div>
+                            <div data-step="say" data-speaker="Caroline" data-color="#79b8f9">
+                                Undskyld mig.
+                            </div>
+                            <div data-step="wait-click"></div>
+
+                            <div class="steps">
+                                <div data-step="wait-click"></div>
+                                <div data-step="show" data-target='[data-char="caroline"]'></div>
+                                <div data-step="focus" data-target='[data-char="rune"]'></div>
+                                <div data-step="say" data-speaker="Whiskey-guy" data-color="#79b8f9">
+                                    Jamen dog, det bare mit held at sådan en skøn pige som dig kommer op og snakker med mig,
+                                    hvordan kan jeg være til tjeneste denne gang?
+                                </div>
+                                <div data-step="wait-click"></div>
+
+                                <div class="steps">
+                                    <div data-step="show" data-target='[data-char="caroline"]'></div>
+                                    <div data-step="show" data-target='[data-char="rune"]'></div>
+                                    <div data-step="focus"></div>
+                                    <div data-step="say" data-speaker="" data-color="#f3e7cf">
+                                        "Caroline følte allerede noget krybe ind under hendes hud, hun kunne allerede føle
+                                        hans ‘fuckboy’ energi. Dog måtte hun fortsætte."
+                                    </div>
+                                    <div data-step="wait-click"></div>
+
+                                    <div data-step="choice">
+                                        <button type="button" data-run="encourageCaroline" data-next="living-room-search-scene">
+                                            Denne gang? Vi har mødt før?
+                                        </button>
+                                        <button type="button" data-run="encourageCaroline" data-next="living-room-search-scene">
+                                            Har du set min ven før?
+                                        </button>
+                                        <button type="button" data-run="encourageCaroline" data-next="living-room-search-scene">
+                                            Hvad er det der er ovenpå?
+                                        </button>
+                                        <button type="button" data-run="encourageCaroline" data-next="living-room-search-scene">
+                                            Gør noget andet
+                                        </button>
+                                    </div>
+                                </div>
+                </section>
+                <!-- Ikke begyndt -->
+                <section class="scene" id="call-the-police-scene"
+                         data-music="music-peaceful-piano"
+                >
+                    <img
+                        class="scene-background"
+                        src="assets/images/scenes/club-scene.jpg"
+                    >
+                    <img
+                        class="character is-hidden"
+                        data-char="caroline"
+                        src="assets/images/characters/caroline.png"
+                    >
+                    <img
+                        class="character is-hidden"
+                        data-char="rune"
+                        src="assets/images/characters/rune-halv.png"
+                    >
+
+                    <div class="steps">
+                        <div data-step="show" data-target='[data-char="caroline"]'></div>
+                        <div data-step="show" data-target='[data-char="rune"]'></div>
+                        <div data-step="focus"></div>
+                        <div data-step="say" data-speaker="" data-color="#f3e7cf">
+                            "Caroline rykker sig over til “whisky manden” hun føler sig lidt nervøs, dog ved hun ikke
+                            hvorfor, der er noget ved ham, som hun ikke bryder sig om."
+                        </div>
+                        <div data-step="wait-click"></div>
+
+                        <div class="steps">
+                            <div data-step="wait-click"></div>
+                            <div data-step="focus" data-target='[data-char="caroline"]'></div>
+                            <div data-step="show" data-target='[data-char="rune"]'></div>
+                            <div data-step="say" data-speaker="Caroline" data-color="#79b8f9">
+                                Undskyld mig.
+                            </div>
+                            <div data-step="wait-click"></div>
+
+                            <div class="steps">
+                                <div data-step="wait-click"></div>
+                                <div data-step="show" data-target='[data-char="caroline"]'></div>
+                                <div data-step="focus" data-target='[data-char="rune"]'></div>
+                                <div data-step="say" data-speaker="Whiskey-guy" data-color="#79b8f9">
+                                    Jamen dog, det bare mit held at sådan en skøn pige som dig kommer op og snakker med mig,
+                                    hvordan kan jeg være til tjeneste denne gang?
+                                </div>
+                                <div data-step="wait-click"></div>
+
+                                <div class="steps">
+                                    <div data-step="show" data-target='[data-char="caroline"]'></div>
+                                    <div data-step="show" data-target='[data-char="rune"]'></div>
+                                    <div data-step="focus"></div>
+                                    <div data-step="say" data-speaker="" data-color="#f3e7cf">
+                                        "Caroline følte allerede noget krybe ind under hendes hud, hun kunne allerede føle
+                                        hans ‘fuckboy’ energi. Dog måtte hun fortsætte."
+                                    </div>
+                                    <div data-step="wait-click"></div>
+
+                                    <div data-step="choice">
+                                        <button type="button" data-run="encourageCaroline" data-next="living-room-search-scene">
+                                            Denne gang? Vi har mødt før?
+                                        </button>
+                                        <button type="button" data-run="encourageCaroline" data-next="living-room-search-scene">
+                                            Har du set min ven før?
+                                        </button>
+                                        <button type="button" data-run="encourageCaroline" data-next="living-room-search-scene">
+                                            Hvad er det der er ovenpå?
+                                        </button>
+                                        <button type="button" data-run="encourageCaroline" data-next="living-room-search-scene">
+                                            Gør noget andet
+                                        </button>
+                                    </div>
+                                </div>
+                </section>
+                <!-- Ikke begyndt -->
+                <section class="scene" id="bartender-spg-1-scene"
+                         data-music="music-peaceful-piano"
+                >
+                    <img
+                        class="scene-background"
+                        src="assets/images/scenes/club-scene.jpg"
+                    >
+                    <img
+                        class="character is-hidden"
+                        data-char="caroline"
+                        src="assets/images/characters/caroline.png"
+                    >
+                    <img
+                        class="character is-hidden"
+                        data-char="rune"
+                        src="assets/images/characters/rune-halv.png"
+                    >
+
+                    <div class="steps">
+                        <div data-step="show" data-target='[data-char="caroline"]'></div>
+                        <div data-step="show" data-target='[data-char="rune"]'></div>
+                        <div data-step="focus"></div>
+                        <div data-step="say" data-speaker="" data-color="#f3e7cf">
+                            "Caroline rykker sig over til “whisky manden” hun føler sig lidt nervøs, dog ved hun ikke
+                            hvorfor, der er noget ved ham, som hun ikke bryder sig om."
+                        </div>
+                        <div data-step="wait-click"></div>
+
+                        <div class="steps">
+                            <div data-step="wait-click"></div>
+                            <div data-step="focus" data-target='[data-char="caroline"]'></div>
+                            <div data-step="show" data-target='[data-char="rune"]'></div>
+                            <div data-step="say" data-speaker="Caroline" data-color="#79b8f9">
+                                Undskyld mig.
+                            </div>
+                            <div data-step="wait-click"></div>
+
+                            <div class="steps">
+                                <div data-step="wait-click"></div>
+                                <div data-step="show" data-target='[data-char="caroline"]'></div>
+                                <div data-step="focus" data-target='[data-char="rune"]'></div>
+                                <div data-step="say" data-speaker="Whiskey-guy" data-color="#79b8f9">
+                                    Jamen dog, det bare mit held at sådan en skøn pige som dig kommer op og snakker med mig,
+                                    hvordan kan jeg være til tjeneste denne gang?
+                                </div>
+                                <div data-step="wait-click"></div>
+
+                                <div class="steps">
+                                    <div data-step="show" data-target='[data-char="caroline"]'></div>
+                                    <div data-step="show" data-target='[data-char="rune"]'></div>
+                                    <div data-step="focus"></div>
+                                    <div data-step="say" data-speaker="" data-color="#f3e7cf">
+                                        "Caroline følte allerede noget krybe ind under hendes hud, hun kunne allerede føle
+                                        hans ‘fuckboy’ energi. Dog måtte hun fortsætte."
+                                    </div>
+                                    <div data-step="wait-click"></div>
+
+                                    <div data-step="choice">
+                                        <button type="button" data-run="encourageCaroline" data-next="living-room-search-scene">
+                                            Denne gang? Vi har mødt før?
+                                        </button>
+                                        <button type="button" data-run="encourageCaroline" data-next="living-room-search-scene">
+                                            Har du set min ven før?
+                                        </button>
+                                        <button type="button" data-run="encourageCaroline" data-next="living-room-search-scene">
+                                            Hvad er det der er ovenpå?
+                                        </button>
+                                        <button type="button" data-run="encourageCaroline" data-next="living-room-search-scene">
+                                            Gør noget andet
+                                        </button>
+                                    </div>
+                                </div>
+                </section>
+                <!-- Ikke begyndt -->
+                <section class="scene" id="bartender-spg-2-scene"
+                         data-music="music-peaceful-piano"
+                >
+                    <img
+                        class="scene-background"
+                        src="assets/images/scenes/club-scene.jpg"
+                    >
+                    <img
+                        class="character is-hidden"
+                        data-char="caroline"
+                        src="assets/images/characters/caroline.png"
+                    >
+                    <img
+                        class="character is-hidden"
+                        data-char="rune"
+                        src="assets/images/characters/rune-halv.png"
+                    >
+
+                    <div class="steps">
+                        <div data-step="show" data-target='[data-char="caroline"]'></div>
+                        <div data-step="show" data-target='[data-char="rune"]'></div>
+                        <div data-step="focus"></div>
+                        <div data-step="say" data-speaker="" data-color="#f3e7cf">
+                            "Caroline rykker sig over til “whisky manden” hun føler sig lidt nervøs, dog ved hun ikke
+                            hvorfor, der er noget ved ham, som hun ikke bryder sig om."
+                        </div>
+                        <div data-step="wait-click"></div>
+
+                        <div class="steps">
+                            <div data-step="wait-click"></div>
+                            <div data-step="focus" data-target='[data-char="caroline"]'></div>
+                            <div data-step="show" data-target='[data-char="rune"]'></div>
+                            <div data-step="say" data-speaker="Caroline" data-color="#79b8f9">
+                                Undskyld mig.
+                            </div>
+                            <div data-step="wait-click"></div>
+
+                            <div class="steps">
+                                <div data-step="wait-click"></div>
+                                <div data-step="show" data-target='[data-char="caroline"]'></div>
+                                <div data-step="focus" data-target='[data-char="rune"]'></div>
+                                <div data-step="say" data-speaker="Whiskey-guy" data-color="#79b8f9">
+                                    Jamen dog, det bare mit held at sådan en skøn pige som dig kommer op og snakker med mig,
+                                    hvordan kan jeg være til tjeneste denne gang?
+                                </div>
+                                <div data-step="wait-click"></div>
+
+                                <div class="steps">
+                                    <div data-step="show" data-target='[data-char="caroline"]'></div>
+                                    <div data-step="show" data-target='[data-char="rune"]'></div>
+                                    <div data-step="focus"></div>
+                                    <div data-step="say" data-speaker="" data-color="#f3e7cf">
+                                        "Caroline følte allerede noget krybe ind under hendes hud, hun kunne allerede føle
+                                        hans ‘fuckboy’ energi. Dog måtte hun fortsætte."
+                                    </div>
+                                    <div data-step="wait-click"></div>
+
+                                    <div data-step="choice">
+                                        <button type="button" data-run="encourageCaroline" data-next="living-room-search-scene">
+                                            Denne gang? Vi har mødt før?
+                                        </button>
+                                        <button type="button" data-run="encourageCaroline" data-next="living-room-search-scene">
+                                            Har du set min ven før?
+                                        </button>
+                                        <button type="button" data-run="encourageCaroline" data-next="living-room-search-scene">
+                                            Hvad er det der er ovenpå?
+                                        </button>
+                                        <button type="button" data-run="encourageCaroline" data-next="living-room-search-scene">
+                                            Gør noget andet
+                                        </button>
+                                    </div>
+                                </div>
+                </section>
+                <!-- Ikke begyndt -->
+                <section class="scene" id="bartender-spg-3-scene"
+                         data-music="music-peaceful-piano"
+                >
+                    <img
+                        class="scene-background"
+                        src="assets/images/scenes/club-scene.jpg"
+                    >
+                    <img
+                        class="character is-hidden"
+                        data-char="caroline"
+                        src="assets/images/characters/caroline.png"
+                    >
+                    <img
+                        class="character is-hidden"
+                        data-char="rune"
+                        src="assets/images/characters/rune-halv.png"
+                    >
+
+                    <div class="steps">
+                        <div data-step="show" data-target='[data-char="caroline"]'></div>
+                        <div data-step="show" data-target='[data-char="rune"]'></div>
+                        <div data-step="focus"></div>
+                        <div data-step="say" data-speaker="" data-color="#f3e7cf">
+                            "Caroline rykker sig over til “whisky manden” hun føler sig lidt nervøs, dog ved hun ikke
+                            hvorfor, der er noget ved ham, som hun ikke bryder sig om."
+                        </div>
+                        <div data-step="wait-click"></div>
+
+                        <div class="steps">
+                            <div data-step="wait-click"></div>
+                            <div data-step="focus" data-target='[data-char="caroline"]'></div>
+                            <div data-step="show" data-target='[data-char="rune"]'></div>
+                            <div data-step="say" data-speaker="Caroline" data-color="#79b8f9">
+                                Undskyld mig.
+                            </div>
+                            <div data-step="wait-click"></div>
+
+                            <div class="steps">
+                                <div data-step="wait-click"></div>
+                                <div data-step="show" data-target='[data-char="caroline"]'></div>
+                                <div data-step="focus" data-target='[data-char="rune"]'></div>
+                                <div data-step="say" data-speaker="Whiskey-guy" data-color="#79b8f9">
+                                    Jamen dog, det bare mit held at sådan en skøn pige som dig kommer op og snakker med mig,
+                                    hvordan kan jeg være til tjeneste denne gang?
+                                </div>
+                                <div data-step="wait-click"></div>
+
+                                <div class="steps">
+                                    <div data-step="show" data-target='[data-char="caroline"]'></div>
+                                    <div data-step="show" data-target='[data-char="rune"]'></div>
+                                    <div data-step="focus"></div>
+                                    <div data-step="say" data-speaker="" data-color="#f3e7cf">
+                                        "Caroline følte allerede noget krybe ind under hendes hud, hun kunne allerede føle
+                                        hans ‘fuckboy’ energi. Dog måtte hun fortsætte."
+                                    </div>
+                                    <div data-step="wait-click"></div>
+
+                                    <div data-step="choice">
+                                        <button type="button" data-run="encourageCaroline" data-next="living-room-search-scene">
+                                            Denne gang? Vi har mødt før?
+                                        </button>
+                                        <button type="button" data-run="encourageCaroline" data-next="living-room-search-scene">
+                                            Har du set min ven før?
+                                        </button>
+                                        <button type="button" data-run="encourageCaroline" data-next="living-room-search-scene">
+                                            Hvad er det der er ovenpå?
+                                        </button>
+                                        <button type="button" data-run="encourageCaroline" data-next="living-room-search-scene">
+                                            Gør noget andet
+                                        </button>
+                                    </div>
+                                </div>
+                </section>
+                <!-- Ikke begyndt -->
+                <section class="scene" id="bartender-spg-4-scene"
+                         data-music="music-peaceful-piano"
+                >
+                    <img
+                        class="scene-background"
+                        src="assets/images/scenes/club-scene.jpg"
+                    >
+                    <img
+                        class="character is-hidden"
+                        data-char="caroline"
+                        src="assets/images/characters/caroline.png"
+                    >
+                    <img
+                        class="character is-hidden"
+                        data-char="rune"
+                        src="assets/images/characters/rune-halv.png"
+                    >
+
+                    <div class="steps">
+                        <div data-step="show" data-target='[data-char="caroline"]'></div>
+                        <div data-step="show" data-target='[data-char="rune"]'></div>
+                        <div data-step="focus"></div>
+                        <div data-step="say" data-speaker="" data-color="#f3e7cf">
+                            "Caroline rykker sig over til “whisky manden” hun føler sig lidt nervøs, dog ved hun ikke
+                            hvorfor, der er noget ved ham, som hun ikke bryder sig om."
+                        </div>
+                        <div data-step="wait-click"></div>
+
+                        <div class="steps">
+                            <div data-step="wait-click"></div>
+                            <div data-step="focus" data-target='[data-char="caroline"]'></div>
+                            <div data-step="show" data-target='[data-char="rune"]'></div>
+                            <div data-step="say" data-speaker="Caroline" data-color="#79b8f9">
+                                Undskyld mig.
+                            </div>
+                            <div data-step="wait-click"></div>
+
+                            <div class="steps">
+                                <div data-step="wait-click"></div>
+                                <div data-step="show" data-target='[data-char="caroline"]'></div>
+                                <div data-step="focus" data-target='[data-char="rune"]'></div>
+                                <div data-step="say" data-speaker="Whiskey-guy" data-color="#79b8f9">
+                                    Jamen dog, det bare mit held at sådan en skøn pige som dig kommer op og snakker med mig,
+                                    hvordan kan jeg være til tjeneste denne gang?
+                                </div>
+                                <div data-step="wait-click"></div>
+
+                                <div class="steps">
+                                    <div data-step="show" data-target='[data-char="caroline"]'></div>
+                                    <div data-step="show" data-target='[data-char="rune"]'></div>
+                                    <div data-step="focus"></div>
+                                    <div data-step="say" data-speaker="" data-color="#f3e7cf">
+                                        "Caroline følte allerede noget krybe ind under hendes hud, hun kunne allerede føle
+                                        hans ‘fuckboy’ energi. Dog måtte hun fortsætte."
+                                    </div>
+                                    <div data-step="wait-click"></div>
+
+                                    <div data-step="choice">
+                                        <button type="button" data-run="encourageCaroline" data-next="living-room-search-scene">
+                                            Denne gang? Vi har mødt før?
+                                        </button>
+                                        <button type="button" data-run="encourageCaroline" data-next="living-room-search-scene">
+                                            Har du set min ven før?
+                                        </button>
+                                        <button type="button" data-run="encourageCaroline" data-next="living-room-search-scene">
+                                            Hvad er det der er ovenpå?
+                                        </button>
+                                        <button type="button" data-run="encourageCaroline" data-next="living-room-search-scene">
+                                            Gør noget andet
+                                        </button>
+                                    </div>
+                                </div>
                 </section>
 
 
