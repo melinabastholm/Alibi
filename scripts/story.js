@@ -15,6 +15,7 @@ const storyInitialState = {
   itemHasHeadphones: false,
   itemHasPhone: false,
   itemHasShoes: false,
+  itemHasKnife: false,
   talkedToCaroline: false,
   talkedToSofie: false,
   talkedToJack: false,
@@ -23,6 +24,16 @@ const storyInitialState = {
   clueFoundPhoneMessage: false,
   storyAccusedSomeone: false,
   storyCheckedHandprint: false,
+  storyCheckedTrash: false,
+  storyFoundKnife: false,
+  storyHasKnifePhoto: false,
+  talkedToRune: false,
+  checkedUpstairs: false,
+  calledPoliceAfterHelp: false,
+  alibiScore: 0,
+  askedPoliceWhoWasThere: false,
+  askedPoliceMurderWeapon: false,
+  askedPoliceSubstances: false,
   storyEnding: /** @type {'good' | 'bad' | null} */ (null),
 };
 
@@ -70,6 +81,22 @@ const storyConditions = {
    */
   hasCheckedHandprint(game) {
     return game.state.storyCheckedHandprint === true;
+  },
+
+  /**
+   * @param {StoryEngine} game
+   * @returns {boolean}
+   */
+  hasCheckedTrash(game) {
+    return game.state.storyCheckedTrash === true;
+  },
+
+  /**
+   * @param {StoryEngine} game
+   * @returns {boolean}
+   */
+  hasFoundKnife(game) {
+    return game.state.storyFoundKnife === true;
   },
 
   /**
@@ -178,6 +205,164 @@ const storyActions = {
       statTrust: game.state.statTrust + 1,
       talkedToCaroline: true,
     });
+  },
+
+  /**
+   * @param {StoryEngine} game
+   * @returns {string}
+   */
+  callPoliceImmediately(game) {
+    game.setState({
+      calledPoliceAfterHelp: false,
+      alibiScore: game.state.alibiScore - 1,
+    });
+    return 'call-the-police-scene';
+  },
+
+  /**
+   * @param {StoryEngine} game
+   * @returns {string}
+   */
+  callPoliceAfterHelping(game) {
+    game.setState({
+      calledPoliceAfterHelp: true,
+    });
+    return 'call-the-police-scene';
+  },
+
+  /**
+   * @param {StoryEngine} game
+   * @returns {void}
+   */
+  resolvePoliceOpening(game) {
+    if (game.state.calledPoliceAfterHelp) {
+      game.setDialog(
+        'Michael',
+        'Du prøvede at hjælpe hende først. Desværre var der ikke noget du kunne gøre, og hun døde ved 06:23, er det korrekt forstået?',
+        '#2c7be5',
+      );
+      return;
+    }
+
+    game.setDialog(
+      'Michael',
+      'Du ringede med det samme til politiet. Efter at have tjekket hele hendes krop, har vi fundet nogle interessante ting. Fortæl mig lige, kan du huske om du og Sofie havde et skænderi eller at I sloges om noget?',
+      '#2c7be5',
+    );
+  },
+
+  /**
+   * @param {StoryEngine} game
+   * @returns {void}
+   */
+  markTalkedToRune(game) {
+    if (game.state.talkedToRune) {
+      return;
+    }
+
+    game.setState({
+      talkedToRune: true,
+    });
+  },
+
+  /**
+   * @param {StoryEngine} game
+   * @returns {void}
+   */
+  markCheckedUpstairs(game) {
+    if (game.state.checkedUpstairs) {
+      return;
+    }
+
+    game.setState({
+      checkedUpstairs: true,
+    });
+  },
+
+  /**
+   * @param {StoryEngine} game
+   * @returns {string}
+   */
+  askPoliceWhoWasThere(game) {
+    if (!game.state.askedPoliceWhoWasThere) {
+      game.setState({
+        askedPoliceWhoWasThere: true,
+        alibiScore: game.state.alibiScore + (game.state.talkedToRune ? 1 : -1),
+      });
+    }
+
+    return game.state.talkedToRune
+      ? 'police-branch-1-1-rune-scene'
+      : 'police-branch-1-1-unknown-scene';
+  },
+
+  /**
+   * @param {StoryEngine} game
+   * @returns {string}
+   */
+  askPoliceMurderWeapon(game) {
+    if (!game.state.askedPoliceMurderWeapon) {
+      let alibiDelta = -1;
+
+      if (game.state.itemHasKnife) {
+        alibiDelta = 0;
+      } else if (game.state.storyHasKnifePhoto) {
+        alibiDelta = 1;
+      }
+
+      game.setState({
+        askedPoliceMurderWeapon: true,
+        alibiScore: game.state.alibiScore + alibiDelta,
+      });
+    }
+
+    if (game.state.itemHasKnife) {
+      return 'police-branch-1-2-took-knife-scene';
+    }
+
+    if (game.state.storyHasKnifePhoto) {
+      return 'police-branch-1-2-photo-scene';
+    }
+
+    return 'police-branch-1-2-default-scene';
+  },
+
+  /**
+   * @param {StoryEngine} game
+   * @returns {string}
+   */
+  askPoliceSubstances(game) {
+    if (!game.state.askedPoliceSubstances) {
+      game.setState({
+        askedPoliceSubstances: true,
+        alibiScore: game.state.alibiScore + (game.state.checkedUpstairs ? 1 : -1),
+      });
+    }
+
+    return game.state.checkedUpstairs
+      ? 'police-branch-1-3-upstairs-scene'
+      : 'police-branch-1-3-default-scene';
+  },
+
+  /**
+   * @param {StoryEngine} game
+   * @returns {string}
+   */
+  resolvePoliceEnding(game) {
+    const hasFullCase =
+      game.state.talkedToRune &&
+      game.state.checkedUpstairs &&
+      (game.state.storyHasKnifePhoto || game.state.itemHasKnife);
+
+    game.stopAllAudio();
+
+    if (hasFullCase) {
+      return 'police-ending-3-scene';
+    }
+
+    return game.state.alibiScore <= 0
+      ? 'police-ending-1-scene'
+      : 'police-ending-2-scene';
   },
 
   /**
@@ -299,6 +484,46 @@ const storyActions = {
       'Der! et håndaftryk i blod, det er næsten helt utydeligt, men det er også over på den anden bar? ',
       '#bdf9ac',
     );
+  },
+
+  /**
+   * @param {StoryEngine} game
+   * @returns {void}
+   */
+  markCheckedTrash(game) {
+    if (game.state.storyCheckedTrash) {
+      return;
+    }
+
+    game.setState({
+      storyCheckedTrash: true,
+    });
+  },
+
+  /**
+   * @param {StoryEngine} game
+   * @returns {void}
+   */
+  takeKnifePhoto(game) {
+    game.setState({
+      storyCheckedTrash: true,
+      storyFoundKnife: true,
+      storyHasKnifePhoto: true,
+      itemHasKnife: false,
+    });
+  },
+
+  /**
+   * @param {StoryEngine} game
+   * @returns {void}
+   */
+  takeKnife(game) {
+    game.setState({
+      storyCheckedTrash: true,
+      storyFoundKnife: true,
+      storyHasKnifePhoto: false,
+      itemHasKnife: true,
+    });
   },
 
   /**

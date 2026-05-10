@@ -755,6 +755,15 @@ export class VisualNovelEngine {
     const button = document.createElement('button');
     button.type = 'button';
     button.textContent = templateButton.textContent.trim();
+    button.className = templateButton.className;
+
+    if (templateButton.dataset.visibleIf) {
+      button.dataset.visibleIf = templateButton.dataset.visibleIf;
+    }
+
+    if (templateButton.dataset.visibleIfNot) {
+      button.dataset.visibleIfNot = templateButton.dataset.visibleIfNot;
+    }
 
     button.addEventListener('click', () => {
       if (token !== this.flowToken) {
@@ -1431,6 +1440,8 @@ export class VisualNovelEngine {
         this.createChoiceButton(templateButton, step, token),
       );
     });
+
+    this.refreshConditionalElements(this.choiceList);
   }
 }
 export default VisualNovelEngine;

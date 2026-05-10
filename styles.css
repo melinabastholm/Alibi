@@ -132,9 +132,9 @@ h2 {
   filter: drop-shadow(0 0 10px rgba(0, 0, 0, 0.10)) brightness(0.9) saturate(0.9);
   opacity: 1;
   transition:
-    opacity 200ms ease,
-    transform 200ms ease,
-    filter 200ms ease;
+  opacity 200ms ease,
+  transform 200ms ease,
+  filter 200ms ease;
 }
 
 .character.active {
@@ -162,9 +162,9 @@ h2 {
   filter: drop-shadow(0 14px 16px rgba(0, 0, 0, 0.22));
   opacity: 1;
   transition:
-    opacity 200ms ease,
-    transform 160ms ease,
-    filter 160ms ease;
+  opacity 200ms ease,
+  transform 160ms ease,
+  filter 160ms ease;
 }
 
 .character.is-swapping,
@@ -184,8 +184,8 @@ h2 {
 .scene [data-run]:not(button):not(.is-hidden):focus-visible {
   transform: scale(1.04);
   filter:
-    drop-shadow(0 0 0.9rem rgba(255, 249, 196, 0.95))
-    drop-shadow(0 0.8rem 1rem rgba(0, 0, 0, 0.28));
+  drop-shadow(0 0 0.9rem rgba(255, 249, 196, 0.95))
+  drop-shadow(0 0.8rem 1rem rgba(0, 0, 0, 0.28));
   outline: none;
 }
 
@@ -657,8 +657,8 @@ h2 {
   position: absolute;
   inset: 0;
   background:
-    linear-gradient(180deg, rgba(17, 22, 28, 0.26), rgba(17, 22, 28, 0.7)),
-    radial-gradient(circle at top, rgba(255, 255, 255, 0.26), transparent 48%);
+  linear-gradient(180deg, rgba(17, 22, 28, 0.26), rgba(17, 22, 28, 0.7)),
+  radial-gradient(circle at top, rgba(255, 255, 255, 0.26), transparent 48%);
 }
 
 .ending-screen > * {
@@ -703,14 +703,14 @@ h2 {
 
 .ending-screen--good .ending-card {
   background:
-    linear-gradient(180deg, rgba(28, 48, 55, 0.74), rgba(19, 31, 36, 0.76)),
-    rgba(18, 24, 30, 0.6);
+  linear-gradient(180deg, rgba(28, 48, 55, 0.74), rgba(19, 31, 36, 0.76)),
+  rgba(18, 24, 30, 0.6);
 }
 
 .ending-screen--rough .ending-card {
   background:
-    linear-gradient(180deg, rgba(62, 40, 30, 0.78), rgba(34, 22, 18, 0.82)),
-    rgba(18, 24, 30, 0.6);
+  linear-gradient(180deg, rgba(62, 40, 30, 0.78), rgba(34, 22, 18, 0.82)),
+  rgba(18, 24, 30, 0.6);
 }
 
 .ending-summary {
@@ -765,8 +765,8 @@ h2 {
   font-weight: 700;
   backdrop-filter: blur(10px);
   transition:
-    transform 120ms ease,
-    background 120ms ease;
+  transform 120ms ease,
+  background 120ms ease;
 }
 
 .music-toggle:hover {
@@ -862,9 +862,9 @@ h2 {
   cursor: pointer;
   box-shadow: 0 14px 24px rgba(24, 32, 38, 0.18);
   transition:
-    transform 120ms ease,
-    background 120ms ease,
-    color 120ms ease;
+  transform 120ms ease,
+  background 120ms ease,
+  color 120ms ease;
 }
 
 .choice-list button {
