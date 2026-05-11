@@ -320,10 +320,6 @@ const storyActions = {
       return 'police-branch-1-2-took-knife-scene';
     }
 
-    if (game.state.storyHasKnifePhoto) {
-      return 'police-branch-1-2-photo-scene';
-    }
-
     return 'police-branch-1-2-default-scene';
   },
 
