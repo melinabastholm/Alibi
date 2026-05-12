@@ -28,6 +28,8 @@ const storyInitialState = {
   storyFoundKnife: false,
   storyHasKnifePhoto: false,
   talkedToRune: false,
+  talkedToBartender: false,
+  talkedToDoorman: false,
   checkedUpstairs: false,
   calledPoliceAfterHelp: false,
   alibiScore: 0,
@@ -269,6 +271,56 @@ const storyActions = {
    * @param {StoryEngine} game
    * @returns {void}
    */
+  markTalkedToBartender(game) {
+    if (game.state.talkedToBartender) {
+      return;
+    }
+
+    game.setState({
+      talkedToBartender: true,
+    });
+  },
+
+  /**
+   * @param {StoryEngine} game
+   * @returns {void}
+   */
+  markTalkedToDoorman(game) {
+    if (game.state.talkedToDoorman) {
+      return;
+    }
+
+    game.setState({
+      talkedToDoorman: true,
+    });
+  },
+
+  /**
+   * @param {StoryEngine} game
+   * @returns {string | void}
+   */
+  inspectVipRoom(game) {
+    const canEnter =
+      game.state.talkedToRune &&
+      game.state.talkedToBartender &&
+      game.state.talkedToDoorman;
+
+    if (!canEnter) {
+      game.setDialog(
+        'Caroline',
+        'Jeg tror ikke jeg er klar til at kigge der endnu.',
+        '#79b8f9',
+      );
+      return;
+    }
+
+    return 'VIP-room-scene';
+  },
+
+  /**
+   * @param {StoryEngine} game
+   * @returns {void}
+   */
   markCheckedUpstairs(game) {
     if (game.state.checkedUpstairs) {
       return;
@@ -292,8 +344,8 @@ const storyActions = {
     }
 
     return game.state.talkedToRune
-      ? 'police-branch-1-1-rune-scene'
-      : 'police-branch-1-1-unknown-scene';
+      ? 'police-rune-scene'
+      : 'police-scene';
   },
 
   /**
@@ -317,10 +369,14 @@ const storyActions = {
     }
 
     if (game.state.itemHasKnife) {
-      return 'police-branch-1-2-took-knife-scene';
+      return 'police-took-knife-scene';
     }
 
-    return 'police-branch-1-2-default-scene';
+    if (game.state.storyHasKnifePhoto) {
+      return 'police-trash-scene';
+    }
+
+    return 'police-default-scene';
   },
 
   /**
