@@ -491,11 +491,66 @@ h2 {
   }
 }
 
+#ending-police-good {
+  .character[data-char="caroline"] {
+    right: 8%;
+    bottom: -8rem;
+    width: 320px;
+  }
+
+  .character[data-char="politimand"] {
+    left: 4%;
+    bottom: -7rem;
+    width: 250px;
+  }
+
+  .character[data-char="politidame"] {
+    left: 17%;
+    bottom: -7rem;
+    width: 250px;
+  }
+}
+
+#ending-good {
+  .character[data-char="caroline"] {
+    right: 8%;
+    bottom: -8rem;
+    width: 320px;
+  }
+
+  .character[data-char="politimand"] {
+    left: 4%;
+    bottom: -7rem;
+    width: 250px;
+  }
+
+  .character[data-char="politidame"] {
+    left: 17%;
+    bottom: -7rem;
+    width: 250px;
+  }
+}
+
+#the-good-ending {
+  .character[data-char="caroline"] {
+    left: 12%;
+    bottom: -8rem;
+    width: 320px;
+  }
+}
+
 #check-the-trash-scene {
   .character[data-char="caroline"] {
     left: 12%;
     bottom: -8rem;
     width: 320px;
+  }
+
+  .item[data-item="knife"] {
+    right: 18%;
+    bottom: 16%;
+    width: 130px;
+    transform: rotate(-18deg);
   }
 }
 
@@ -517,169 +572,221 @@ h2 {
 
 #call-the-police-scene {
   .character[data-char="caroline"] {
-    left: 12%;
+    right: 8%;
     bottom: -8rem;
     width: 320px;
   }
 
-  .character[data-char="policeman"] {
-    right: 8%;
+  .character[data-char="politimand"] {
+    left: 4%;
     bottom: -7rem;
-    width: 300px;
+    width: 250px;
+  }
+
+  .character[data-char="politidame"] {
+    left: 17%;
+    bottom: -7rem;
+    width: 250px;
   }
 }
 
 #police-question-scene {
   .character[data-char="caroline"] {
-    left: 12%;
+    right: 8%;
     bottom: -8rem;
     width: 320px;
   }
 
-  .character[data-char="policeman"] {
-    right: 8%;
+  .character[data-char="politimand"] {
+    left: 4%;
     bottom: -7rem;
-    width: 300px;
+    width: 250px;
+  }
+
+  .character[data-char="politidame"] {
+    left: 17%;
+    bottom: -7rem;
+    width: 250px;
   }
 }
 
 #police-scene {
   .character[data-char="caroline"] {
-    left: 12%;
+    right: 8%;
     bottom: -8rem;
     width: 320px;
   }
 
-  .character[data-char="policeman"] {
-    right: 8%;
+  .character[data-char="politimand"] {
+    left: 4%;
     bottom: -7rem;
-    width: 300px;
+    width: 250px;
+  }
+
+  .character[data-char="politidame"] {
+    left: 17%;
+    bottom: -7rem;
+    width: 250px;
   }
 }
 
 #police-rune-scene {
   .character[data-char="caroline"] {
-    left: 12%;
+    right: 8%;
     bottom: -8rem;
     width: 320px;
   }
 
-  .character[data-char="policeman"] {
-    right: 8%;
+  .character[data-char="politimand"] {
+    left: 4%;
     bottom: -7rem;
-    width: 300px;
+    width: 250px;
+  }
+
+  .character[data-char="politidame"] {
+    left: 17%;
+    bottom: -7rem;
+    width: 250px;
   }
 }
 
 #police-default-scene {
   .character[data-char="caroline"] {
-    left: 12%;
+    right: 8%;
     bottom: -8rem;
     width: 320px;
   }
 
-  .character[data-char="policeman"] {
-    right: 8%;
+  .character[data-char="politimand"] {
+    left: 4%;
     bottom: -7rem;
-    width: 300px;
-  }
-}
-
-#police-trash-scene {
-  .character[data-char="caroline"] {
-    left: 12%;
-    bottom: -8rem;
-    width: 320px;
+    width: 250px;
   }
 
-  .character[data-char="policeman"] {
-    right: 8%;
+  .character[data-char="politidame"] {
+    left: 17%;
     bottom: -7rem;
-    width: 300px;
+    width: 250px;
   }
 }
 
 #police-took-knife-scene {
   .character[data-char="caroline"] {
-    left: 12%;
+    right: 8%;
     bottom: -8rem;
     width: 320px;
   }
 
-  .character[data-char="policeman"] {
-    right: 8%;
+  .character[data-char="politimand"] {
+    left: 4%;
     bottom: -7rem;
-    width: 300px;
+    width: 250px;
+  }
+
+  .character[data-char="politidame"] {
+    left: 17%;
+    bottom: -7rem;
+    width: 250px;
   }
 }
 
 #police-branch-1-3-default-scene {
   .character[data-char="caroline"] {
-    left: 12%;
+    right: 8%;
     bottom: -8rem;
     width: 320px;
   }
 
-  .character[data-char="policeman"] {
-    right: 8%;
+  .character[data-char="politimand"] {
+    left: 4%;
     bottom: -7rem;
-    width: 300px;
+    width: 250px;
+  }
+
+  .character[data-char="politidame"] {
+    left: 17%;
+    bottom: -7rem;
+    width: 250px;
   }
 }
 
 #police-branch-1-3-upstairs-scene {
   .character[data-char="caroline"] {
-    left: 12%;
+    right: 8%;
     bottom: -8rem;
     width: 320px;
   }
 
-  .character[data-char="policeman"] {
-    right: 8%;
+  .character[data-char="politimand"] {
+    left: 4%;
     bottom: -7rem;
-    width: 300px;
+    width: 250px;
+  }
+
+  .character[data-char="politidame"] {
+    left: 17%;
+    bottom: -7rem;
+    width: 250px;
   }
 }
 
 #police-ending-1-scene {
   .character[data-char="caroline"] {
-    left: 12%;
+    right: 8%;
     bottom: -8rem;
     width: 320px;
   }
 
-  .character[data-char="policeman"] {
-    right: 8%;
+  .character[data-char="politimand"] {
+    left: 4%;
     bottom: -7rem;
-    width: 300px;
+    width: 250px;
+  }
+
+  .character[data-char="politidame"] {
+    left: 17%;
+    bottom: -7rem;
+    width: 250px;
   }
 }
 
 #police-ending-2-scene {
   .character[data-char="caroline"] {
-    left: 12%;
+    right: 8%;
     bottom: -8rem;
     width: 320px;
   }
 
-  .character[data-char="policeman"] {
-    right: 8%;
+  .character[data-char="politimand"] {
+    left: 4%;
     bottom: -7rem;
-    width: 300px;
+    width: 250px;
+  }
+
+  .character[data-char="politidame"] {
+    left: 17%;
+    bottom: -7rem;
+    width: 250px;
   }
 }
 
 #police-ending-3-scene {
   .character[data-char="caroline"] {
-    left: 12%;
+    right: 8%;
     bottom: -8rem;
     width: 320px;
   }
 
-  .character[data-char="policeman"] {
-    right: 8%;
+  .character[data-char="politimand"] {
+    left: 4%;
     bottom: -7rem;
-    width: 300px;
+    width: 250px;
+  }
+
+  .character[data-char="politidame"] {
+    left: 17%;
+    bottom: -7rem;
+    width: 250px;
   }
 }
 

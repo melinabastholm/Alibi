@@ -1358,6 +1358,12 @@ export class VisualNovelEngine {
         this.hideElement(step.dataset.target);
         return 'continue';
 
+      case 'sound':
+        if (step.dataset.sound) {
+          this.playSfx(step.dataset.sound, { restart: true });
+        }
+        return 'continue';
+
       case 'refresh':
         this.refreshConditionalElements();
         return 'continue';

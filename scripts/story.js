@@ -10,23 +10,10 @@ import { VisualNovelEngine } from './engine.js';
 const storyInitialState = {
   statTrust: 0,
   statFocus: 0,
-  statCourage: 0,
-  itemHasNotepad: false,
-  itemHasHeadphones: false,
-  itemHasPhone: false,
-  itemHasShoes: false,
   itemHasKnife: false,
-  talkedToCaroline: false,
-  talkedToSofie: false,
-  talkedToJack: false,
-  talkedToJessica: false,
-  clueFoundGarden: false,
-  clueFoundPhoneMessage: false,
-  storyAccusedSomeone: false,
   storyCheckedHandprint: false,
   storyCheckedTrash: false,
   storyFoundKnife: false,
-  storyHasKnifePhoto: false,
   talkedToRune: false,
   talkedToBartender: false,
   talkedToDoorman: false,
@@ -65,22 +52,6 @@ const storyConditions = {
    * @param {StoryEngine} game
    * @returns {boolean}
    */
-  shouldShowPhone(game) {
-    return !game.state.clueFoundPhoneMessage;
-  },
-
-  /**
-   * @param {StoryEngine} game
-   * @returns {boolean}
-   */
-  shouldShowMug(game) {
-    return !game.state.clueFoundGarden;
-  },
-
-  /**
-   * @param {StoryEngine} game
-   * @returns {boolean}
-   */
   hasCheckedHandprint(game) {
     return game.state.storyCheckedHandprint === true;
   },
@@ -99,86 +70,6 @@ const storyConditions = {
    */
   hasFoundKnife(game) {
     return game.state.storyFoundKnife === true;
-  },
-
-  /**
-   * @param {StoryEngine} game
-   * @returns {boolean}
-   */
-  shouldShowHeadphones(game) {
-    return !game.state.itemHasHeadphones;
-  },
-
-  /**
-   * @param {StoryEngine} game
-   * @returns {boolean}
-   */
-  shouldShowShoes(game) {
-    return !game.state.itemHasShoes;
-  },
-
-  /**
-   * @param {StoryEngine} game
-   * @returns {boolean}
-   */
-  shouldShowNotepad(game) {
-    return !game.state.itemHasNotepad;
-  },
-
-  /**
-   * @param {StoryEngine} game
-   * @returns {boolean}
-   */
-  canLeaveLivingRoom(game) {
-    return game.state.clueFoundGarden || game.state.statFocus >= 2;
-  },
-
-  /**
-   * @param {StoryEngine} game
-   * @returns {boolean}
-   */
-  canGoToPark(game) {
-    return game.state.talkedToJessica && game.state.itemHasHeadphones;
-  },
-
-  /**
-   * @param {StoryEngine} game
-   * @returns {boolean}
-   */
-  canOfferSupportChoice(game) {
-    return game.state.itemHasNotepad && game.state.statTrust >= 2;
-  },
-
-  /**
-   * @param {StoryEngine} game
-   * @returns {boolean}
-   */
-  foundPhoneMessage(game) {
-    return game.state.clueFoundPhoneMessage;
-  },
-
-  /**
-   * @param {StoryEngine} game
-   * @returns {boolean}
-   */
-  blamedSomeone(game) {
-    return game.state.storyAccusedSomeone;
-  },
-
-  /**
-   * @param {StoryEngine} game
-   * @returns {boolean}
-   */
-  stayedFocused(game) {
-    return game.state.statFocus >= 3;
-  },
-
-  /**
-   * @param {StoryEngine} game
-   * @returns {boolean}
-   */
-  builtTrust(game) {
-    return game.state.statTrust >= 2;
   },
 };
 
@@ -205,7 +96,6 @@ const storyActions = {
   encourageCaroline(game) {
     game.setState({
       statTrust: game.state.statTrust + 1,
-      talkedToCaroline: true,
     });
   },
 
@@ -358,8 +248,6 @@ const storyActions = {
 
       if (game.state.itemHasKnife) {
         alibiDelta = 0;
-      } else if (game.state.storyHasKnifePhoto) {
-        alibiDelta = 1;
       }
 
       game.setState({
@@ -370,10 +258,6 @@ const storyActions = {
 
     if (game.state.itemHasKnife) {
       return 'police-took-knife-scene';
-    }
-
-    if (game.state.storyHasKnifePhoto) {
-      return 'police-trash-scene';
     }
 
     return 'police-default-scene';
@@ -404,12 +288,12 @@ const storyActions = {
     const hasFullCase =
       game.state.talkedToRune &&
       game.state.checkedUpstairs &&
-      (game.state.storyHasKnifePhoto || game.state.itemHasKnife);
+      game.state.itemHasKnife;
 
     game.stopAllAudio();
 
     if (hasFullCase) {
-      return 'police-ending-3-scene';
+      return 'ending-police-good';
     }
 
     return game.state.alibiScore <= 0
@@ -444,84 +328,11 @@ const storyActions = {
    * @param {StoryEngine} game
    * @returns {void}
    */
-  doubtCaroline(game) {
-    game.setState({
-      statTrust: game.state.statTrust - 1,
-      storyAccusedSomeone: true,
-    });
-  },
-
-  /**
-   * @param {StoryEngine} game
-   * @returns {void}
-   */
-  startRoomSearch(game) {
-    game.setState({
-      statFocus: game.state.statFocus + 1,
-    });
-  },
-
-  /**
-   * @param {StoryEngine} game
-   * @returns {void}
-   */
-  talkToCaroline(game) {
-    game.setState({
-      talkedToCaroline: true,
-    });
-
-    if (game.state.statTrust < 0) {
-      game.setDialog(
-        'Caroline',
-        'Jeg prøver virkelig at huske det hele. Jeg har bare brug for, at vi holder hovedet koldt.',
-        '#79b8f9',
-      );
-      return;
-    }
-
-    game.setDialog(
-      'Caroline',
-      'Jeg havde notesbogen på bordet, lige før vi ryddede op. Alt det vigtige er skrevet derinde.',
-      '#79b8f9',
-    );
-    game.playSfx('dialog-caroline-notebook');
-  },
-
-  /**
-   * @param {StoryEngine} game
-   * @returns {void}
-   */
-  talkToSofie(game) {
-    game.setState({
-      talkedToSofie: true,
-    });
-
-    if (game.state.statTrust < 0) {
-      game.setDialog(
-        'Sofie',
-        'Hvis vi bruger energien på at pege fingre, mister vi endnu mere tid. Kig efter faktiske spor.',
-        '#bdf9ac',
-      );
-      return;
-    }
-
-    game.setDialog(
-      'Sofie',
-      'Lad os tage ét spor ad gangen. Hvis noget virker mærkeligt, er det sikkert vigtigt.',
-      '#bdf9ac',
-    );
-    game.playSfx('dialog-sofie-clue');
-  },
-
-  /**
-   * @param {StoryEngine} game
-   * @returns {void}
-   */
   inspectHandprint(game) {
     if (game.state.storyCheckedHandprint) {
       game.setDialog(
         '',
-        'Du har allerede kigget i tasken. Notesbogen var der ikke.',
+        'Du har allerede undersøgt håndaftrykket.',
         '#bdf9ac',
       );
       return;
@@ -529,11 +340,12 @@ const storyActions = {
 
     game.setState({
       storyCheckedHandprint: true,
+      alibiScore: game.state.alibiScore + 1,
     });
 
     game.setDialog(
       'Caroline',
-      'Der! et håndaftryk i blod, det er næsten helt utydeligt, men det er også over på den anden bar? ',
+      'Der er et håndaftryk i blod. Det er næsten helt utydeligt, men det peger væk fra klubben og over mod baren.',
       '#bdf9ac',
     );
   },
@@ -556,344 +368,12 @@ const storyActions = {
    * @param {StoryEngine} game
    * @returns {void}
    */
-  takeKnifePhoto(game) {
-    game.setState({
-      storyCheckedTrash: true,
-      storyFoundKnife: true,
-      storyHasKnifePhoto: true,
-      itemHasKnife: false,
-    });
-  },
-
-  /**
-   * @param {StoryEngine} game
-   * @returns {void}
-   */
   takeKnife(game) {
     game.setState({
       storyCheckedTrash: true,
       storyFoundKnife: true,
-      storyHasKnifePhoto: false,
       itemHasKnife: true,
     });
-  },
-
-  /**
-   * @param {StoryEngine} game
-   * @returns {void}
-   */
-  inspectPhone(game) {
-    if (game.state.clueFoundPhoneMessage) {
-      game.setDialog(
-        'Caroline',
-        'Det er stadig Jacks telefon. Beskeden på skærmen gør mig ikke mindre nysgerrig.',
-        '#79b8f9',
-      );
-      return;
-    }
-
-    game.playSfx('sfx-pickup');
-    game.setState({
-      itemHasPhone: true,
-      clueFoundPhoneMessage: true,
-      statFocus: game.state.statFocus + 1,
-    });
-    game.setDialog(
-      'Caroline',
-      'Det er Jacks telefon. Der ligger en halvskrevet besked om noget, han skal nå udenfor.',
-      '#79b8f9',
-    );
-  },
-
-  /**
-   * @param {StoryEngine} game
-   * @returns {void}
-   */
-  inspectMug(game) {
-    if (game.state.clueFoundGarden) {
-      game.setDialog(
-        'Sofie',
-        'Jorden på koppen peger stadig mod haven. Det er nok vores bedste spor lige nu.',
-        '#bdf9ac',
-      );
-      return;
-    }
-
-    game.playSfx('sfx-pickup');
-    game.setState({
-      clueFoundGarden: true,
-      statFocus: game.state.statFocus + 1,
-    });
-    game.setDialog(
-      'Sofie',
-      'Der er jord på kanten. Det er mærkeligt, hvis den kun har stået herinde. Vi bør kigge i haven.',
-      '#bdf9ac',
-    );
-  },
-
-  /**
-   * @param {StoryEngine} game
-   * @returns {string | void}
-   */
-  goToGarden(game) {
-    if (game.state.clueFoundGarden || game.state.statFocus >= 2) {
-      return 'garden-scene';
-    }
-
-    game.setDialog(
-      'Sofie',
-      'Vi har ikke nok endnu. Kig dig omkring en gang til, før vi løber videre.',
-      '#bdf9ac',
-    );
-  },
-
-  /**
-   * @param {StoryEngine} game
-   * @returns {void}
-   */
-  askJessicaAboutJack(game) {
-    const isFirstTime = !game.state.talkedToJessica;
-
-    game.setState({
-      talkedToJessica: true,
-      statFocus: isFirstTime ? game.state.statFocus + 1 : game.state.statFocus,
-    });
-    game.setDialog(
-      'Jessica',
-      'Jack stod herude med sine headphones på. Han gik mod parken, som om han prøvede at undgå os.',
-      '#8b5cf6',
-    );
-  },
-
-  /**
-   * @param {StoryEngine} game
-   * @returns {void}
-   */
-  challengeJessica(game) {
-    game.setState({
-      statTrust: game.state.statTrust - 1,
-    });
-    game.setDialog(
-      'Jessica',
-      'Jeg ville være sikker, før jeg sagde noget. Jeg prøver faktisk at hjælpe jer.',
-      '#8b5cf6',
-    );
-  },
-
-  /**
-   * @param {StoryEngine} game
-   * @returns {void}
-   */
-  thankJessica(game) {
-    const isFirstTime = !game.state.talkedToJessica;
-
-    game.setState({
-      statTrust: isFirstTime ? game.state.statTrust + 1 : game.state.statTrust,
-      talkedToJessica: true,
-    });
-    game.setDialog(
-      'Jessica',
-      'Selv tak. Hvis Jack gik mod parken, er det nok der, I finder næste spor.',
-      '#8b5cf6',
-    );
-  },
-
-  /**
-   * @param {StoryEngine} game
-   * @returns {void}
-   */
-  inspectHeadphones(game) {
-    if (game.state.itemHasHeadphones) {
-      game.setDialog(
-        'Jessica',
-        'Headphonesene er allerede fundet. De gør det ret tydeligt, at Jack har været her.',
-        '#8b5cf6',
-      );
-      return;
-    }
-
-    game.playSfx('sfx-pickup');
-    game.setState({
-      itemHasHeadphones: true,
-      statFocus: game.state.statFocus + 1,
-    });
-    game.setDialog(
-      'Jessica',
-      'De ligner Jacks. Han har dem altid på, når han bliver stresset.',
-      '#8b5cf6',
-    );
-  },
-
-  /**
-   * @param {StoryEngine} game
-   * @returns {void}
-   */
-  inspectShoes(game) {
-    if (game.state.itemHasShoes) {
-      game.setDialog(
-        'Caroline',
-        'Skoene er stadig mudrede. Nogen er gået ud og ind flere gange i aften.',
-        '#79b8f9',
-      );
-      return;
-    }
-
-    game.playSfx('sfx-pickup');
-    game.setState({
-      itemHasShoes: true,
-    });
-    game.setDialog(
-      'Caroline',
-      'Der er mudder på dem. Nogen har været ude og ind flere gange.',
-      '#79b8f9',
-    );
-  },
-
-  /**
-   * @param {StoryEngine} game
-   * @returns {string | void}
-   */
-  goToPark(game) {
-    if (game.state.talkedToJessica && game.state.itemHasHeadphones) {
-      return 'park-scene';
-    }
-
-    game.setDialog(
-      'Caroline',
-      'Jeg føler stadig, vi mangler noget. Hvorfor skulle Jack gå mod parken?',
-      '#79b8f9',
-    );
-  },
-
-  /**
-   * @param {StoryEngine} game
-   * @returns {void}
-   */
-  inspectNotepad(game) {
-    if (game.state.itemHasNotepad) {
-      game.setDialog(
-        'Sofie',
-        'Notesbogen er allerede fundet. Nu handler det om, hvad vi gør bagefter.',
-        '#bdf9ac',
-      );
-      return;
-    }
-
-    game.playSfx('sfx-pickup');
-    game.setState({
-      itemHasNotepad: true,
-    });
-    game.setDialog(
-      'Caroline',
-      'Det meste er ødelagt, men nogle sider kan stadig læses. Måske kan vi stadig redde afleveringen.',
-      '#79b8f9',
-    );
-  },
-
-  /**
-   * @param {StoryEngine} game
-   * @returns {string | void}
-   */
-  confrontJack(game) {
-    if (!game.state.itemHasNotepad) {
-      game.setDialog(
-        'Jack',
-        'Jeg forklarer det hele, men find notesbogen først. Den blæste ned ved bænken.',
-        '#f9bcac',
-      );
-      return;
-    }
-
-    game.setState({
-      talkedToJack: true,
-      statCourage: game.state.statCourage + 1,
-      statTrust: game.state.statTrust - 1,
-    });
-    return 'street-night-scene';
-  },
-
-  /**
-   * @param {StoryEngine} game
-   * @returns {string | void}
-   */
-  stayCalmWithJack(game) {
-    if (!game.state.itemHasNotepad) {
-      game.setDialog(
-        'Jack',
-        'Jeg mistede den i vinden. Kig ved bænken først, så forklarer jeg resten.',
-        '#f9bcac',
-      );
-      return;
-    }
-
-    game.setState({
-      talkedToJack: true,
-      statFocus: game.state.statFocus + 1,
-      statTrust: game.state.statTrust + 1,
-    });
-    return 'street-night-scene';
-  },
-
-  /**
-   * @param {StoryEngine} game
-   * @returns {string | void}
-   */
-  accuseJack(game) {
-    if (!game.state.itemHasNotepad) {
-      game.setDialog(
-        'Jack',
-        'Skæld mig ud bagefter, men hjælp mig lige med at finde den først.',
-        '#f9bcac',
-      );
-      return;
-    }
-
-    game.setState({
-      talkedToJack: true,
-      storyAccusedSomeone: true,
-      statTrust: game.state.statTrust - 2,
-    });
-    return 'street-night-scene';
-  },
-
-  /**
-   * @param {StoryEngine} game
-   * @returns {string | void}
-   */
-  supportTheGroup(game) {
-    if (!game.state.itemHasNotepad) {
-      game.setDialog(
-        'Sofie',
-        'Hvis vi skal samle gruppen, skal vi først samle selve notesbogen op.',
-        '#bdf9ac',
-      );
-      return;
-    }
-
-    game.setState({
-      talkedToJack: true,
-      statTrust: game.state.statTrust + 1,
-      statFocus: game.state.statFocus + 1,
-    });
-    return 'street-night-scene';
-  },
-
-  /**
-   * @param {StoryEngine} game
-   * @returns {string}
-   */
-  resolveEnding(game) {
-    const isGoodEnding =
-      game.state.itemHasNotepad &&
-      game.state.statTrust >= 2 &&
-      game.state.statFocus >= 3;
-
-    game.stopAllAudio();
-    game.setState({
-      storyEnding: isGoodEnding ? 'good' : 'bad',
-    });
-
-    return isGoodEnding ? 'ending-good-scene' : 'ending-bad-scene';
   },
 
 };
